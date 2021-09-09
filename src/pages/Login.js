@@ -10,8 +10,9 @@ const login = () => {
       <div className='containerIcon'>
         <LockOutlinedIcon style={{ fontSize: 40, color: "white" }} />
       </div>
-      <div className='containerInput'>
-        <Input id="email" label="Email" variant="outlined" />
+      <div className='containerForm'>
+        <Input id='email' label='Email' variant='outlined' />
+        <Input id='password' label='Mot de passe' variant='outlined' />
       </div>
     </div>
   );
