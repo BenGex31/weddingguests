@@ -7,7 +7,7 @@ const WeddingTitle = () => {
         textAlign: "center",
         fontFamily: "Allison",
         fontSize: 55,
-        color: "#76ac34",
+        color: "#708d23",
       }}
     >
       Mariage
