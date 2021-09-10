@@ -8,21 +8,24 @@ import "./Login.css";
 
 const login = () => {
   return (
-    <div className='container'>
-      <div className='containerIcon'>
-        <LockOutlinedIcon style={{ fontSize: 40, color: "white" }} />
-      </div>
-      <div className='containerForm'>
-        <Input id='email' label='Email' variant='outlined' />
-        <Input id='password' label='Mot de passe' variant='outlined' />
-        <Button text='Connexion' variant='contained' color='primary' />
-        <div className='containerLink'>
-          <Link underline='none' href='/forgotpassword'>
-            Mot de passe oublié
-          </Link>
-          <Link underline='none' href='/signup'>
-            Pas de compte? S'incrire
-          </Link>
+    <div className='containerMain'>
+      <div className='containerLeft'></div>
+      <div className='containerRight'>
+        <div className='containerIcon'>
+          <LockOutlinedIcon style={{ fontSize: 40, color: "white" }} />
+        </div>
+        <div className='containerForm'>
+          <Input id='email' label='Email' variant='outlined' />
+          <Input id='password' label='Mot de passe' variant='outlined' />
+          <Button text='Connexion' variant='contained' color='primary' />
+          <div className='containerLink'>
+            <Link underline='none' href='/forgotpassword'>
+              Mot de passe oublié
+            </Link>
+            <Link underline='none' href='/signup'>
+              Pas de compte? S'incrire
+            </Link>
+          </div>
         </div>
       </div>
     </div>
