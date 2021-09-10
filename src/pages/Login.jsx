@@ -5,15 +5,18 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 
 import "./Login.css";
+import WeddingTitle from "../components/WeddingTitle";
 
 const login = () => {
   return (
     <div className='containerMain'>
       <div className='containerLeft'></div>
       <div className='containerRight'>
+        <WeddingTitle />
         <div className='containerIcon'>
           <LockOutlinedIcon style={{ fontSize: 40, color: "white" }} />
         </div>
+        <h2>Se connecter</h2>
         <div className='containerForm'>
           <Input id='email' label='Email' variant='outlined' />
           <Input id='password' label='Mot de passe' variant='outlined' />
