@@ -17,8 +17,12 @@ const login = () => {
         <Input id='password' label='Mot de passe' variant='outlined' />
         <Button text='Connexion' variant='contained' color='primary' />
         <div className='containerLink'>
-          <Link href='/forgotpassword'>Mot de passe oublié</Link>
-          <Link href='/signup'>Pas de compte? S'incrire</Link>
+          <Link underline='none' href='/forgotpassword'>
+            Mot de passe oublié
+          </Link>
+          <Link underline='none' href='/signup'>
+            Pas de compte? S'incrire
+          </Link>
         </div>
       </div>
     </div>
