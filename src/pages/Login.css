@@ -1,10 +1,15 @@
-.container {
+.containerMain {
+  display: flex;
+  justify-content: space-between;
+}
+
+.containerRight {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 200px;
+  background-color: #f0e5d0;
 }
 
 .containerIcon {
@@ -30,13 +35,93 @@
   font-size: 15px;
 }
 
-@media all and (orientation: portrait) {
-  .container {
-    margin-top: 100px;
+@media all and (max-width: 2560px) {
+  .containerMain {
+    display: flex;
+    justify-content: space-around;
+  }
+  .containerLeft {
+    background: no-repeat url("../assets/weddingCamBen.jpeg") center;
+    width: 1000px;
+    height: 945px;
+  }
+  .containerForm {
+    width: 800px;
+    height: 300px;
+  }
+}
+
+@media all and (max-width: 1440px) {
+  .containerLeft {
+    background: no-repeat url("../assets/weddingCamBen.jpeg") top;
+    width: 720px;
+    height: 1010px;
+  }
+  .containerForm {
+    width: 600px;
+    height: 300px;
+  }
+}
+
+@media all and (max-width: 1024px) {
+  .containerLeft {
+    background: no-repeat url("../assets/weddingCamBen.jpeg") top;
+    width: 512px;
+    height: 859px;
+  }
+  .containerForm {
+    width: 450px;
+    height: 250px;
+  }
+}
+
+@media all and (max-width: 768px) {
+  .containerLeft {
+    background: no-repeat url("../assets/weddingCamBen.jpeg") top;
+    width: 384px;
+    height: 859px;
+  }
+  .containerRight {
+    width: 384px;
+  }
+  .containerForm {
+    width: 350px;
+    height: 250px;
   }
 }
 
 @media all and (max-width: 425px) {
+  .containerLeft {
+    background: none;
+    width: 0;
+  }
+  .containerForm {
+    width: 380px;
+    height: 300px;
+  }
+  .containerLink {
+    font-size: 11px;
+  }
+}
+
+@media all and (max-width: 375px) {
+  .containerLeft {
+    background: none;
+    width: 0;
+  }
+  .containerForm {
+    width: 350px;
+  }
+  .containerLink {
+    font-size: 11px;
+  }
+}
+
+@media all and (max-width: 320px) {
+  .containerLeft {
+    background: none;
+    width: 0;
+  }
   .containerForm {
     width: 300px;
   }
