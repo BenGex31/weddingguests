@@ -1,7 +1,14 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 
-export default function BasicTextFields({ id, label, variant, defaultValue, size, color }) {
+export default function BasicTextFields({
+  id,
+  label,
+  variant,
+  defaultValue,
+  size,
+  color,
+}) {
   return (
     <form noValidate autoComplete='off'>
       <TextField
