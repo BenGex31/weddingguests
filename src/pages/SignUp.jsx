@@ -31,8 +31,10 @@ const SignUp = () => {
         <Input id='email' label='Email' variant='outlined' />
         <Input id='password' label='Mot de passe' variant='outlined' />
         <Button text="S'incrire" variant='contained' color='primary' />
+        <Link style={{ textAlign: "right", fontSize: 15 }} href='/'>
+          Page connexion
+        </Link>
       </div>
-      <Link href='/'>Page connexion</Link>
     </div>
   );
 };
