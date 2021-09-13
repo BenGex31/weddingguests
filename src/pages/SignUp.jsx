@@ -11,12 +11,7 @@ const SignUp = () => {
   return (
     <div className='signUpContainerMain'>
       <div className='signUpTitleImg'>
-        <img
-          className='imgTitle'
-          src={weddingHall1}
-          alt='beyssac'
-          //style={{ width: 384, height: 256, borderRadius: 20 }}
-        />
+        <img className='imgTitle' src={weddingHall1} alt='beyssac' />
         <WeddingTitle />
       </div>
       <div className='containerIcon'>
