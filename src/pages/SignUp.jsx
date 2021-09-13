@@ -10,7 +10,15 @@ import weddingHall1 from "../assets/beyssac1.jpeg";
 const SignUp = () => {
   return (
     <div className='signUpContainerMain'>
-      <WeddingTitle />
+      <div className='signUpTitleImg'>
+        <img
+          className='imgTitle'
+          src={weddingHall1}
+          alt='beyssac'
+          //style={{ width: 384, height: 256, borderRadius: 20 }}
+        />
+        <WeddingTitle />
+      </div>
       <div className='containerIcon'>
         <PersonIcon style={{ fontSize: 40, color: "white" }} />
       </div>
