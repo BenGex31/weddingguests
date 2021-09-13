@@ -1,5 +1,6 @@
 body {
   height: 100%;
+  background-color: #d7b37d;
 }
 
 .signUpContainerMain {
@@ -7,7 +8,21 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background-color: #d7b37d;
+  margin-bottom: 1em;
+}
+
+.signUpTitleImg {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+.imgTitle {
+  width: 384px;
+  height: 256px;
+  border-radius: 20px;
 }
 
 .signUpForm {
@@ -30,9 +45,6 @@ body {
 }
 
 @media all and (min-width: 2560px) {
-  .signUpContainerMain {
-    height: 1908px;
-  }
   .signUpForm {
     width: 800px;
     height: 600px;
@@ -40,40 +52,48 @@ body {
 }
 
 @media all and (min-width: 1440px) and (max-width: 2559px) {
-  .signUpContainerMain {
-    height: 1010px;
+  .signUpTitleImg {
+    width: 1000px;
   }
 }
 
 @media all and (min-width: 768px) and (max-width: 1439px) {
-  .signUpContainerMain {
-    height: 859px;
+  .signUpTitleImg {
+    width: 800px;
   }
 }
 
 @media all and (min-width: 425px) and (max-width: 767px) {
-  .signUpContainerMain {
-    height: 859px;
-  }
   .signUpForm {
     width: 370px;
+  }
+  .signUpTitleImg {
+    flex-direction: column;
   }
 }
 
 @media all and (min-width: 375px) and (max-width: 424px) {
-  .signUpContainerMain {
-    height: 859px;
-  }
   .signUpForm {
     width: 320px;
+  }
+  .signUpTitleImg {
+    flex-direction: column;
+  }
+  .imgTitle {
+    width: 360px;
+    height: 232px;
   }
 }
 
 @media all and (min-width: 320px) and (max-width: 374px) {
-  .signUpContainerMain {
-    height: 859px;
-  }
   .signUpForm {
     width: 250px;
+  }
+  .signUpTitleImg {
+    flex-direction: column;
+  }
+  .imgTitle {
+    width: 310px;
+    height: 182px;
   }
 }
