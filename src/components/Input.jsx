@@ -8,6 +8,10 @@ export default function BasicTextFields({
   defaultValue,
   size,
   color,
+  onChange,
+  type,
+  endAdornment,
+  value,
 }) {
   return (
     <form noValidate autoComplete='off'>
@@ -20,6 +24,10 @@ export default function BasicTextFields({
         defaultValue={defaultValue}
         size={size}
         color={color}
+        onChange={onChange}
+        type={type}
+        endAdornment={endAdornment}
+        value={value}
       />
     </form>
   );
