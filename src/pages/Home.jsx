@@ -7,9 +7,11 @@ import Header from "../components/Header";
 const Home = () => {
   const { currentUser } = useContext(AuthContext);
   console.log(currentUser);
+
   if (!currentUser) {
     return <Redirect to='/' />;
   }
+
   return (
     <div>
       <Header />
