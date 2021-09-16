@@ -1,13 +1,15 @@
 import React from "react";
 
-const WeddingTitle = () => {
+const WeddingTitle = ({ size }) => {
   return (
     <h1
       style={{
         textAlign: "center",
         fontFamily: "Allison",
-        fontSize: 55,
+        fontSize: size,
         color: "#708d23",
+        marginBottom: 15,
+        marginTop: 15,
       }}
     >
       Mariage
