@@ -17,11 +17,10 @@ export default function InputAdornments({
   visibility,
 }) {
   return (
-    <div>
+    <div style={{ display: "contents" }}>
       <FormControl variant='outlined'>
         <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
         <OutlinedInput
-          fullWidth
           id={id}
           type={type}
           value={value}
@@ -30,8 +29,8 @@ export default function InputAdornments({
             <InputAdornment position='end'>
               <IconButton
                 aria-label='toggle password visibility'
-                onClick={onClick} // handleClickShowPassword
-                onMouseDown={onMouseDown} // handleMouseDownPassword
+                onClick={onClick}
+                onMouseDown={onMouseDown}
                 edge='end'
               >
                 {visibility ? <Visibility /> : <VisibilityOff />}
