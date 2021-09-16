@@ -5,6 +5,9 @@ import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
 import Home from "../pages/Home";
 import { AuthProvider } from "../components/Auth";
+import Gallery from "../pages/Gallery";
+import Informations from "../pages/Informations";
+import Formulaire from "../pages/Formulaire";
 
 const AuthNavigation = () => {
   return (
@@ -22,6 +25,15 @@ const AuthNavigation = () => {
           </Route>
           <Route path='/home'>
             <Home />
+          </Route>
+          <Route path='/galerie'>
+            <Gallery />
+          </Route>
+          <Route path='/informations'>
+            <Informations />
+          </Route>
+          <Route path='/formulaire'>
+            <Formulaire />
           </Route>
         </Switch>
       </Router>
