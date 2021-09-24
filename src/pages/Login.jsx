@@ -74,7 +74,7 @@ const Login = () => {
             onChange={handleChange("password")}
             onClick={handleClickShowPassword}
             onMouseDown={handleMouseDownPassword}
-            visibility
+            visibility={passwordVisibility}
           />
           {loginError ? (
             <ErrorMessage error={loginError} visible={true} />
