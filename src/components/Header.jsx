@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import IconLogout from "./IconLogout";
 import IconUser from "./IconUser";
 import weddingLogo from "../assets/weddingLogo.png";
 import "./Header.css";
+import { AuthContext } from "./Auth";
 
 const Header = () => {
+  const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
   return (
     <div className='headerContainer'>
       <img
@@ -19,9 +22,24 @@ const Header = () => {
         <Link to='/informations'>Informations</Link>
         <Link to='/formulaire'>Formulaire</Link>
       </nav>
-      <div className='headerIcons'>
-        <IconUser />
-        <IconLogout />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column-reverse",
+          justifyContent: "space-between",
+          alignItems: "center",
+          height: 60,
+        }}
+      >
+        <div className='headerIcons'>
+          <IconUser />
+          <IconLogout />
+        </div>
+        <div>
+          <span style={{ fontSize: 12, fontWeight: "bold" }}>
+            {currentUser.displayName}
+          </span>
+        </div>
       </div>
     </div>
   );
