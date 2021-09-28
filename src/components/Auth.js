@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
   if (loading) {
     return (
       <div className={classes.root}>
-        <CircularProgress color="primary" size={50} />
+        <CircularProgress color="primary" size={100} />
       </div>
     );
   }
