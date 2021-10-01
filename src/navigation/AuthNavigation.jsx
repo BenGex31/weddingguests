@@ -17,22 +17,22 @@ const AuthNavigation = () => {
           <Route exact path='/'>
             <Login />
           </Route>
-          <Route path='/signup'>
+          <Route exact path='/signup'>
             <SignUp />
           </Route>
-          <Route path='/forgotpassword'>
+          <Route exact path='/forgotpassword'>
             <ForgotPassword />
           </Route>
-          <Route path='/home'>
+          <Route exact path='/home'>
             <Home />
           </Route>
-          <Route path='/galerie'>
+          <Route exact path='/galerie'>
             <Gallery />
           </Route>
-          <Route path='/informations'>
+          <Route exact path='/informations'>
             <Informations />
           </Route>
-          <Route path='/formulaire'>
+          <Route exact path='/formulaire'>
             <Formulaire />
           </Route>
         </Switch>
