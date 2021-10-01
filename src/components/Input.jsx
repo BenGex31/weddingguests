@@ -10,11 +10,10 @@ export default function BasicTextFields({
   color,
   onChange,
   type,
-  endAdornment,
   value,
 }) {
   return (
-    <form noValidate autoComplete='off'>
+    <form noValidate autoComplete='on'>
       <TextField
         required
         fullWidth
@@ -26,7 +25,6 @@ export default function BasicTextFields({
         color={color}
         onChange={onChange}
         type={type}
-        endAdornment={endAdornment}
         value={value}
       />
     </form>
