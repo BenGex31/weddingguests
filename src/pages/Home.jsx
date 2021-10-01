@@ -12,13 +12,15 @@ const Home = () => {
   }
 
   return (
-    <div>
-      <Header />
-      <div className='homeContainer'>
-        <h1>Bienvenue {currentUser.displayName} </h1>
-        <p>This is the dashboard, if you can see this you're logged in.</p>
+    <>
+      <div>
+        <Header />
+        <div className='homeContainer'>
+          <h1>Bienvenue {currentUser.displayName} </h1>
+          <p>This is the dashboard, if you can see this you're logged in.</p>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
