@@ -18,7 +18,7 @@ export default function InputAdornments({
 }) {
   return (
     <div style={{ display: "contents" }}>
-      <FormControl variant='outlined'>
+      <FormControl required variant='outlined'>
         <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
         <OutlinedInput
           id={id}
