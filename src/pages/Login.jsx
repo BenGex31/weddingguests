@@ -13,8 +13,12 @@ import firebaseConfig from "../config/firebase";
 
 const Login = () => {
   const [email, setEmail] = useState("");
+  const [isValidEmail, setIsvalidEmail] = useState(false);
+  const [messageEmailError, setMessageEmailError] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisibility, setPasswordVisibility] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState(false);
+  const [errorMessagePassword, setErrorMessagePassword] = useState("");
   const [loginError, setLoginError] = useState("");
 
   const onLogin = async () => {
@@ -28,12 +32,31 @@ const Login = () => {
     }
   };
 
+  const emailRegex = /\S+@\S+\.\S+/;
+
   const handleChangeEmail = (event) => {
+    if (emailRegex.test(event.target.value)) {
+      setIsvalidEmail(true);
+      setMessageEmailError("Votre adresse mail est correcte !");
+    } else {
+      setIsvalidEmail(false);
+      setMessageEmailError("Entrez une adresse mail valide !");
+    }
     setEmail(event.target.value);
-    console.log(email);
   };
 
   const handleChange = () => (event) => {
+    if (event.target.value.length >= 6) {
+      setIsValidPassword(true);
+      setErrorMessagePassword(
+        "Votre mot de passe contient au moins 6 caractères"
+      );
+    } else {
+      setIsValidPassword(false);
+      setErrorMessagePassword(
+        "Votre mot de passe doit contenir 6 caractères minimum"
+      );
+    }
     setPassword(event.target.value);
   };
 
@@ -67,6 +90,15 @@ const Login = () => {
             variant='outlined'
             onChange={handleChangeEmail}
           />
+          {isValidEmail ? (
+            <span style={{ color: "green", fontSize: 12 }}>
+              {messageEmailError}
+            </span>
+          ) : (
+            <span style={{ color: "red", fontSize: 12 }}>
+              {messageEmailError}
+            </span>
+          )}
           <InputAdornments
             id='password'
             type={passwordVisibility ? "text" : "password"}
@@ -76,6 +108,17 @@ const Login = () => {
             onMouseDown={handleMouseDownPassword}
             visibility={passwordVisibility}
           />
+          {isValidPassword ? (
+            <span style={{ color: "green", fontSize: 12 }}>
+              {" "}
+              {errorMessagePassword}
+            </span>
+          ) : (
+            <span style={{ color: "red", fontSize: 12 }}>
+              {" "}
+              {errorMessagePassword}
+            </span>
+          )}
           {loginError ? (
             <ErrorMessage error={loginError} visible={true} />
           ) : null}
@@ -84,6 +127,7 @@ const Login = () => {
             text='Connexion'
             variant='contained'
             color='primary'
+            disabled={isValidEmail && isValidPassword ? false : true}
           />
           <div className='containerLink'>
             <Link underline='none' href='/forgotpassword'>
