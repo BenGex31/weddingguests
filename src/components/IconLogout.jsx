@@ -8,7 +8,7 @@ const IconLogout = () => {
       style={{ cursor: "pointer" }}
       onClick={() => firebaseConfig.auth().signOut()}
     >
-      <ExitToAppOutlinedIcon />
+      <ExitToAppOutlinedIcon fontSize='medium' />
     </div>
   );
 };
