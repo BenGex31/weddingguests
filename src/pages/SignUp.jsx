@@ -9,19 +9,46 @@ import "./SignUp.css";
 import WeddingTitle from "../components/WeddingTitle";
 import PersonIcon from "@material-ui/icons/Person";
 import weddingHall1 from "../assets/beyssac1.jpeg";
-
 import firebaseConfig from "../config/firebase";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
+  const [isValidEmail, setIsvalidEmail] = useState(false);
+  const [messageEmailError, setMessageEmailError] = useState("");
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
   const [password, setPassword] = useState("");
+  const [isValidPassword, setIsValidPassword] = useState(false);
+  const [errorMessagePassword, setErrorMessagePassword] = useState("");
   const [signupError, setSignupError] = useState("");
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
-  const handleChange = () => (event) => {
+  const emailRegex = /\S+@\S+\.\S+/;
+
+  const handleChangeEmail = (event) => {
+    if (emailRegex.test(event.target.value)) {
+      setIsvalidEmail(true);
+      setMessageEmailError("Votre adresse mail est correcte !");
+    } else {
+      setIsvalidEmail(false);
+      setMessageEmailError("Entrez une adresse mail valide !");
+    }
+    setEmail(event.target.value);
+  };
+
+  const handleChangePassWord = () => (event) => {
+    if (event.target.value.length >= 8) {
+      setIsValidPassword(true);
+      setErrorMessagePassword(
+        "Votre mot de passe contient au moins 8 caractères"
+      );
+    } else {
+      setIsValidPassword(false);
+      setErrorMessagePassword(
+        "Votre mot de passe doit contenir 8 caractères minimum"
+      );
+    }
     setPassword(event.target.value);
   };
 
@@ -83,17 +110,44 @@ const SignUp = () => {
           id='email'
           label='Email'
           variant='outlined'
-          onChange={(text) => setEmail(text.target.value)}
+          onChange={handleChangeEmail}
         />
+        {isValidEmail ? (
+          <span style={{ color: "green", fontSize: 12 }}>
+            {messageEmailError}
+          </span>
+        ) : (
+          <span style={{ color: "red", fontSize: 12 }}>
+            {messageEmailError}
+          </span>
+        )}
         <InputAdornments
           id='password'
           type={passwordVisibility ? "text" : "password"}
           value={password}
-          onChange={handleChange("password")}
+          onChange={handleChangePassWord("password")}
           onClick={handleClickShowPassword}
           onMouseDown={handleMouseDownPassword}
           visibility
         />
+        {isValidPassword ? (
+          <span style={{ color: "green", fontSize: 12 }}>
+            {" "}
+            {errorMessagePassword}
+          </span>
+        ) : (
+          <span style={{ color: "red", fontSize: 12 }}>
+            {" "}
+            {errorMessagePassword}
+          </span>
+        )}
+        {/*<Input
+          id='photo'
+          variant='standard'
+          type='file'
+          value={selectedFile}
+          onChange={(file) => setSelectedFile(file.target.value)}
+        />*/}
         {signupError ? (
           <ErrorMessage error={signupError} visible={true} />
         ) : null}
@@ -102,6 +156,14 @@ const SignUp = () => {
           variant='contained'
           color='primary'
           onClick={onHandleSignup}
+          disabled={
+            isValidEmail &&
+            isValidPassword &&
+            firstname !== "" &&
+            lastname !== ""
+              ? false
+              : true
+          }
         />
         <Link style={{ textAlign: "right", fontSize: 15 }} href='/'>
           Page connexion
