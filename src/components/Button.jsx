@@ -6,6 +6,7 @@ export default function ContainedButtons({
   variant,
   color,
   onClick,
+  startIcon,
   disabled,
 }) {
   return (
@@ -14,6 +15,7 @@ export default function ContainedButtons({
       variant={variant}
       color={color}
       disabled={disabled}
+      startIcon={startIcon}
     >
       {text}
     </Button>
