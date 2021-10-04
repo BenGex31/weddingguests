@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import IconLogout from "./IconLogout";
 import IconUser from "./IconUser";
+import Avatar from "@mui/material/Avatar";
 import weddingLogo from "../assets/weddingLogo.png";
 import "./Header.css";
 import { AuthContext } from "./Auth";
@@ -32,7 +33,11 @@ const Header = () => {
         }}
       >
         <div className='headerIcons'>
-          <IconUser />
+          {currentUser.photoURL !== null ? (
+            <Avatar alt={currentUser.displayName} src={currentUser.photoURL} />
+          ) : (
+            <IconUser />
+          )}
           <IconLogout />
         </div>
         <div>
