@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import { AuthContext } from "../components/Auth";
 import Link from "@material-ui/core/Link";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import GoogleIcon from "@mui/icons-material/Google";
 import Input from "../components/Input";
 import InputAdornments from "../components/InputAdornmets";
 import Button from "../components/Button";
@@ -10,6 +11,7 @@ import ErrorMessage from "../components/ErrorMessage";
 import "./Login.css";
 import WeddingTitle from "../components/WeddingTitle";
 import firebaseConfig from "../config/firebase";
+import firebase from "firebase";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -32,6 +34,31 @@ const Login = () => {
     }
   };
 
+  const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+  const signInWithGoogle = async () => {
+    try {
+      const res = await firebaseConfig.auth().signInWithPopup(googleProvider);
+      const user = res.user;
+      const query = await firebaseConfig
+        .firestore()
+        .collection("guests")
+        .where("uid", "==", user.uid)
+        .get();
+      if (query.docs.length === 0) {
+        await firebaseConfig.firestore().collection("guests").add({
+          uid: user.uid,
+          name: user.displayName,
+          authProvider: "google",
+          email: user.email,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    }
+  };
+
   const emailRegex = /\S+@\S+\.\S+/;
 
   const handleChangeEmail = (event) => {
@@ -45,16 +72,16 @@ const Login = () => {
     setEmail(event.target.value);
   };
 
-  const handleChange = () => (event) => {
-    if (event.target.value.length >= 6) {
+  const handleChangePassWord = () => (event) => {
+    if (event.target.value.length >= 8) {
       setIsValidPassword(true);
       setErrorMessagePassword(
-        "Votre mot de passe contient au moins 6 caractères"
+        "Votre mot de passe contient au moins 8 caractères"
       );
     } else {
       setIsValidPassword(false);
       setErrorMessagePassword(
-        "Votre mot de passe doit contenir 6 caractères minimum"
+        "Votre mot de passe doit contenir 8 caractères minimum"
       );
     }
     setPassword(event.target.value);
@@ -103,7 +130,7 @@ const Login = () => {
             id='password'
             type={passwordVisibility ? "text" : "password"}
             value={password}
-            onChange={handleChange("password")}
+            onChange={handleChangePassWord("password")}
             onClick={handleClickShowPassword}
             onMouseDown={handleMouseDownPassword}
             visibility={passwordVisibility}
@@ -128,6 +155,13 @@ const Login = () => {
             variant='contained'
             color='primary'
             disabled={isValidEmail && isValidPassword ? false : true}
+          />
+          <Button
+            onClick={signInWithGoogle}
+            text='Connexion avec Google'
+            variant='contained'
+            color='primary'
+            startIcon={<GoogleIcon />}
           />
           <div className='containerLink'>
             <Link underline='none' href='/forgotpassword'>
