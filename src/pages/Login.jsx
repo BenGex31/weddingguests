@@ -117,7 +117,7 @@ const Login = () => {
         sx={{
           backgroundImage: `url(${weddingCamBen})`,
           backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundPosition: "top",
           backgroundRepeat: "no-repeat",
         }}
       />
