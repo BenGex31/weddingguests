@@ -7,11 +7,17 @@ import GoogleIcon from "@mui/icons-material/Google";
 import Input from "../components/Input";
 import InputAdornments from "../components/InputAdornmets";
 import Button from "../components/Button";
+import Grid from "@mui/material/Grid";
 import ErrorMessage from "../components/ErrorMessage";
 import "./Login.css";
+import weddingCamBen from "../assets/weddingCamBen.jpeg";
 import WeddingTitle from "../components/WeddingTitle";
 import firebaseConfig from "../config/firebase";
 import firebase from "firebase";
+import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -102,78 +108,110 @@ const Login = () => {
   }
 
   return (
-    <div className='containerMain'>
-      <div className='containerLeft'></div>
-      <div className='containerRight'>
-        <WeddingTitle size={45} />
-        <div className='containerIcon'>
-          <LockOutlinedIcon style={{ fontSize: 40, color: "white" }} />
-        </div>
-        <h2 style={{ fontSize: 21 }}>Se connecter</h2>
-        <div className='containerForm'>
-          <Input
-            id='email'
-            label='Email'
-            variant='outlined'
-            onChange={handleChangeEmail}
-          />
-          {isValidEmail ? (
-            <span style={{ color: "green", fontSize: 12 }}>
-              {messageEmailError}
-            </span>
-          ) : (
-            <span style={{ color: "red", fontSize: 12 }}>
-              {messageEmailError}
-            </span>
-          )}
-          <InputAdornments
-            id='password'
-            type={passwordVisibility ? "text" : "password"}
-            value={password}
-            onChange={handleChangePassWord("password")}
-            onClick={handleClickShowPassword}
-            onMouseDown={handleMouseDownPassword}
-            visibility={passwordVisibility}
-          />
-          {isValidPassword ? (
-            <span style={{ color: "green", fontSize: 12 }}>
-              {" "}
-              {errorMessagePassword}
-            </span>
-          ) : (
-            <span style={{ color: "red", fontSize: 12 }}>
-              {" "}
-              {errorMessagePassword}
-            </span>
-          )}
-          {loginError ? (
-            <ErrorMessage error={loginError} visible={true} />
-          ) : null}
-          <Button
-            onClick={onLogin}
-            text='Connexion'
-            variant='contained'
-            color='primary'
-            disabled={isValidEmail && isValidPassword ? false : true}
-          />
-          <Button
-            onClick={signInWithGoogle}
-            text='Connexion avec Google'
-            variant='contained'
-            color='primary'
-            startIcon={<GoogleIcon />}
-          />
-          <div className='containerLink'>
-            <Link underline='none' href='/forgotpassword'>
-              Mot de passe oublié
-            </Link>
-            <Link underline='none' href='/signup'>
-              Pas de compte? S'incrire
-            </Link>
+    <Grid container component='main' sx={{ height: "100vh" }}>
+      <CssBaseline />
+      <Grid
+        item
+        xs={false}
+        sm={4}
+        md={7}
+        sx={{
+          backgroundImage: `url(${weddingCamBen})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Box
+          sx={{
+            //my: 8,
+            mx: 4,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <WeddingTitle size={45} />
+          <Stack>
+            <LockOutlinedIcon
+              style={{
+                fontSize: 60,
+                color: "white",
+                backgroundColor: "#1976d2",
+                padding: 15,
+                borderRadius: 50,
+              }}
+            />
+          </Stack>
+          <h2 style={{ fontSize: 21 }}>Se connecter</h2>
+          <div className='containerForm'>
+            <Input
+              id='email'
+              label='Email'
+              variant='outlined'
+              onChange={handleChangeEmail}
+            />
+            {isValidEmail ? (
+              <span style={{ color: "green", fontSize: 12 }}>
+                {messageEmailError}
+              </span>
+            ) : (
+              <span style={{ color: "red", fontSize: 12 }}>
+                {messageEmailError}
+              </span>
+            )}
+            <InputAdornments
+              id='password'
+              type={passwordVisibility ? "text" : "password"}
+              value={password}
+              onChange={handleChangePassWord("password")}
+              onClick={handleClickShowPassword}
+              onMouseDown={handleMouseDownPassword}
+              visibility={passwordVisibility}
+            />
+            {isValidPassword ? (
+              <span style={{ color: "green", fontSize: 12 }}>
+                {" "}
+                {errorMessagePassword}
+              </span>
+            ) : (
+              <span style={{ color: "red", fontSize: 12 }}>
+                {" "}
+                {errorMessagePassword}
+              </span>
+            )}
+            {loginError ? (
+              <ErrorMessage error={loginError} visible={true} />
+            ) : null}
+            <Button
+              onClick={onLogin}
+              text='Se connecter'
+              variant='contained'
+              color='primary'
+              disabled={isValidEmail && isValidPassword ? false : true}
+              style={{ textTransform: "none" }}
+              type='submit'
+            />
+            <Button
+              onClick={signInWithGoogle}
+              text='Google'
+              variant='contained'
+              color='secondary'
+              startIcon={<GoogleIcon />}
+            />
+            <div className='containerLink'>
+              <Link underline='none' href='/forgotpassword'>
+                Mot de passe oublié
+              </Link>
+              <Link underline='none' href='/signup'>
+                Pas de compte? S'incrire
+              </Link>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 
