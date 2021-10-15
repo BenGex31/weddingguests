@@ -6,7 +6,6 @@ import Link from "@material-ui/core/Link";
 import ReplayIcon from "@material-ui/icons/Replay";
 import Container from "@material-ui/core/Container";
 import Stack from "@mui/material/Stack";
-import Avatar from "@mui/material/Avatar";
 import firebaseConfig from "../config/firebase";
 import CustomizedSnackbars from "../components/CustomizedSnackbars";
 
