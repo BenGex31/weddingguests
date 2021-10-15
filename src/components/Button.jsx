@@ -8,6 +8,8 @@ export default function ContainedButtons({
   onClick,
   startIcon,
   disabled,
+  style,
+  type,
 }) {
   return (
     <Button
@@ -16,6 +18,8 @@ export default function ContainedButtons({
       color={color}
       disabled={disabled}
       startIcon={startIcon}
+      style={style}
+      type={type}
     >
       {text}
     </Button>
