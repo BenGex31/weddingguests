@@ -71,6 +71,19 @@ const SignUp = () => {
         await userProfile.updateProfile({
           displayName: firstname + " " + lastname,
         });
+        const query = await firebaseConfig
+          .firestore()
+          .collection("guests")
+          .where("uid", "==", userProfile.uid)
+          .get();
+        if (query.docs.length === 0) {
+          await firebaseConfig.firestore().collection("guests").add({
+            uid: userProfile.uid,
+            name: userProfile.displayName,
+            authProvider: "password",
+            email: userProfile.email,
+          });
+        }
       }
     } catch (error) {
       setSignupError(error.message);
