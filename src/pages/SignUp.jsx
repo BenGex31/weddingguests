@@ -11,7 +11,6 @@ import weddingHall1 from "../assets/beyssac1.jpeg";
 import firebaseConfig from "../config/firebase";
 import CssBaseline from "@mui/material/CssBaseline";
 import Stack from "@mui/material/Stack";
-import Avatar from "@mui/material/Avatar";
 import Container from "@material-ui/core/Container";
 
 const SignUp = () => {
