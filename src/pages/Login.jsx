@@ -9,7 +9,6 @@ import InputAdornments from "../components/InputAdornmets";
 import Button from "../components/Button";
 import Grid from "@mui/material/Grid";
 import ErrorMessage from "../components/ErrorMessage";
-import "./Login.css";
 import weddingCamBen from "../assets/weddingCamBen.jpeg";
 import WeddingTitle from "../components/WeddingTitle";
 import firebaseConfig from "../config/firebase";
@@ -145,7 +144,7 @@ const Login = () => {
             />
           </Stack>
           <h2 style={{ fontSize: 21 }}>Se connecter</h2>
-          <div className='containerForm'>
+          <Stack spacing={2} width={300}>
             <Input
               id='email'
               label='Email'
@@ -200,15 +199,19 @@ const Login = () => {
               color='secondary'
               startIcon={<GoogleIcon />}
             />
-            <div className='containerLink'>
+            <Stack
+              direction='row'
+              justifyContent='space-between'
+              sx={{ fontSize: 12 }}
+            >
               <Link underline='none' href='/forgotpassword'>
                 Mot de passe oublié
               </Link>
               <Link underline='none' href='/signup'>
                 Pas de compte? S'incrire
               </Link>
-            </div>
-          </div>
+            </Stack>
+          </Stack>
         </Box>
       </Grid>
     </Grid>
