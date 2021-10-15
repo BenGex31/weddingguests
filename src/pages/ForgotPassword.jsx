@@ -4,6 +4,9 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import Link from "@material-ui/core/Link";
 import ReplayIcon from "@material-ui/icons/Replay";
+import Container from "@material-ui/core/Container";
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
 import firebaseConfig from "../config/firebase";
 import CustomizedSnackbars from "../components/CustomizedSnackbars";
 
@@ -59,56 +62,57 @@ const ForgotPassword = () => {
     setOpenSnackBar(false);
   };
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        alignItems: "center",
-        height: 700,
-        marginBottom: 50,
-      }}
-    >
-      <WeddingTitle />
-      <div className='containerIcon'>
-        <ReplayIcon style={{ fontSize: 40, color: "white" }} />
-      </div>
-      <h2>Réinitialiser mot de passe</h2>
-      <div className='containerForm'>
-        <Input
-          onChange={handleChangeEmail}
-          id='email'
-          label='Email'
-          variant='outlined'
-          value={email}
+    <Container style={{ height: 550 }}>
+      <Stack height='100%' alignItems='center' justifyContent='space-around'>
+        <WeddingTitle />
+        <Stack>
+          <ReplayIcon
+            style={{
+              fontSize: 60,
+              padding: 15,
+              borderRadius: 50,
+              color: "white",
+              backgroundColor: "black",
+            }}
+          />
+        </Stack>
+        <Stack spacing={1}>
+          <h2>Réinitialiser mot de passe</h2>
+          <Input
+            onChange={handleChangeEmail}
+            id='email'
+            label='Email'
+            variant='outlined'
+            value={email}
+          />
+          {isValidEmail ? (
+            <span style={{ color: "green", fontSize: 12 }}>
+              {messageEmailError}
+            </span>
+          ) : (
+            <span style={{ color: "red", fontSize: 12 }}>
+              {messageEmailError}
+            </span>
+          )}
+          <Button
+            onClick={sendPasswordReset}
+            text='Envoyer'
+            variant='contained'
+            color='primary'
+            disabled={isValidEmail ? false : true}
+          />
+          <Link style={{ textAlign: "right" }} underline='none' href='/'>
+            Page connexion
+          </Link>
+        </Stack>
+        <CustomizedSnackbars
+          open={openSnackBar}
+          handleClose={handleCloseSnackBar}
+          text='Un mail vous a été envoyé'
+          severity='success'
         />
-        {isValidEmail ? (
-          <span style={{ color: "green", fontSize: 12 }}>
-            {messageEmailError}
-          </span>
-        ) : (
-          <span style={{ color: "red", fontSize: 12 }}>
-            {messageEmailError}
-          </span>
-        )}
-        <Button
-          onClick={sendPasswordReset}
-          text='Envoyer'
-          variant='contained'
-          color='primary'
-          disabled={isValidEmail ? false : true}
-        />
-        <Link style={{ textAlign: "right" }} underline='none' href='/'>
-          Page connexion
-        </Link>
-      </div>
-      <CustomizedSnackbars
-        open={openSnackBar}
-        handleClose={handleCloseSnackBar}
-        text='Un mail vous a été envoyé'
-        severity='success'
-      />
-    </div>
+      </Stack>
+    </Container>
   );
 };
 
