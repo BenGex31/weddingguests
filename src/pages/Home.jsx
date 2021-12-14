@@ -4,6 +4,7 @@ import { AuthContext } from "../components/Auth";
 
 const Home = () => {
   const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
 
   if (!currentUser) {
     return <Redirect to='/' />;
