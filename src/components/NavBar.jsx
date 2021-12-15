@@ -109,7 +109,7 @@ const NavBar = () => {
   };
 
   return (
-    <Stack justifyContent='center' direction='row' spacing={4}>
+    <Stack mb={3.75} justifyContent='center' direction='row' spacing={4}>
       {links.map((item, index) => (
         <>
           <Link
