@@ -109,8 +109,14 @@ const NavBar = () => {
   };
 
   return (
-    <Stack mb={3.75} justifyContent='center' direction='row' spacing={4}>
-      {links.map((item, index) => (
+    <Stack
+      mb={3.75}
+      justifyContent='center'
+      direction='row'
+      spacing={4}
+      divider={<Divider orientation='vertical' flexItem />}
+    >
+      {links.map((item) => (
         <>
           <Link
             key={item.id}
@@ -120,9 +126,6 @@ const NavBar = () => {
           >
             {item.label}
           </Link>
-          {item.divider && (
-            <Divider key={index} orientation='vertical' flexItem />
-          )}
         </>
       ))}
     </Stack>
