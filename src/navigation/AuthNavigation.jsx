@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ForgotPassword from "../pages/ForgotPassword";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
-import Header from "../components/Header";
 import Home from "../pages/Home";
 import { AuthProvider } from "../components/Auth";
 import Gallery from "../pages/Gallery";
@@ -11,14 +10,11 @@ import Informations from "../pages/Informations";
 import Formulaire from "../pages/Formulaire";
 import Guests from "../pages/Guests";
 import Profil from "../pages/Profil";
-import NavBar from "../components/NavBar";
 
 const AuthNavigation = () => {
   return (
     <AuthProvider>
       <Router>
-        <Header />
-        <NavBar />
         <Switch>
           <Route exact path='/'>
             <Login />

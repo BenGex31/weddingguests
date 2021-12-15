@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../components/Auth";
+import Header from "../components/Header";
+import NavBar from "../components/NavBar";
 
 const Home = () => {
   const { currentUser } = useContext(AuthContext);
@@ -10,7 +12,12 @@ const Home = () => {
     return <Redirect to='/' />;
   }
 
-  return <div>Home</div>;
+  return (
+    <header>
+      <Header />
+      <NavBar />
+    </header>
+  );
 };
 
 export default Home;
