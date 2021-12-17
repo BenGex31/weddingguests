@@ -8,6 +8,8 @@ import { Grid, Stack, Typography, Divider } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { oswaldRegular as OswaldR } from "../core/theme/CustomTheme";
 import theme from "../core/theme/MuiTheme";
+import Cards from "../components/Card";
+import Countdown from "react-countdown";
 
 const Home = () => {
   const { currentUser } = useContext(AuthContext);
@@ -45,6 +47,58 @@ const Home = () => {
             sx={{ color: theme.palette.primary.main, width: 36, height: 31.5 }}
           />
         </Divider>
+      </Stack>
+      <Stack
+        mt={6}
+        mb={6}
+        direction={"row"}
+        justifyContent={"center"}
+        spacing={4}
+      >
+        <Cards
+          number={
+            <Countdown
+              date={Date.now() + (new Date(2022, 4, 26) - new Date())}
+              renderer={({ days }) => {
+                return <span>{days}</span>;
+              }}
+            />
+          }
+          time={"Jours"}
+        />
+        <Cards
+          number={
+            <Countdown
+              date={Date.now() + (new Date(2022, 4, 26) - new Date())}
+              renderer={({ hours }) => {
+                return <span>{hours}</span>;
+              }}
+            />
+          }
+          time={"Heures"}
+        />
+        <Cards
+          number={
+            <Countdown
+              date={Date.now() + (new Date(2022, 4, 26) - new Date())}
+              renderer={({ minutes }) => {
+                return <span>{minutes}</span>;
+              }}
+            />
+          }
+          time={"minutes"}
+        />
+        <Cards
+          number={
+            <Countdown
+              date={Date.now() + (new Date(2022, 5, 25) - new Date())}
+              renderer={({ seconds }) => {
+                return <span>{seconds}</span>;
+              }}
+            />
+          }
+          time={"Secondes"}
+        />
       </Stack>
     </Grid>
   );
