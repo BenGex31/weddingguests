@@ -14,6 +14,7 @@ const Cards = ({ number, time }) => {
         fontWeight: OswaldR.fontWeight,
         fontStyle: OswaldR.fontStyle,
         padding: 0,
+        boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
       }}
     >
       <Stack spacing={2}>
