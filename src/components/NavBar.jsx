@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Stack, Divider } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Stack, Divider, IconButton } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import { makeStyles } from "@mui/styles";
 import theme from "../core/theme/MuiTheme";
 import { oswaldRegular as oswaldR } from "../core/theme/CustomTheme";
@@ -20,8 +21,7 @@ const useStyles = makeStyles({
 
 const NavBar = () => {
   const classes = useStyles();
-  const location = useLocation();
-  console.log("pathname", location.pathname);
+  const [mobileView, setMobileView] = useState(false);
   const [links, setLinks] = useState([
     {
       id: 1,
@@ -108,6 +108,21 @@ const NavBar = () => {
     }
   };
 
+  useEffect(() => {
+    const setResponsiveness = () => {
+      return window.innerWidth < 900
+        ? setMobileView(true)
+        : setMobileView(false);
+    };
+
+    setResponsiveness();
+    window.addEventListener("resize", () => setResponsiveness());
+
+    return () => {
+      window.removeEventListener("resize", () => setResponsiveness());
+    };
+  }, []);
+
   return (
     <Stack
       mb={3.75}
@@ -116,8 +131,8 @@ const NavBar = () => {
       spacing={4}
       divider={<Divider orientation='vertical' flexItem />}
     >
-      {links.map((item) => (
-        <>
+      {!mobileView ? (
+        links.map((item) => (
           <Link
             key={item.id}
             className={item.clicked ? classes.linkClicked : classes.link}
@@ -126,8 +141,12 @@ const NavBar = () => {
           >
             {item.label}
           </Link>
-        </>
-      ))}
+        ))
+      ) : (
+        <IconButton>
+          <MenuIcon />
+        </IconButton>
+      )}
     </Stack>
   );
 };
