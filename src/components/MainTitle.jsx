@@ -5,7 +5,7 @@ import { alexBrushRegular as alexBrush } from "../core/theme/CustomTheme";
 
 const MainTitle = ({ title }) => {
   return (
-    <Grid container justifyContent='center'>
+    <Grid item justifyContent='center'>
       <Typography
         sx={{
           fontSize: 66,
