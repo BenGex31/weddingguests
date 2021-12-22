@@ -10,6 +10,7 @@ import { alexBrushRegular as alexBrush } from "../core/theme/CustomTheme";
 import theme from "../core/theme/MuiTheme";
 import Cards from "../components/Card";
 import Countdown from "react-countdown";
+import WeddingAvatar from "../components/WeddingAvatar";
 
 const Home = () => {
   const { currentUser } = useContext(AuthContext);
@@ -140,6 +141,7 @@ const Home = () => {
             L'heureux couple
           </Typography>
         </Stack>
+        <WeddingAvatar />
       </Stack>
     </Stack>
   );
