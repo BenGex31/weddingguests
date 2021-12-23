@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "./Auth";
+import theme from "../core/theme/MuiTheme";
 import weddingOfficial from "../assets/weddingOfficial.jpeg";
 import { Box } from "@mui/material";
 
@@ -34,6 +35,7 @@ const Header = () => {
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
+            boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
           }}
         />
       ) : (
