@@ -128,6 +128,7 @@ const NavBar = () => {
     <Stack
       mb={3.75}
       justifyContent='center'
+      alignItems={"center"}
       direction='row'
       spacing={4}
       divider={<Divider orientation='vertical' flexItem />}
