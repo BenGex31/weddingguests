@@ -5,6 +5,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { makeStyles } from "@mui/styles";
 import theme from "../core/theme/MuiTheme";
 import { oswaldRegular as oswaldR } from "../core/theme/CustomTheme";
+import IconLogout from "./IconLogout";
 
 const useStyles = makeStyles({
   link: {
@@ -147,6 +148,7 @@ const NavBar = () => {
           <MenuIcon />
         </IconButton>
       )}
+      <IconLogout />
     </Stack>
   );
 };
