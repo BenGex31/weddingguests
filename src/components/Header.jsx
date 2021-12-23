@@ -36,6 +36,7 @@ const Header = () => {
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
+            borderRadius: 5,
           }}
         />
       ) : (
