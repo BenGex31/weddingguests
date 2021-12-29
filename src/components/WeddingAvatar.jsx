@@ -8,17 +8,25 @@ import { oswaldRegular as OswaldR } from "../core/theme/CustomTheme";
 
 const WeddingAvatar = () => {
   const profiles = [
-    { image: camille, firstName: "Camille", text: "Présentation" },
-    { image: benjamin, firstName: "Benjamin", text: "Présentation" },
+    {
+      image: camille,
+      firstName: "Camille",
+      text: "Lorem ipsum dolor sit amet. Ea sint dolores qui architecto harum qui dolor reiciendis a dolorum nihil qui eaque maxime. Et officia tenetur et quis vitae eos similique mollitia ut delectus atque et nobis praesentium est dolores labore et vero quisquam. At fugit voluptatem eum vitae beatae aut explicabo recusandae et aspernatur iusto eos autem molestias ut omnis sint rem rerum minima!",
+    },
+    {
+      image: benjamin,
+      firstName: "Benjamin",
+      text: "Lorem ipsum dolor sit amet. Ea sint dolores qui architecto harum qui dolor reiciendis a dolorum nihil qui eaque maxime. Et officia tenetur et quis vitae eos similique mollitia ut delectus atque et nobis praesentium est dolores labore et vero quisquam. At fugit voluptatem eum vitae beatae aut explicabo recusandae et aspernatur iusto eos autem molestias ut omnis sint rem rerum minima!",
+    },
   ];
   return (
     <Stack
       direction={{ xs: "column", md: "row" }}
       justifyContent='space-between'
-      spacing={36}
+      spacing={20}
     >
       {profiles.map((profil, index) => (
-        <Stack spacing={3} key={index}>
+        <Stack alignItems='center' spacing={3} key={index}>
           <Avatar
             alt={profil.firstName}
             src={profil.image}
@@ -48,6 +56,8 @@ const WeddingAvatar = () => {
               fontWeight: OswaldR.fontWeight,
               fontStyle: OswaldR.fontStyle,
               color: theme.palette.secondary.main,
+              paddingRight: 10,
+              paddingLeft: 10,
             }}
             variant='body1'
           >
