@@ -10,29 +10,13 @@ import {
   Box,
   Tooltip,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import IconLogout from "./IconLogout";
 import { AuthContext } from "../components/Auth";
 import theme from "../core/theme/MuiTheme";
 import { oswaldRegular as oswaldR } from "../core/theme/CustomTheme";
 
-const useStyles = makeStyles({
-  link: {
-    color: theme.palette.secondary.main,
-    fontFamily: oswaldR.fontFamily,
-    textDecoration: "none",
-    fontWeight: oswaldR.fontWeight,
-  },
-  linkClicked: {
-    color: theme.palette.primary.main,
-    fontFamily: oswaldR.fontFamily,
-    textDecoration: "none",
-  },
-});
-
-const AccountMenu = () => {
+const AccountMenu = ({ styleLink }) => {
   const { currentUser } = useContext(AuthContext);
-  const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -91,13 +75,22 @@ const AccountMenu = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <Link className={classes.link} to='/profil'>
+        <Link className={styleLink} to='/profil'>
           <MenuItem>
             <Avatar src={currentUser.photoURL} /> Profil
           </MenuItem>
         </Link>
         <Divider />
-        <MenuItem>
+        <MenuItem
+          sx={{
+            color: theme.palette.secondary.main,
+            display: "flex",
+            alignItems: "center",
+            fontFamily: oswaldR.fontFamily,
+            fontStyle: oswaldR.fontStyle,
+            fontWeight: oswaldR.fontWeight,
+          }}
+        >
           <ListItemIcon>
             <IconLogout />
           </ListItemIcon>
