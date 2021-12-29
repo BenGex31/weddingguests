@@ -13,6 +13,7 @@ const useStyles = makeStyles({
     fontFamily: oswaldR.fontFamily,
     textDecoration: "none",
     fontWeight: oswaldR.fontWeight,
+    fontStyle: oswaldR.fontStyle,
   },
   linkClicked: {
     color: theme.palette.primary.main,
@@ -133,7 +134,7 @@ const NavBar = () => {
       ) : (
         <BasicMenu link={links} styleLinks={classes.link} />
       )}
-      <AccountMenu />
+      <AccountMenu styleLink={classes.link} />
     </Stack>
   );
 };
