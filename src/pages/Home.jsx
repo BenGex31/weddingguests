@@ -129,7 +129,7 @@ const Home = () => {
         <Stack>
           <Typography
             sx={{
-              fontSize: 90,
+              fontSize: { xs: 52, md: 90 },
               fontFamily: alexBrush.fontFamily,
               fontWeight: alexBrush.fontWeight,
               fontStyle: alexBrush.fontStyle,
