@@ -11,6 +11,7 @@ import theme from "../core/theme/MuiTheme";
 import Cards from "../components/Card";
 import Countdown from "react-countdown";
 import WeddingAvatar from "../components/WeddingAvatar";
+import { Grid } from "@material-ui/core";
 
 const Home = () => {
   const { currentUser } = useContext(AuthContext);
@@ -49,8 +50,13 @@ const Home = () => {
         >
           Et nous comptons les jours!
         </Typography>
-        <Stack justifyContent={"center"} alignItems='center'>
-          <Divider sx={{ width: 617 }} orientation='horizontal'>
+        <Grid>
+          <Divider
+            sx={{
+              width: 617,
+            }}
+            orientation='horizontal'
+          >
             <FavoriteIcon
               sx={{
                 color: theme.palette.primary.main,
@@ -59,7 +65,7 @@ const Home = () => {
               }}
             />
           </Divider>
-        </Stack>
+        </Grid>
         <Stack
           direction={{ xs: "column", sm: "row" }}
           justifyContent={"center"}
