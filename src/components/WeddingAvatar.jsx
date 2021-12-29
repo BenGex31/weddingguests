@@ -58,8 +58,10 @@ const WeddingAvatar = () => {
               color: theme.palette.secondary.main,
               paddingRight: 10,
               paddingLeft: 10,
+              lineHeight: 2,
             }}
             variant='body1'
+            align='center'
           >
             {profil.text}
           </Typography>
