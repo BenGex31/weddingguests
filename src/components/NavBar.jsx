@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Stack, Divider, IconButton } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Stack, Divider } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import theme from "../core/theme/MuiTheme";
 import { oswaldRegular as oswaldR } from "../core/theme/CustomTheme";
-import IconLogout from "./IconLogout";
+import AccountMenu from "./AccountMenu";
+import BasicMenu from "./BasicMenu";
 
 const useStyles = makeStyles({
   link: {
     color: theme.palette.secondary.main,
     fontFamily: oswaldR.fontFamily,
     textDecoration: "none",
+    fontWeight: oswaldR.fontWeight,
   },
   linkClicked: {
     color: theme.palette.primary.main,
@@ -52,13 +53,6 @@ const NavBar = () => {
       link: "/galerie",
       divider: true,
     },
-    {
-      id: 5,
-      label: "Profil",
-      clicked: false,
-      link: "/profil",
-      divider: false,
-    },
   ]);
 
   const displayLinkClicked = (link) => {
@@ -98,15 +92,6 @@ const NavBar = () => {
       galerieLink[4].clicked = false;
       setLinks(galerieLink);
     }
-    if (link === "/profil") {
-      let profilLink = [...links];
-      profilLink[0].clicked = false;
-      profilLink[1].clicked = false;
-      profilLink[2].clicked = false;
-      profilLink[3].clicked = false;
-      profilLink[4].clicked = true;
-      setLinks(profilLink);
-    }
   };
 
   useEffect(() => {
@@ -126,6 +111,7 @@ const NavBar = () => {
 
   return (
     <Stack
+      mt={1}
       mb={3.75}
       justifyContent='center'
       alignItems={"center"}
@@ -145,11 +131,9 @@ const NavBar = () => {
           </Link>
         ))
       ) : (
-        <IconButton>
-          <MenuIcon />
-        </IconButton>
+        <BasicMenu link={links} styleLinks={classes.link} />
       )}
-      <IconLogout />
+      <AccountMenu />
     </Stack>
   );
 };
