@@ -25,7 +25,7 @@ const Home = () => {
     <Stack display={"flex"} alignItems={"center"}>
       <Header />
       <NavBar />
-      <Stack justifyContent={"center"} alignItems={"center"} spacing={5}>
+      <Stack mb={4} justifyContent={"center"} alignItems={"center"} spacing={5}>
         <Typography
           sx={{
             fontSize: { md: 66, xs: 40 },
