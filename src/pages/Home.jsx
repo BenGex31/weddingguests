@@ -11,6 +11,7 @@ import theme from "../core/theme/MuiTheme";
 import Cards from "../components/Card";
 import Countdown from "react-countdown";
 import WeddingAvatar from "../components/WeddingAvatar";
+import ImageResponse from "../components/ImageResponse";
 
 const Home = () => {
   const { currentUser } = useContext(AuthContext);
@@ -21,10 +22,14 @@ const Home = () => {
   }
 
   return (
-    <Grid container>
+    <Grid mb={4} container justifyContent='center'>
       <Header />
-      <NavBar />
-      <Stack mb={4} justifyContent={"center"} alignItems={"center"} spacing={5}>
+      <Stack
+        mb={10}
+        justifyContent={"center"}
+        alignItems={"center"}
+        spacing={5}
+      >
         <Typography
           sx={{
             fontSize: { md: 66, xs: 40 },
@@ -148,6 +153,7 @@ const Home = () => {
         </Stack>
         <WeddingAvatar />
       </Stack>
+      <ImageResponse />
     </Grid>
   );
 };
