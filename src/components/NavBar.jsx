@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Stack, Divider } from "@mui/material";
+import { Stack, Divider, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import theme from "../core/theme/MuiTheme";
 import { oswaldRegular as oswaldR } from "../core/theme/CustomTheme";
@@ -107,31 +107,32 @@ const NavBar = () => {
   }, []);
 
   return (
-    <Stack
-      mt={1}
-      mb={3.75}
-      justifyContent='center'
-      alignItems={"center"}
-      direction='row'
-      spacing={4}
-      divider={<Divider orientation='vertical' flexItem />}
-    >
-      {!mobileView ? (
-        links.map((item) => (
-          <Link
-            key={item.id}
-            className={item.clicked ? classes.linkClicked : classes.link}
-            to={item.link}
-            onClick={() => displayLinkClicked(item.link)}
-          >
-            {item.label}
-          </Link>
-        ))
-      ) : (
-        <BasicMenu link={links} styleLinks={classes.link} />
-      )}
-      <AccountMenu styleLink={classes.link} />
-    </Stack>
+    <Grid container justifyContent='center' alignItems='center'>
+      <Stack
+        mt={1}
+        mb={3.75}
+        alignItems={"center"}
+        direction='row'
+        spacing={4}
+        divider={<Divider orientation='vertical' flexItem />}
+      >
+        {!mobileView ? (
+          links.map((item) => (
+            <Link
+              key={item.id}
+              className={item.clicked ? classes.linkClicked : classes.link}
+              to={item.link}
+              onClick={() => displayLinkClicked(item.link)}
+            >
+              {item.label}
+            </Link>
+          ))
+        ) : (
+          <BasicMenu link={links} styleLinks={classes.link} />
+        )}
+        <AccountMenu styleLink={classes.link} />
+      </Stack>
+    </Grid>
   );
 };
 
