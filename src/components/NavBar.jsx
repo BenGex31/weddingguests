@@ -107,7 +107,7 @@ const NavBar = () => {
   }, []);
 
   return (
-    <Grid container justifyContent='center' alignItems='center'>
+    <Grid container justifyContent='flex-start' alignItems='center'>
       <Stack
         mt={1}
         mb={3.75}
