@@ -78,6 +78,7 @@ const Home = () => {
           justifyContent='space-evenly'
           alignItems='center'
           height={{ xs: 700, md: 150 }}
+          width={1000}
         >
           <Cards
             number={
