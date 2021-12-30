@@ -6,7 +6,6 @@ const Gallery = () => {
   return (
     <header>
       <Header />
-      <NavBar />
     </header>
   );
 };
