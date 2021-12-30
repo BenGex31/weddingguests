@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Typography, Stack, Grid } from "@mui/material";
+import { Avatar, Typography, Grid } from "@mui/material";
 import theme from "../core/theme/MuiTheme";
 import camille from "../assets/CB-078.jpg";
 import benjamin from "../assets/CB-079.jpeg";
@@ -22,12 +22,21 @@ const WeddingAvatar = () => {
   return (
     <Grid
       container
-      height={1000}
-      direction='row'
-      justifyContent='space-between'
+      mb={10}
+      direction={{ xs: "column", md: "row" }}
+      spacing={10}
     >
       {profiles.map((profil, index) => (
-        <Grid direction='column' container alignItems='center' key={index}>
+        <Grid
+          item
+          key={index}
+          xs={6}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
           <Avatar
             alt={profil.firstName}
             src={profil.image}
