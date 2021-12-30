@@ -6,7 +6,6 @@ const Guests = () => {
   return (
     <header>
       <Header />
-      <NavBar />
     </header>
   );
 };
