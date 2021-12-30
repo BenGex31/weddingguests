@@ -157,8 +157,8 @@ const Home = () => {
             L'heureux couple
           </Typography>
         </Grid>
-        <WeddingAvatar />
       </Grid>
+      <WeddingAvatar />
       <ImageResponse />
     </Grid>
   );
