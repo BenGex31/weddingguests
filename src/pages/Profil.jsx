@@ -6,7 +6,6 @@ const Profil = () => {
   return (
     <header>
       <Header />
-      <NavBar />
     </header>
   );
 };
