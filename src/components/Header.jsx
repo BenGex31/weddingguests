@@ -5,6 +5,7 @@ import weddingOfficial from "../assets/weddingOfficial.jpeg";
 import { Box, Container, Divider, Typography } from "@mui/material";
 import { oswaldExtraLight as oswaldExtra } from "../core/theme/CustomTheme";
 import { alexBrushRegular as alexBrush } from "../core/theme/CustomTheme";
+import NavBar from "./NavBar";
 
 const Header = () => {
   const { currentUser } = useContext(AuthContext);
@@ -29,64 +30,67 @@ const Header = () => {
   return (
     <>
       {!mobileView ? (
-        <Container
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          maxWidth='xl'
-        >
-          <Box
-            height={801}
-            width={1319}
+        <>
+          <Container
             sx={{
-              backgroundImage: `url(${weddingOfficial})`,
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
-              boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
-              borderRadius: 5,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              flexDirection: "column",
             }}
+            maxWidth='xl'
           >
-            <Divider
-              sx={{ width: 656, backgroundColor: "#FFFFFF" }}
-              orientation='horizontal'
-            />
-            <Typography
+            <Box
+              height={801}
+              width={1319}
               sx={{
-                fontSize: 30,
-                fontFamily: oswaldExtra.fontFamily,
-                fontWeight: oswaldExtra.fontWeight,
-                fontStyle: oswaldExtra.fontStyle,
-                color: "#FFFFFF",
+                backgroundImage: `url(${weddingOfficial})`,
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
+                borderRadius: 5,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
               }}
             >
-              Le mariage de
-            </Typography>
-            <Typography
-              variant='h1'
-              sx={{
-                fontFamily: alexBrush.fontFamily,
-                fontWeight: alexBrush.fontWeight,
-                fontStyle: alexBrush.fontStyle,
-                color: "#FFFFFF",
-              }}
-            >
-              Camille & Benjamin
-            </Typography>
-            <Divider
-              sx={{ width: 656, backgroundColor: "#FFFFFF" }}
-              orientation='horizontal'
-            />
-          </Box>
-        </Container>
+              <Divider
+                sx={{ width: 656, backgroundColor: "#FFFFFF" }}
+                orientation='horizontal'
+              />
+              <Typography
+                sx={{
+                  fontSize: 30,
+                  fontFamily: oswaldExtra.fontFamily,
+                  fontWeight: oswaldExtra.fontWeight,
+                  fontStyle: oswaldExtra.fontStyle,
+                  color: "#FFFFFF",
+                }}
+              >
+                Le mariage de
+              </Typography>
+              <Typography
+                variant='h1'
+                sx={{
+                  fontFamily: alexBrush.fontFamily,
+                  fontWeight: alexBrush.fontWeight,
+                  fontStyle: alexBrush.fontStyle,
+                  color: "#FFFFFF",
+                }}
+              >
+                Camille & Benjamin
+              </Typography>
+              <Divider
+                sx={{ width: 656, backgroundColor: "#FFFFFF" }}
+                orientation='horizontal'
+              />
+            </Box>
+          </Container>
+          <NavBar />
+        </>
       ) : (
-        <></>
+        <NavBar />
       )}
     </>
   );
