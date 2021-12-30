@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../components/Auth";
 import Header from "../components/Header";
-import NavBar from "../components/NavBar";
 import { Stack, Typography, Divider, Grid } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { oswaldRegular as OswaldR } from "../core/theme/CustomTheme";
