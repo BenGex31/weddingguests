@@ -6,7 +6,6 @@ const Informations = () => {
   return (
     <header>
       <Header />
-      <NavBar />
     </header>
   );
 };
