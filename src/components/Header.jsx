@@ -1,5 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
-import { AuthContext } from "./Auth";
+import React, { useState, useEffect } from "react";
 import theme from "../core/theme/MuiTheme";
 import weddingOfficial from "../assets/weddingOfficial.jpeg";
 import { Box, Container, Divider, Typography } from "@mui/material";
@@ -8,9 +7,7 @@ import { alexBrushRegular as alexBrush } from "../core/theme/CustomTheme";
 import NavBar from "./NavBar";
 
 const Header = () => {
-  const { currentUser } = useContext(AuthContext);
   const [mobileView, setMobileView] = useState(false);
-  console.log(currentUser);
 
   useEffect(() => {
     const setResponsiveness = () => {
