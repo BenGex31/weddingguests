@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../components/Auth";
 import Header from "../components/Header";
-import { Stack, Typography, Divider, Grid } from "@mui/material";
+import { Typography, Divider, Grid } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { oswaldRegular as OswaldR } from "../core/theme/CustomTheme";
 import { alexBrushRegular as alexBrush } from "../core/theme/CustomTheme";
@@ -23,57 +23,61 @@ const Home = () => {
   return (
     <Grid mb={4} container justifyContent='center'>
       <Header />
-      <Stack
-        mb={10}
-        justifyContent={"center"}
-        alignItems={"center"}
-        spacing={5}
-      >
-        <Typography
-          sx={{
-            fontSize: { md: 66, xs: 40 },
-            fontFamily: alexBrush.fontFamily,
-            fontWeight: alexBrush.fontWeight,
-            fontStyle: alexBrush.fontStyle,
-            color: theme.palette.primary.main,
-          }}
-          variant='h1'
+      <Grid mb={10}>
+        <Grid
+          container
+          direction='column'
+          justifyContent='space-around'
+          alignItems='center'
+          height={300}
         >
-          Nous avons choisi une date
-        </Typography>
-        <Typography
-          sx={{
-            fontSize: 25,
-            fontFamily: OswaldR.fontFamily,
-            fontWeight: OswaldR.fontWeight,
-            fontStyle: OswaldR.fontStyle,
-            color: theme.palette.secondary.main,
-          }}
-          variant='h2'
-        >
-          Et nous comptons les jours!
-        </Typography>
-        <Grid>
-          <Divider
+          <Typography
             sx={{
-              width: 617,
+              fontSize: { md: 66, xs: 40 },
+              fontFamily: alexBrush.fontFamily,
+              fontWeight: alexBrush.fontWeight,
+              fontStyle: alexBrush.fontStyle,
+              color: theme.palette.primary.main,
             }}
-            orientation='horizontal'
+            variant='h1'
           >
-            <FavoriteIcon
+            Nous avons choisi une date
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: 25,
+              fontFamily: OswaldR.fontFamily,
+              fontWeight: OswaldR.fontWeight,
+              fontStyle: OswaldR.fontStyle,
+              color: theme.palette.secondary.main,
+            }}
+            variant='h2'
+          >
+            Et nous comptons les jours!
+          </Typography>
+          <Grid>
+            <Divider
               sx={{
-                color: theme.palette.primary.main,
-                width: 36,
-                height: 31.5,
+                width: 617,
               }}
-            />
-          </Divider>
+              orientation='horizontal'
+            >
+              <FavoriteIcon
+                sx={{
+                  color: theme.palette.primary.main,
+                  width: 36,
+                  height: 31.5,
+                }}
+              />
+            </Divider>
+          </Grid>
         </Grid>
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          justifyContent={"center"}
-          alignItems={"center"}
-          spacing={6}
+        <Grid
+          container
+          direction={{ xs: "column", md: "row" }}
+          justifyContent='space-evenly'
+          alignItems='center'
+          height={{ xs: 700, md: 150 }}
         >
           <Cards
             number={
@@ -119,8 +123,13 @@ const Home = () => {
             }
             time={"Secondes"}
           />
-        </Stack>
-        <Stack>
+        </Grid>
+        <Grid
+          container
+          direction='column'
+          height={200}
+          justifyContent='space-between'
+        >
           <Typography
             sx={{
               fontSize: 38,
@@ -134,8 +143,6 @@ const Home = () => {
           >
             25 mai 2022
           </Typography>
-        </Stack>
-        <Stack>
           <Typography
             sx={{
               fontSize: { xs: 52, md: 90 },
@@ -149,9 +156,9 @@ const Home = () => {
           >
             L'heureux couple
           </Typography>
-        </Stack>
+        </Grid>
         <WeddingAvatar />
-      </Stack>
+      </Grid>
       <ImageResponse />
     </Grid>
   );
