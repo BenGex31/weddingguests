@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import { AuthContext } from "../components/Auth";
 import Header from "../components/Header";
 import NavBar from "../components/NavBar";
-import { Stack, Typography, Divider } from "@mui/material";
+import { Stack, Typography, Divider, Grid } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { oswaldRegular as OswaldR } from "../core/theme/CustomTheme";
 import { alexBrushRegular as alexBrush } from "../core/theme/CustomTheme";
@@ -11,7 +11,6 @@ import theme from "../core/theme/MuiTheme";
 import Cards from "../components/Card";
 import Countdown from "react-countdown";
 import WeddingAvatar from "../components/WeddingAvatar";
-import { Grid } from "@material-ui/core";
 
 const Home = () => {
   const { currentUser } = useContext(AuthContext);
@@ -22,7 +21,7 @@ const Home = () => {
   }
 
   return (
-    <Stack display={"flex"} alignItems={"center"}>
+    <Grid container>
       <Header />
       <NavBar />
       <Stack mb={4} justifyContent={"center"} alignItems={"center"} spacing={5}>
@@ -149,7 +148,7 @@ const Home = () => {
         </Stack>
         <WeddingAvatar />
       </Stack>
-    </Stack>
+    </Grid>
   );
 };
 
