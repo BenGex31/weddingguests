@@ -21,7 +21,7 @@ const Home = () => {
   }
 
   return (
-    <Grid mb={4} container justifyContent='center'>
+    <Grid container justifyContent='center'>
       <Header />
       <Grid mb={10}>
         <Grid
