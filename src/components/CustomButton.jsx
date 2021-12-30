@@ -15,6 +15,7 @@ const MuiButton = styled(Button)({
   boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
   color: theme.palette.primary.light,
   textTransform: "none",
+  "&:hover": { backgroundColor: theme.palette.secondary.main },
 });
 
 const CustomButton = ({ text }) => {
