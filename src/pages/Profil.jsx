@@ -1,7 +1,12 @@
 import React from "react";
+import Header from "../components/Header";
 
 const Profil = () => {
-  return <div>Profil</div>;
+  return (
+    <header>
+      <Header />
+    </header>
+  );
 };
 
 export default Profil;

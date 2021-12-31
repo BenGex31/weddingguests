@@ -1,10 +1,11 @@
 import React from "react";
+import Header from "../components/Header";
 
 const Informations = () => {
   return (
-    <div>
-      <div>Informations</div>
-    </div>
+    <header>
+      <Header />
+    </header>
   );
 };
 

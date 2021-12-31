@@ -1,10 +1,11 @@
 import React from "react";
+import Header from "../components/Header";
 
 const Gallery = () => {
   return (
-    <div>
-      <div>Gallerie photos</div>
-    </div>
+    <header>
+      <Header />
+    </header>
   );
 };
 
