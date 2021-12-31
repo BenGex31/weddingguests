@@ -14,6 +14,7 @@ const MainTitle = ({ title }) => {
           fontStyle: alexBrush.fontStyle,
           color: theme.palette.primary.main,
         }}
+        align='center'
         variant='h1'
       >
         {title}
