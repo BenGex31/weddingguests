@@ -8,7 +8,7 @@ const MainTitle = ({ title }) => {
     <Grid item justifyContent='center'>
       <Typography
         sx={{
-          fontSize: 66,
+          fontSize: { md: 66, xs: 40 },
           fontFamily: alexBrush.fontFamily,
           fontWeight: alexBrush.fontWeight,
           fontStyle: alexBrush.fontStyle,

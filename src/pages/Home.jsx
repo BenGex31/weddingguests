@@ -17,6 +17,7 @@ import Cards from "../components/Card";
 import Countdown from "react-countdown";
 import WeddingAvatar from "../components/WeddingAvatar";
 import ImageResponse from "../components/ImageResponse";
+import MainTitle from "../components/MainTitle";
 
 const Home = () => {
   const { currentUser } = useContext(AuthContext);
@@ -39,18 +40,7 @@ const Home = () => {
             alignItems='center'
             height={300}
           >
-            <Typography
-              sx={{
-                fontSize: { md: 66, xs: 40 },
-                fontFamily: alexBrush.fontFamily,
-                fontWeight: alexBrush.fontWeight,
-                fontStyle: alexBrush.fontStyle,
-                color: theme.palette.primary.main,
-              }}
-              variant='h1'
-            >
-              Nous avons choisi une date
-            </Typography>
+            <MainTitle title='Nous avons choisi une date' />
             <Typography
               sx={{
                 fontSize: 25,
