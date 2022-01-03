@@ -14,8 +14,16 @@ const center = {
 
 const Map = () => {
   return (
-    <LoadScript googleMapsApiKey={reactMapConfig.REACT_APP_MAP_API_KEY}>
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={14}>
+    <LoadScript
+      libraries={["places"]}
+      googleMapsApiKey={reactMapConfig.REACT_APP_MAP_API_KEY}
+    >
+      <GoogleMap
+        id='weddingHotels'
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={14}
+      >
         <Marker draggable position={center} />
       </GoogleMap>
     </LoadScript>
