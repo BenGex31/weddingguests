@@ -1,4 +1,4 @@
-import { Container, Grid } from "@mui/material";
+import { Container, Grid, Divider, Stack } from "@mui/material";
 import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../components/Auth";
@@ -19,6 +19,9 @@ const Informations = () => {
         <Header />
       </header>
       <MainTitle title='Informations utiles' />
+      <Grid mt={3} mb={5} container justifyContent='center'>
+        <Divider textAlign='center' sx={{ width: 433 }} />
+      </Grid>
       <Grid>
         <Map />
       </Grid>
