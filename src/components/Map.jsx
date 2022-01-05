@@ -94,7 +94,7 @@ const Map = () => {
               >
                 <input
                   type='text'
-                  placeholder='Customized your placeholder'
+                  placeholder='Liste des hôtels'
                   style={{
                     boxSizing: `border-box`,
                     border: `1px solid transparent`,
@@ -108,16 +108,17 @@ const Map = () => {
                     textOverflow: `ellipses`,
                     position: "absolute",
                     left: "50%",
+                    top: "3%",
                     marginLeft: "-60px",
                   }}
                 />
               </StandaloneSearchBox>
-              <Marker draggable={true} position={center} />
+              <Marker animation={"BOUNCE"} position={center} />
               {hotels &&
                 hotels.map((hotel) => (
                   <Marker
+                    animation={"BOUNCE"}
                     key={hotel.place_id}
-                    draggable
                     position={hotel.geometry.location}
                   />
                 ))}
