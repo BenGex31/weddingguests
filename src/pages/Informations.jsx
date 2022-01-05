@@ -1,4 +1,4 @@
-import { Container, Grid, Divider, Stack } from "@mui/material";
+import { Container, Grid, Divider } from "@mui/material";
 import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../components/Auth";
