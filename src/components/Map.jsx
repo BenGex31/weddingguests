@@ -6,13 +6,14 @@ import {
   StandaloneSearchBox,
   Marker,
 } from "@react-google-maps/api";
-import { Grid, Card, CardContent, Typography } from "@mui/material";
+import { Grid, Card, CardContent, Typography, Fade } from "@mui/material";
 import { oswaldRegular as oswaldR } from "../core/theme/CustomTheme";
 import theme from "../core/theme/MuiTheme";
 
 const containerStyle = {
   width: "563px",
   height: "442px",
+  borderRadius: 10,
 };
 
 const center = {
@@ -34,7 +35,13 @@ const Map = () => {
   }
 
   return (
-    <Grid xs={12} container justifyContent='space-around' direction='row'>
+    <Grid
+      sx={{ marginBottom: 5 }}
+      xs={12}
+      container
+      justifyContent='space-around'
+      direction='row'
+    >
       <Grid sx={{ height: 600, overflowY: "scroll" }} item direction='column'>
         <Typography
           sx={{
@@ -50,46 +57,48 @@ const Map = () => {
           Hôtels / Campings / Maisons d’hôtes
         </Typography>
         {hotels &&
-          hotels.map((hotel) => (
-            <Grid alignItems='center' item>
-              <Card sx={{ marginBottom: 3 }} key={hotel.place_id}>
-                <CardContent>
-                  <Typography
-                    sx={{
-                      fontFamily: oswaldR.fontFamily,
-                      fontWeight: oswaldR.fontWeight,
-                      fontStyle: oswaldR.fontStyle,
-                      fontSize: 30,
-                      color: theme.palette.primary.main,
-                    }}
-                  >
-                    {hotel.name}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontFamily: oswaldR.fontFamily,
-                      fontWeight: oswaldR.fontWeight,
-                      fontStyle: oswaldR.fontStyle,
-                      fontSize: 15,
-                      color: theme.palette.secondary.main,
-                    }}
-                  >
-                    {hotel.rating}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontFamily: oswaldR.fontFamily,
-                      fontWeight: oswaldR.fontWeight,
-                      fontStyle: oswaldR.fontStyle,
-                      fontSize: 15,
-                      color: theme.palette.secondary.main,
-                    }}
-                  >
-                    {hotel.formatted_address}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
+          hotels.map((hotel, index) => (
+            <Fade in timeout={index * 800}>
+              <Grid key={index} alignItems='center' item>
+                <Card sx={{ marginBottom: 3 }} key={hotel.place_id}>
+                  <CardContent>
+                    <Typography
+                      sx={{
+                        fontFamily: oswaldR.fontFamily,
+                        fontWeight: oswaldR.fontWeight,
+                        fontStyle: oswaldR.fontStyle,
+                        fontSize: 30,
+                        color: theme.palette.primary.main,
+                      }}
+                    >
+                      {hotel.name}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontFamily: oswaldR.fontFamily,
+                        fontWeight: oswaldR.fontWeight,
+                        fontStyle: oswaldR.fontStyle,
+                        fontSize: 15,
+                        color: theme.palette.secondary.main,
+                      }}
+                    >
+                      {hotel.rating}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontFamily: oswaldR.fontFamily,
+                        fontWeight: oswaldR.fontWeight,
+                        fontStyle: oswaldR.fontStyle,
+                        fontSize: 15,
+                        color: theme.palette.secondary.main,
+                      }}
+                    >
+                      {hotel.formatted_address}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Fade>
           ))}
       </Grid>
       <Grid>
@@ -206,13 +215,20 @@ const Map = () => {
                     }}
                   />
                 </StandaloneSearchBox>
-                <Marker animation={"BOUNCE"} position={center} />
+                <Marker
+                  animation={"BOUNCE"}
+                  position={center}
+                  icon={
+                    "http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png"
+                  }
+                />
                 {hotels &&
                   hotels.map((hotel) => (
                     <Marker
                       animation={"BOUNCE"}
                       key={hotel.place_id}
                       position={hotel.geometry.location}
+                      label={hotel.name}
                     />
                   ))}
               </>
