@@ -6,7 +6,17 @@ import {
   StandaloneSearchBox,
   Marker,
 } from "@react-google-maps/api";
-import { Grid, Card, CardContent, Typography, Fade } from "@mui/material";
+import {
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  Rating,
+  Stack,
+  CardMedia,
+  Chip,
+  Zoom,
+} from "@mui/material";
 import { oswaldRegular as oswaldR } from "../core/theme/CustomTheme";
 import theme from "../core/theme/MuiTheme";
 
@@ -14,6 +24,7 @@ const containerStyle = {
   width: "563px",
   height: "442px",
   borderRadius: 10,
+  boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
 };
 
 const center = {
@@ -21,28 +32,17 @@ const center = {
   lng: 1.56989,
 };
 
-const libraries = ["places", "drawing"];
-
 const Map = () => {
   const [hotels, setHotels] = useState(null);
+  const libraries = useState(["places"]);
   const mapRef = useRef(null);
   const onLoad = useCallback((map) => {
     mapRef.current = map;
   }, []);
 
-  if (hotels) {
-    console.log(typeof hotels[0].geometry.location.lat);
-  }
-
   return (
-    <Grid
-      sx={{ marginBottom: 5 }}
-      xs={12}
-      container
-      justifyContent='space-around'
-      direction='row'
-    >
-      <Grid sx={{ height: 600, overflowY: "scroll" }} item direction='column'>
+    <Grid sx={{ marginBottom: 5 }} container justifyContent='space-around'>
+      <Grid sx={{ height: 600, overflowY: "scroll" }} item>
         <Typography
           sx={{
             fontFamily: oswaldR.fontFamily,
@@ -54,36 +54,81 @@ const Map = () => {
           }}
           align='center'
         >
-          Hôtels / Campings / Maisons d’hôtes
+          {hotels.length === 1
+            ? `${hotels.length} résultat`
+            : `${hotels.length} résultats`}
         </Typography>
         {hotels &&
           hotels.map((hotel, index) => (
-            <Fade in timeout={index * 800}>
-              <Grid key={index} alignItems='center' item>
-                <Card sx={{ marginBottom: 3 }} key={hotel.place_id}>
+            <Zoom in timeout={index * 400}>
+              <Grid
+                sx={{ borderRadius: 10 }}
+                key={hotel.place_id}
+                alignItems='center'
+                item
+              >
+                <Card
+                  sx={{ marginBottom: 3, borderRadius: 10 }}
+                  key={hotel.place_id}
+                >
+                  <CardMedia
+                    component='img'
+                    image={
+                      hotels
+                        ? hotel.photos[0].getUrl()
+                        : "https://www.parisinfo.com/var/otcp/sites/images/media/1.-photos/03.-hebergement-630-x-405/hotel-enseigne-neon-630x405-c-thinkstock/31513-1-fre-FR/Hotel-enseigne-neon-630x405-C-Thinkstock.jpg"
+                    }
+                    height='140'
+                    width='140'
+                    alt={hotel.name}
+                  />
                   <CardContent>
                     <Typography
                       sx={{
                         fontFamily: oswaldR.fontFamily,
                         fontWeight: oswaldR.fontWeight,
                         fontStyle: oswaldR.fontStyle,
-                        fontSize: 30,
+                        fontSize: 25,
                         color: theme.palette.primary.main,
                       }}
                     >
                       {hotel.name}
                     </Typography>
-                    <Typography
-                      sx={{
-                        fontFamily: oswaldR.fontFamily,
-                        fontWeight: oswaldR.fontWeight,
-                        fontStyle: oswaldR.fontStyle,
-                        fontSize: 15,
-                        color: theme.palette.secondary.main,
-                      }}
-                    >
-                      {hotel.rating}
-                    </Typography>
+                    {!hotel.rating || hotel.rating === 0 || (
+                      <Stack direction='row' spacing={1}>
+                        <Typography
+                          sx={{
+                            fontFamily: oswaldR.fontFamily,
+                            fontWeight: oswaldR.fontWeight,
+                            fontStyle: oswaldR.fontStyle,
+                            fontSize: 15,
+                            color: theme.palette.secondary.main,
+                          }}
+                        >
+                          {hotel.rating}
+                        </Typography>
+                        <Rating
+                          name='rating-hotel'
+                          defaultValue={hotel.rating}
+                          precision={0.1}
+                          readOnly
+                        />
+                        <Typography
+                          sx={{
+                            fontFamily: oswaldR.fontFamily,
+                            fontWeight: oswaldR.fontWeight,
+                            fontStyle: oswaldR.fontStyle,
+                            fontSize: 15,
+                            color: theme.palette.secondary.main,
+                          }}
+                        >
+                          {hotel.user_ratings_total.length === 1
+                            ? `${hotel.user_ratings_total} Vote`
+                            : `${hotel.user_ratings_total} Votes`}
+                        </Typography>
+                      </Stack>
+                    )}
+
                     <Typography
                       sx={{
                         fontFamily: oswaldR.fontFamily,
@@ -95,10 +140,34 @@ const Map = () => {
                     >
                       {hotel.formatted_address}
                     </Typography>
+                    {!hotel.business_status || (
+                      <Stack mt={1} spacing={1} direction='row'>
+                        <Chip
+                          label={
+                            hotel.open_now
+                              ? "Actuellement Ouvert"
+                              : "Actuellement Fermé"
+                          }
+                          color={hotel.open_now ? "success" : "error"}
+                        />
+                        <Chip
+                          label={
+                            hotel.business_status !== "OPERATIONAL"
+                              ? "Fermé définitivement"
+                              : "En activité"
+                          }
+                          color={
+                            hotel.business_status !== "OPERATIONAL"
+                              ? "error"
+                              : "success"
+                          }
+                        />
+                      </Stack>
+                    )}
                   </CardContent>
                 </Card>
               </Grid>
-            </Fade>
+            </Zoom>
           ))}
       </Grid>
       <Grid>
@@ -187,7 +256,7 @@ const Map = () => {
             <GoogleMap
               mapContainerStyle={containerStyle}
               center={center}
-              zoom={10}
+              zoom={12}
             >
               <>
                 <StandaloneSearchBox
@@ -221,6 +290,7 @@ const Map = () => {
                   icon={
                     "http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png"
                   }
+                  label='Domaine du Beyssac'
                 />
                 {hotels &&
                   hotels.map((hotel) => (
