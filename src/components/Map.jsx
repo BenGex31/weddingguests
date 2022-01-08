@@ -40,24 +40,32 @@ const Map = () => {
     mapRef.current = map;
   }, []);
 
+  if (hotels) {
+    hotels.forEach((element) => {
+      console.log(element.photos);
+    });
+  }
+
   return (
     <Grid sx={{ marginBottom: 5 }} container justifyContent='space-around'>
       <Grid sx={{ height: 600, overflowY: "scroll" }} item>
-        <Typography
-          sx={{
-            fontFamily: oswaldR.fontFamily,
-            fontWeight: oswaldR.fontWeight,
-            fontStyle: oswaldR.fontStyle,
-            fontSize: 20,
-            color: theme.palette.primary.main,
-            marginBottom: 3,
-          }}
-          align='center'
-        >
-          {hotels.length === 1
-            ? `${hotels.length} résultat`
-            : `${hotels.length} résultats`}
-        </Typography>
+        {hotels && (
+          <Typography
+            sx={{
+              fontFamily: oswaldR.fontFamily,
+              fontWeight: oswaldR.fontWeight,
+              fontStyle: oswaldR.fontStyle,
+              fontSize: 20,
+              color: theme.palette.primary.main,
+              marginBottom: 3,
+            }}
+            align='center'
+          >
+            {hotels.length === 1
+              ? `${hotels.length} résultat`
+              : `${hotels.length} résultats`}
+          </Typography>
+        )}
         {hotels &&
           hotels.map((hotel, index) => (
             <Zoom in timeout={index * 400}>
@@ -71,17 +79,19 @@ const Map = () => {
                   sx={{ marginBottom: 3, borderRadius: 10 }}
                   key={hotel.place_id}
                 >
-                  <CardMedia
-                    component='img'
-                    image={
-                      hotels
-                        ? hotel.photos[0].getUrl()
-                        : "https://www.parisinfo.com/var/otcp/sites/images/media/1.-photos/03.-hebergement-630-x-405/hotel-enseigne-neon-630x405-c-thinkstock/31513-1-fre-FR/Hotel-enseigne-neon-630x405-C-Thinkstock.jpg"
-                    }
-                    height='140'
-                    width='140'
-                    alt={hotel.name}
-                  />
+                  {
+                    <CardMedia
+                      component='img'
+                      image={
+                        hotel.photos === undefined
+                          ? "https://www.parisinfo.com/var/otcp/sites/images/media/1.-photos/03.-hebergement-630-x-405/hotel-enseigne-neon-630x405-c-thinkstock/31513-1-fre-FR/Hotel-enseigne-neon-630x405-C-Thinkstock.jpg"
+                          : hotel.photos[0].getUrl()
+                      }
+                      height='140'
+                      width='140'
+                      alt={hotel.name}
+                    />
+                  }
                   <CardContent>
                     <Typography
                       sx={{
