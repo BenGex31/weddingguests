@@ -16,9 +16,12 @@ import {
   CardMedia,
   Chip,
   Zoom,
+  Tooltip,
+  IconButton,
 } from "@mui/material";
 import { oswaldRegular as oswaldR } from "../core/theme/CustomTheme";
 import theme from "../core/theme/MuiTheme";
+import { Help } from "@material-ui/icons";
 
 const containerStyle = {
   width: "563px",
@@ -40,15 +43,9 @@ const Map = () => {
     mapRef.current = map;
   }, []);
 
-  if (hotels) {
-    hotels.forEach((element) => {
-      console.log(element.photos);
-    });
-  }
-
   return (
     <Grid sx={{ marginBottom: 5 }} container justifyContent='space-around'>
-      <Grid sx={{ height: 600, overflowY: "scroll" }} item>
+      <Grid sx={{ height: 640, overflowY: "scroll" }} item>
         {hotels && (
           <Typography
             sx={{
@@ -154,11 +151,19 @@ const Map = () => {
                       <Stack mt={1} spacing={1} direction='row'>
                         <Chip
                           label={
-                            hotel.open_now
+                            hotel.opening_hours === undefined
+                              ? "Pas d'infos d'ouverture disponible"
+                              : hotel.opening_hours.open_now
                               ? "Actuellement Ouvert"
                               : "Actuellement Fermé"
                           }
-                          color={hotel.open_now ? "success" : "error"}
+                          color={
+                            hotel.opening_hours === undefined
+                              ? "warning"
+                              : hotel.opening_hours.open_now
+                              ? "success"
+                              : "error"
+                          }
                         />
                         <Chip
                           label={
@@ -257,6 +262,13 @@ const Map = () => {
               43°17’10.5 N 1°34’10.7 E
             </span>
           </Typography>
+          <Stack justifyContent='flex-end'>
+            <Tooltip title='Exemple de recherche : hôtels ou gîtes ou camping cintegabelle'>
+              <IconButton>
+                <Help />
+              </IconButton>
+            </Tooltip>
+          </Stack>
         </Grid>
         <Grid>
           <LoadScript
