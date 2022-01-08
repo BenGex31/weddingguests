@@ -8,6 +8,7 @@ import MainTitle from "../components/MainTitle";
 import Map from "../components/Map";
 import BenCamImg from "../assets/CB-029.jpeg";
 import theme from "../core/theme/MuiTheme";
+import CustomButton from "../components/CustomButton";
 
 const Informations = () => {
   const { currentUser } = useContext(AuthContext);
@@ -28,7 +29,7 @@ const Informations = () => {
       <Grid>
         <Map />
       </Grid>
-      <Grid container justifyContent='center'>
+      <Grid mb={2} container justifyContent='center'>
         <MainTitle title='Programme' />
         <Grid mt={3} mb={5} container justifyContent='center'>
           <Divider textAlign='center' sx={{ width: 296 }} />
@@ -43,8 +44,25 @@ const Informations = () => {
             backgroundSize: "cover",
             boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
             borderRadius: 5,
+            display: "flex",
+            alignItems: "center",
           }}
-        />
+        >
+          <Grid container justifyContent='space-around'>
+            <Box
+              width={498}
+              height={467}
+              sx={{
+                backgroundColor: theme.palette.primary.main,
+                boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
+                borderRadius: 10,
+              }}
+            ></Box>
+            <Grid>
+              <CustomButton text='Votre réponse' />
+            </Grid>
+          </Grid>
+        </Box>
       </Grid>
     </Container>
   );
