@@ -22,7 +22,7 @@ const ImageResponse = () => {
         <Box
           sx={{
             height: 1000,
-            width: 1238,
+            width: "100%",
             backgroundImage: `url(${invitation})`,
             backgroundPosition: "bottom",
             backgroundRepeat: "no-repeat",
