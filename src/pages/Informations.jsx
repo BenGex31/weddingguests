@@ -1,6 +1,6 @@
-import { Container, Grid, Divider } from "@mui/material";
+import { Container, Grid, Divider, Stack } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../components/Auth";
 import Header from "../components/Header";
@@ -9,9 +9,15 @@ import Map from "../components/Map";
 import BenCamImg from "../assets/CB-029.jpeg";
 import theme from "../core/theme/MuiTheme";
 import CustomButton from "../components/CustomButton";
+import WeddingSchedule from "../components/WeddingSchedule";
 
 const Informations = () => {
   const { currentUser } = useContext(AuthContext);
+  const [schedule] = useState([
+    { hour: "16h00", text: "Cérémonie d’engagement" },
+    { hour: "18h00", text: "Vin d’honneur & Apéritift" },
+    { hour: "20h00", text: "Repas & Fiesta" },
+  ]);
 
   if (!currentUser) {
     return <Redirect to='/' />;
@@ -56,8 +62,20 @@ const Informations = () => {
                 backgroundColor: theme.palette.primary.main,
                 boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
                 borderRadius: 10,
+                display: "flex",
+                justifyContent: "center",
               }}
-            ></Box>
+            >
+              <Stack spacing={4} justifyContent={"center"}>
+                {schedule.map((item, index) => (
+                  <WeddingSchedule
+                    key={index}
+                    hour={item.hour}
+                    text={item.text}
+                  />
+                ))}
+              </Stack>
+            </Box>
             <Grid>
               <CustomButton text='Votre réponse' />
             </Grid>
