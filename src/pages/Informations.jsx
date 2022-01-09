@@ -66,7 +66,7 @@ const Informations = () => {
                 justifyContent: "center",
               }}
             >
-              <Stack spacing={4} justifyContent={"center"}>
+              <Stack spacing={5} justifyContent={"center"}>
                 {schedule.map((item, index) => (
                   <WeddingSchedule
                     key={index}
