@@ -28,7 +28,7 @@ const Home = () => {
   }
 
   return (
-    <Container component='main' maxWidth='lg'>
+    <Container component='main' maxWidth='xl'>
       <CssBaseline />
       <Grid container justifyContent='center'>
         <Header />
