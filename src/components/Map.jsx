@@ -18,10 +18,16 @@ import {
   Zoom,
   Tooltip,
   IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
 import { oswaldRegular as oswaldR } from "../core/theme/CustomTheme";
 import theme from "../core/theme/MuiTheme";
 import { Help } from "@material-ui/icons";
+import Button from "../components/Button";
 
 const containerStyle = {
   width: "563px",
@@ -37,6 +43,7 @@ const center = {
 
 const Map = () => {
   const [hotels, setHotels] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
   const libraries = useState(["places"]);
   const mapRef = useRef(null);
   const onLoad = useCallback((map) => {
@@ -264,11 +271,41 @@ const Map = () => {
           </Typography>
           <Stack justifyContent='flex-end'>
             <Tooltip title='Exemple de recherche : hôtels ou gîtes ou camping cintegabelle'>
-              <IconButton>
+              <IconButton onClick={() => setOpenDialog(true)}>
                 <Help />
               </IconButton>
             </Tooltip>
           </Stack>
+          <Dialog
+            maxWidth='lg'
+            fullWidth
+            open={openDialog}
+            onClose={() => setOpenDialog(false)}
+          >
+            <DialogTitle>Recherche hôtels</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Vous cherchez un hôtel, un gîte ou un camping ?
+              </DialogContentText>
+              <DialogContentText>
+                tapez dans la barre de recherche de la carte Google :{" "}
+                <em>"hôtels Cintegabelle"</em> ou <em>"gîtes Cintegabelle"</em>{" "}
+                ou <em>"camping Cintegabelle"</em>
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                variant={"contained"}
+                text={"Fermer"}
+                onClick={() => setOpenDialog(false)}
+                style={{
+                  color: theme.palette.primary.light,
+                  backgroundColor: theme.palette.primary.main,
+                  textTransform: "none",
+                }}
+              />
+            </DialogActions>
+          </Dialog>
         </Grid>
         <Grid>
           <LoadScript
