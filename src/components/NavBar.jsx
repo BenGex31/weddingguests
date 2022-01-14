@@ -27,7 +27,7 @@ const NavBar = () => {
   let location = useLocation();
   console.log(location.pathname);
   const [mobileView, setMobileView] = useState(false);
-  const [links, setLinks] = useState([
+  const [links] = useState([
     {
       id: 1,
       label: "Accueil",
