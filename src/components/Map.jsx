@@ -21,10 +21,11 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  Link,
 } from "@mui/material";
 import { oswaldRegular as oswaldR } from "../core/theme/CustomTheme";
 import theme from "../core/theme/MuiTheme";
-import { Hotel } from "@material-ui/icons";
+import { Hotel, Link as IconLink } from "@material-ui/icons";
 import Button from "../components/Button";
 import beyssacHotel from "../assets/beyssac-hotel.jpeg";
 
@@ -43,6 +44,7 @@ const center = {
 const Map = () => {
   const [hotels, setHotels] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [InputSearch, setInputSearch] = useState("");
   const libraries = useState(["places"]);
   const mapRef = useRef(null);
   const onLoad = useCallback((map) => {
@@ -102,17 +104,25 @@ const Map = () => {
                     />
                   }
                   <CardContent>
-                    <Typography
-                      sx={{
-                        fontFamily: oswaldR.fontFamily,
-                        fontWeight: oswaldR.fontWeight,
-                        fontStyle: oswaldR.fontStyle,
-                        fontSize: 25,
-                        color: theme.palette.primary.main,
-                      }}
-                    >
-                      {hotel.name}
-                    </Typography>
+                    <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                      <Typography
+                        sx={{
+                          fontFamily: oswaldR.fontFamily,
+                          fontWeight: oswaldR.fontWeight,
+                          fontStyle: oswaldR.fontStyle,
+                          fontSize: 25,
+                          color: theme.palette.primary.main,
+                        }}
+                      >
+                        {hotel.name}
+                      </Typography>
+                      <Link
+                        target={"_blank"}
+                        href={`http://www.google.com/search?q=${InputSearch}+${hotel.name}`}
+                      >
+                        <IconLink />
+                      </Link>
+                    </Stack>
                     {!hotel.rating || hotel.rating === 0 || (
                       <Stack direction='row' spacing={1}>
                         <Typography
@@ -304,16 +314,9 @@ const Map = () => {
                 color: theme.palette.secondary.main,
               }}
             >
-              43°17’10.5 N 1°34’10.7 E
+              43°17’10.5 N 1°34’10.7 E
             </span>
           </Typography>
-          {/*<Stack justifyContent='flex-end'>
-            <Tooltip title='Exemple de recherche : hôtels ou gîtes ou camping cintegabelle'>
-              <IconButton onClick={() => setOpenDialog(true)}>
-                <Help />
-              </IconButton>
-            </Tooltip>
-            </Stack>*/}
           <Dialog
             maxWidth='lg'
             fullWidth
@@ -362,6 +365,7 @@ const Map = () => {
                 >
                   <input
                     type='text'
+                    onChange={(event) => setInputSearch(event.target.value)}
                     placeholder='Liste des hôtels'
                     style={{
                       boxSizing: `border-box`,
