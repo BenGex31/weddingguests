@@ -26,8 +26,9 @@ import {
 } from "@mui/material";
 import { oswaldRegular as oswaldR } from "../core/theme/CustomTheme";
 import theme from "../core/theme/MuiTheme";
-import { Help } from "@material-ui/icons";
+import { Help, Hotel } from "@material-ui/icons";
 import Button from "../components/Button";
+import beyssacHotel from "../assets/beyssac-hotel.jpeg";
 
 const containerStyle = {
   width: "563px",
@@ -52,7 +53,13 @@ const Map = () => {
 
   return (
     <Grid sx={{ marginBottom: 5 }} container justifyContent='space-around'>
-      <Grid sx={{ height: 640, overflowY: "scroll" }} item>
+      <Grid
+        sx={{
+          height: 640,
+          overflowY: "scroll",
+        }}
+        item
+      >
         {hotels && (
           <Typography
             sx={{
@@ -70,7 +77,7 @@ const Map = () => {
               : `${hotels.length} résultats`}
           </Typography>
         )}
-        {hotels &&
+        {hotels ? (
           hotels.map((hotel, index) => (
             <Zoom in timeout={index * 400}>
               <Grid
@@ -190,7 +197,40 @@ const Map = () => {
                 </Card>
               </Grid>
             </Zoom>
-          ))}
+          ))
+        ) : (
+          <Stack alignItems={"center"} spacing={3}>
+            <Chip
+              height={35}
+              size='medium'
+              label={
+                <Typography
+                  sx={{
+                    fontFamily: oswaldR.fontFamily,
+                    fontWeight: oswaldR.fontWeight,
+                    fontStyle: oswaldR.fontStyle,
+                    fontSize: 15,
+                    color: theme.palette.primary.main,
+                  }}
+                >
+                  Trouvez votre hôtel, camping ou gîte autour du domaine de
+                  notre mariage
+                </Typography>
+              }
+            />
+            <Hotel
+              style={{ fontSize: 100, color: theme.palette.primary.main }}
+            />
+            <img
+              style={{
+                borderRadius: 10,
+              }}
+              src={beyssacHotel}
+              width={"100%"}
+              alt='Domaine du Beyssac'
+            />
+          </Stack>
+        )}
       </Grid>
       <Grid>
         <Grid>
@@ -269,13 +309,13 @@ const Map = () => {
               43°17’10.5 N 1°34’10.7 E
             </span>
           </Typography>
-          <Stack justifyContent='flex-end'>
+          {/*<Stack justifyContent='flex-end'>
             <Tooltip title='Exemple de recherche : hôtels ou gîtes ou camping cintegabelle'>
               <IconButton onClick={() => setOpenDialog(true)}>
                 <Help />
               </IconButton>
             </Tooltip>
-          </Stack>
+            </Stack>*/}
           <Dialog
             maxWidth='lg'
             fullWidth
