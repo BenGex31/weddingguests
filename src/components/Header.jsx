@@ -38,7 +38,7 @@ const Header = () => {
           >
             <Box
               height={801}
-              width={1319}
+              width='100%'
               sx={{
                 backgroundImage: `url(${weddingOfficial})`,
                 backgroundPosition: "center",
