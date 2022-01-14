@@ -91,7 +91,7 @@ const NavBar = () => {
         divider={<Divider orientation='vertical' flexItem />}
       >
         {!mobileView ? (
-          links.map((item, index) => (
+          links.map((item) => (
             <Link
               key={item.id}
               className={
