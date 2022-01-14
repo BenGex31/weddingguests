@@ -16,8 +16,6 @@ import {
   CardMedia,
   Chip,
   Zoom,
-  Tooltip,
-  IconButton,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -26,7 +24,7 @@ import {
 } from "@mui/material";
 import { oswaldRegular as oswaldR } from "../core/theme/CustomTheme";
 import theme from "../core/theme/MuiTheme";
-import { Help, Hotel } from "@material-ui/icons";
+import { Hotel } from "@material-ui/icons";
 import Button from "../components/Button";
 import beyssacHotel from "../assets/beyssac-hotel.jpeg";
 
