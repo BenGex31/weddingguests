@@ -209,7 +209,7 @@ const Map = () => {
                     fontFamily: oswaldR.fontFamily,
                     fontWeight: oswaldR.fontWeight,
                     fontStyle: oswaldR.fontStyle,
-                    fontSize: 15,
+                    fontSize: 20,
                     color: theme.palette.primary.main,
                   }}
                 >
