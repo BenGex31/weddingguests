@@ -10,6 +10,12 @@ export const oswaldBold = {
   fontStyle: "normal",
 };
 
+export const oswaldLight = {
+  fontFamily: "oswald,sans-serif",
+  fontWeight: 300,
+  fontStyle: "normal",
+};
+
 export const oswaldExtraLight = {
   fontFamily: "oswald, sans-serif",
   fontWeight: 200,
