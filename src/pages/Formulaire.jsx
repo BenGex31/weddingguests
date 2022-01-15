@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../components/Header";
-import { Container, Grid, Box, TextField, MenuItem } from "@mui/material";
+import {
+  Container,
+  Grid,
+  Box,
+  TextField,
+  MenuItem,
+  Checkbox,
+  ListItemText,
+} from "@mui/material";
 import MainTitle from "../components/MainTitle";
 import imgForm from "../assets/IMG-20210523-WA0003.jpg";
 import theme from "../core/theme/MuiTheme";
 import { oswaldLight as oswaldFontLight } from "../core/theme/CustomTheme";
 
 const Formulaire = () => {
+  const [schedule, setSchedule] = useState([
+    { label: "A la cérémonie d’engagement", checked: false },
+    { label: "Au vin d’honneur & Apéritif", checked: false },
+    { label: "Repas et Fiesta", checked: false },
+  ]);
+  const [isAllergy, setIsAllergy] = useState("");
   return (
     <Container component='main' maxWidth='xl'>
       <header>
@@ -60,6 +74,21 @@ const Formulaire = () => {
                 <MenuItem value={"oui"}>Oui</MenuItem>
                 <MenuItem value={"non"}>Non</MenuItem>
               </TextField>
+              <Grid>
+                {schedule.map((item, index) => (
+                  <MenuItem key={index} value={item.label}>
+                    <Checkbox />
+                    <ListItemText primary={item.label} />
+                  </MenuItem>
+                ))}
+              </Grid>
+              <TextField
+                id='allergies'
+                variant='standard'
+                label='Lesquelles ?'
+                value={isAllergy}
+                onChange={(event) => setIsAllergy(event.target.value)}
+              />
             </Grid>
           </Box>
         </Grid>
