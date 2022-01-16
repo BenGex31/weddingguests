@@ -7,7 +7,8 @@ import {
   TextField,
   MenuItem,
   Checkbox,
-  ListItemText,
+  FormGroup,
+  FormControlLabel,
 } from "@mui/material";
 import MainTitle from "../components/MainTitle";
 import imgForm from "../assets/IMG-20210523-WA0003.jpg";
@@ -15,12 +16,15 @@ import theme from "../core/theme/MuiTheme";
 import { oswaldLight as oswaldFontLight } from "../core/theme/CustomTheme";
 
 const Formulaire = () => {
-  const [schedule, setSchedule] = useState([
-    { label: "A la cérémonie d’engagement", checked: false },
-    { label: "Au vin d’honneur & Apéritif", checked: false },
-    { label: "Repas et Fiesta", checked: false },
-  ]);
+  const [responsePresence, setResponsePresence] = useState("null");
   const [isAllergy, setIsAllergy] = useState("");
+  const [responseAllergy, setResponseAllergy] = useState("");
+  const [engagementCeremony, setEngagementCeremony] = useState(false);
+  const [wineReception, setWineReception] = useState(false);
+  const [meal, setMeal] = useState(false);
+  const [responseChildren, setResponseChildren] = useState("");
+  const [numberChildren, setNumberChildren] = useState(0);
+
   return (
     <Container component='main' maxWidth='xl'>
       <header>
@@ -59,29 +63,58 @@ const Formulaire = () => {
                   fontWeight: oswaldFontLight.fontWeight,
                   fontStyle: oswaldFontLight.fontStyle,
                 }}
+                value={responsePresence}
+                onChange={(event) => setResponsePresence(event.target.value)}
               >
-                <MenuItem value={"NSP"}>Ne sais pas</MenuItem>
+                <MenuItem value={"Ne sais pas"}>Ne sais pas</MenuItem>
                 <MenuItem value={"oui"}>Oui</MenuItem>
                 <MenuItem value={"non"}>Non</MenuItem>
               </TextField>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={engagementCeremony}
+                      onChange={(event) =>
+                        setEngagementCeremony(event.target.checked)
+                      }
+                    />
+                  }
+                  label='A la cérémonie d’engagement'
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={wineReception}
+                      onChange={(event) =>
+                        setWineReception(event.target.checked)
+                      }
+                    />
+                  }
+                  label='Au vin d’honneur et Apéritif'
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={meal}
+                      onChange={(event) => setMeal(event.target.checked)}
+                    />
+                  }
+                  label='Repas et Fiesta'
+                />
+              </FormGroup>
               <TextField
                 id='allergy'
                 select
                 variant='standard'
                 label='Des allergies ?'
+                value={responseAllergy}
+                onChange={(event) => setResponseAllergy(event.target.value)}
               >
                 <MenuItem value={"aucune"}>Aucune</MenuItem>
                 <MenuItem value={"oui"}>Oui</MenuItem>
                 <MenuItem value={"non"}>Non</MenuItem>
               </TextField>
-              <Grid>
-                {schedule.map((item, index) => (
-                  <MenuItem key={index} value={item.label}>
-                    <Checkbox />
-                    <ListItemText primary={item.label} />
-                  </MenuItem>
-                ))}
-              </Grid>
               <TextField
                 id='allergies'
                 variant='standard'
@@ -89,6 +122,42 @@ const Formulaire = () => {
                 value={isAllergy}
                 onChange={(event) => setIsAllergy(event.target.value)}
               />
+              <TextField
+                id='children'
+                select
+                variant='standard'
+                label='Avec des enfants ?'
+                value={responseChildren}
+                onChange={(event) => setResponseChildren(event.target.value)}
+              >
+                <MenuItem value={"Ne sait pas"}>Ne sais pas</MenuItem>
+                <MenuItem value={"oui"}>Oui</MenuItem>
+                <MenuItem value={"non"}>Non</MenuItem>
+              </TextField>
+              <TextField
+                id='howManyChildren'
+                variant='standard'
+                label="Combien d'enfants ?"
+                type={"number"}
+                value={numberChildren}
+                onChange={(event) =>
+                  setNumberChildren(
+                    parseInt(event.target.value) < 0
+                      ? 0
+                      : isNaN(parseInt(event.target.value))
+                      ? ""
+                      : parseInt(event.target.value)
+                  )
+                }
+              />
+              {/*numberChildren &&
+                numberChildren.map((child, index) => (
+                  <TextField
+                    id={`child-${index + 1}`}
+                    key={index + 1}
+                    label='Nom'
+                  />
+                ))*/}
             </Grid>
           </Box>
         </Grid>
