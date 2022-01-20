@@ -10,10 +10,13 @@ import {
   FormGroup,
   FormControlLabel,
 } from "@mui/material";
+import Button from "../components/Button";
 import MainTitle from "../components/MainTitle";
 import imgForm from "../assets/IMG-20210523-WA0003.jpg";
 import theme from "../core/theme/MuiTheme";
 import { oswaldLight as oswaldFontLight } from "../core/theme/CustomTheme";
+import { AddReaction } from "@mui/icons-material";
+import firebaseConfig from "../config/firebase";
 
 const Formulaire = () => {
   const [responsePresence, setResponsePresence] = useState("null");
@@ -23,7 +26,30 @@ const Formulaire = () => {
   const [wineReception, setWineReception] = useState(false);
   const [meal, setMeal] = useState(false);
   const [responseChildren, setResponseChildren] = useState("");
-  const [numberChildren, setNumberChildren] = useState(0);
+  const [childrenList, setChildrenList] = useState([]);
+
+  const onLastNameChange = (event, index) => {
+    let array = [...childrenList];
+    array[index].lastName = event.target.value;
+    setChildrenList(array);
+  };
+
+  const onFirstNameChange = (event, index) => {
+    let array = [...childrenList];
+    array[index].firstName = event.target.value;
+    setChildrenList(array);
+  };
+
+  const onAgeChange = (event, index) => {
+    let array = [...childrenList];
+    array[index].age =
+      parseInt(event.target.value) < 0
+        ? 0
+        : isNaN(parseInt(event.target.value))
+        ? ""
+        : parseInt(event.target.value);
+    setChildrenList(array);
+  };
 
   return (
     <Container component='main' maxWidth='xl'>
@@ -52,7 +78,11 @@ const Formulaire = () => {
             noValidate
             autoComplete='off'
           >
-            <Grid container justifyContent={"space-around"}>
+            <Grid
+              container
+              alignItems={"center"}
+              justifyContent={"space-around"}
+            >
               <TextField
                 id='presence'
                 select
@@ -134,30 +164,60 @@ const Formulaire = () => {
                 <MenuItem value={"oui"}>Oui</MenuItem>
                 <MenuItem value={"non"}>Non</MenuItem>
               </TextField>
-              <TextField
-                id='howManyChildren'
-                variant='standard'
-                label="Combien d'enfants ?"
-                type={"number"}
-                value={numberChildren}
-                onChange={(event) =>
-                  setNumberChildren(
-                    parseInt(event.target.value) < 0
-                      ? 0
-                      : isNaN(parseInt(event.target.value))
-                      ? ""
-                      : parseInt(event.target.value)
-                  )
-                }
-              />
-              {/*numberChildren &&
-                numberChildren.map((child, index) => (
-                  <TextField
-                    id={`child-${index + 1}`}
-                    key={index + 1}
-                    label='Nom'
-                  />
-                ))*/}
+              {responseChildren === "oui" && (
+                <Button
+                  text={"Ajouter un enfant"}
+                  variant={"contained"}
+                  startIcon={<AddReaction />}
+                  size={"small"}
+                  style={{
+                    height: 35,
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.primary.light,
+                  }}
+                  onClick={() =>
+                    setChildrenList((childrenList) => [
+                      ...childrenList,
+                      {
+                        firstName: "",
+                        lastName: "",
+                        age: "",
+                        isAllergy: false,
+                        allergies: "",
+                      },
+                    ])
+                  }
+                />
+              )}
+              <Grid container direction={"column"}>
+                {childrenList &&
+                  childrenList.map((child, index) => (
+                    <Grid item key={index}>
+                      <TextField
+                        id={`lastName-${index}`}
+                        variant='standard'
+                        label='Nom'
+                        value={child.lastName}
+                        onChange={(event) => onLastNameChange(event, index)}
+                      />
+                      <TextField
+                        id={`firstName-${index}`}
+                        variant='standard'
+                        label='Prénom'
+                        value={child.firstName}
+                        onChange={(event) => onFirstNameChange(event, index)}
+                      />
+                      <TextField
+                        id={`age-${index}`}
+                        variant='standard'
+                        label='Age'
+                        value={child.age}
+                        type={"number"}
+                        onChange={(event) => onAgeChange(event, index)}
+                      />
+                    </Grid>
+                  ))}
+              </Grid>
             </Grid>
           </Box>
         </Grid>
