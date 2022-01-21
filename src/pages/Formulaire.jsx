@@ -16,7 +16,6 @@ import imgForm from "../assets/IMG-20210523-WA0003.jpg";
 import theme from "../core/theme/MuiTheme";
 import { oswaldLight as oswaldFontLight } from "../core/theme/CustomTheme";
 import { AddReaction } from "@mui/icons-material";
-//import firebaseConfig from "../config/firebase";
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles(() => ({
