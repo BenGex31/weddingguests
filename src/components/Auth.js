@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import firebaseConfig from "../config/firebase";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
