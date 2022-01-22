@@ -13,7 +13,12 @@ import weddingCamBen from "../assets/weddingCamBen.jpeg";
 import WeddingTitle from "../components/WeddingTitle";
 import firebaseConfig from "../config/firebase";
 import { getFirestore, doc, updateDoc } from "firebase/firestore";
-import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  getAuth,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -29,10 +34,12 @@ const Login = () => {
   const [errorMessagePassword, setErrorMessagePassword] = useState("");
   const [loginError, setLoginError] = useState("");
 
+  const auth = getAuth();
+
   const onLogin = async () => {
     try {
       if (email !== "" && password !== "") {
-        await firebaseConfig.auth().signInWithEmailAndPassword(email, password);
+        await signInWithEmailAndPassword(auth, email, password);
       }
     } catch (error) {
       setLoginError(error.message);
@@ -44,7 +51,6 @@ const Login = () => {
 
   const signInWithGoogle = async () => {
     try {
-      const auth = getAuth();
       const res = await signInWithPopup(auth, googleProvider);
       const user = res.user;
       await updateDoc(doc(getFirestore(firebaseConfig), "guests", user.uid), {

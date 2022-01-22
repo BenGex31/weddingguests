@@ -12,7 +12,12 @@ import firebaseConfig from "../config/firebase";
 import CssBaseline from "@mui/material/CssBaseline";
 import Stack from "@mui/material/Stack";
 import Container from "@material-ui/core/Container";
-
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { setDoc, doc, getFirestore } from "firebase/firestore";
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsvalidEmail] = useState(false);
@@ -62,18 +67,25 @@ const SignUp = () => {
     event.preventDefault();
   };
 
-  const auth = firebaseConfig.auth();
+  const auth = getAuth();
 
   const onHandleSignup = async () => {
     try {
       if (email !== "" && password !== "") {
-        await auth.createUserWithEmailAndPassword(email, password);
+        const res = await createUserWithEmailAndPassword(auth, email, password);
+        const user = res.user;
+        console.log(user);
         setCurrentUser(true);
-        const userProfile = auth.currentUser;
-        await userProfile.updateProfile({
+        await setDoc(doc(getFirestore(firebaseConfig), "guests", user.uid), {
+          uid: user.uid,
+          name: firstname + " " + lastname,
+          authProvider: "password",
+          email: email,
+        });
+        await updateProfile(auth.currentUser, {
           displayName: firstname + " " + lastname,
         });
-        const query = await firebaseConfig
+        /*const query = await firebaseConfig
           .firestore()
           .collection("guests")
           .where("uid", "==", userProfile.uid)
@@ -85,7 +97,7 @@ const SignUp = () => {
             authProvider: "password",
             email: userProfile.email,
           });
-        }
+        }*/
       }
     } catch (error) {
       setSignupError(error.message);
