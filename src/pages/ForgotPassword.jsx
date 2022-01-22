@@ -31,9 +31,22 @@ const ForgotPassword = () => {
     setEmail(event.target.value);
   };
 
-  const sendPasswordReset = () => {
+  const sendPasswordReset = async () => {
     const emailResetPassword = email;
-    sendPasswordResetEmail(auth, emailResetPassword)
+    try {
+      await sendPasswordResetEmail(auth, emailResetPassword);
+      console.log("Password reset email sent!");
+      setEmail("");
+      setOpenSnackBar(true);
+      setIsvalidEmail(false);
+      setMessageEmailError("");
+    } catch (error) {
+      const errorCode = error.code;
+      const messageError = error.message;
+      console.log("error reset password" + errorCode, messageError);
+    }
+
+    /*sendPasswordResetEmail(auth, emailResetPassword)
       .then(() => {
         console.log("Password reset email sent!");
         setEmail("");
@@ -51,7 +64,7 @@ const ForgotPassword = () => {
         var errorCode = error.code;
         var messageError = error.message;
         console.log("error reset password" + errorCode, messageError);
-      });
+      });*/
   };
 
   const handleCloseSnackBar = (event, reason) => {
