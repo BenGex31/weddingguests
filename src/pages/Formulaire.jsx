@@ -40,7 +40,6 @@ const useStyles = makeStyles(() => ({
 
 const Formulaire = () => {
   const { currentUser } = useContext(AuthContext);
-  console.log(currentUser);
   const classes = useStyles();
   const [responsePresence, setResponsePresence] = useState("");
   const [isAllergy, setIsAllergy] = useState("");
@@ -52,7 +51,7 @@ const Formulaire = () => {
   const [childrenList, setChildrenList] = useState([]);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [messageSnackBar, setMessageSnackBar] = useState("");
-  const [severitySnackBar, setSeveritySnackBar] = useState("");
+  const [severitySnackBar, setSeveritySnackBar] = useState("success");
 
   const onLastNameChange = (event, index) => {
     let array = [...childrenList];
@@ -113,19 +112,6 @@ const Formulaire = () => {
         responseChildren: responseChildren,
         childrenList: childrenList,
       });
-      /*await getFirestore(firebaseConfig)
-        .collection("guests")
-        .doc(currentUser.uid)
-        .update({
-          responsePresence: responsePresence,
-          isAllergy: isAllergy,
-          responseAllergy: responseAllergy,
-          engagementCeremony: engagementCeremony,
-          wineReception: wineReception,
-          meal: meal,
-          responseChildren: responseChildren,
-          childrenList: childrenList,
-        });*/
       setOpenSnackBar(true);
       setMessageSnackBar("Vos informations ont bien été enregistrées !");
       setSeveritySnackBar("success");
