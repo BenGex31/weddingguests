@@ -1,6 +1,5 @@
 import React from "react";
 import ExitToAppOutlinedIcon from "@material-ui/icons/ExitToAppOutlined";
-import firebaseConfig from "../config/firebase";
 import { getAuth } from "firebase/auth";
 
 const IconLogout = () => {
