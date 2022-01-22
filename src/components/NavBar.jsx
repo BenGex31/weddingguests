@@ -25,7 +25,6 @@ const useStyles = makeStyles({
 const NavBar = () => {
   const classes = useStyles();
   let location = useLocation();
-  console.log(location.pathname);
   const [mobileView, setMobileView] = useState(false);
   const [links] = useState([
     {
