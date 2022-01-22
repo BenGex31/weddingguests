@@ -10,13 +10,16 @@ import {
   FormGroup,
   FormControlLabel,
   Zoom,
+  IconButton,
+  Alert,
+  Snackbar,
 } from "@mui/material";
 import Button from "../components/Button";
 import MainTitle from "../components/MainTitle";
 import imgForm from "../assets/IMG-20210523-WA0003.jpg";
 import theme from "../core/theme/MuiTheme";
 import { oswaldLight as oswaldFontLight } from "../core/theme/CustomTheme";
-import { AddReaction, PersonRemove, Send } from "@mui/icons-material";
+import { AddReaction, PersonRemove, Send, Close } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
 import { AuthContext } from "../components/Auth";
 import firebaseConfig from "../config/firebase";
@@ -47,6 +50,9 @@ const Formulaire = () => {
   const [meal, setMeal] = useState(false);
   const [responseChildren, setResponseChildren] = useState("");
   const [childrenList, setChildrenList] = useState([]);
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [messageSnackBar, setMessageSnackBar] = useState("");
+  const [severitySnackBar, setSeveritySnackBar] = useState("");
 
   const onLastNameChange = (event, index) => {
     let array = [...childrenList];
@@ -91,20 +97,53 @@ const Formulaire = () => {
   };
 
   const onSubmitForm = async () => {
-    await getFirestore(firebaseConfig)
-      .collection("guests")
-      .doc(currentUser.uid)
-      .update({
-        responsePresence: responsePresence,
-        isAllergy: isAllergy,
-        responseAllergy: responseAllergy,
-        engagementCeremony: engagementCeremony,
-        wineReception: wineReception,
-        meal: meal,
-        responseChildren: responseChildren,
-        childrenList: childrenList,
-      });
+    try {
+      await getFirestore(firebaseConfig)
+        .collection("guests")
+        .doc(currentUser.uid)
+        .update({
+          responsePresence: responsePresence,
+          isAllergy: isAllergy,
+          responseAllergy: responseAllergy,
+          engagementCeremony: engagementCeremony,
+          wineReception: wineReception,
+          meal: meal,
+          responseChildren: responseChildren,
+          childrenList: childrenList,
+        });
+      setOpenSnackBar(true);
+      setMessageSnackBar("Vos informations ont bien été enregistrées !");
+      setSeveritySnackBar("success");
+    } catch (error) {
+      console.log(error);
+      setMessageSnackBar("Un problème est survenu avec la base de données");
+      setSeveritySnackBar("error");
+    }
   };
+
+  const handleSnackBarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSnackBar(false);
+  };
+
+  const actionSnackBar = (
+    <React.Fragment>
+      <Button color='secondary' size='small' onClick={handleSnackBarClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size='small'
+        aria-label='close'
+        color='inherit'
+        onClick={handleSnackBarClose}
+      >
+        <Close fontSize='small' />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <Container component='main' maxWidth='xl'>
@@ -399,6 +438,20 @@ const Formulaire = () => {
                   }}
                   onClick={onSubmitForm}
                 />
+                <Snackbar
+                  open={openSnackBar}
+                  autoHideDuration={4000}
+                  onClose={handleSnackBarClose}
+                  action={actionSnackBar}
+                >
+                  <Alert
+                    onClose={handleSnackBarClose}
+                    severity={severitySnackBar}
+                    sx={{ width: "100%" }}
+                  >
+                    {messageSnackBar}
+                  </Alert>
+                </Snackbar>
               </Grid>
             </Grid>
           </Box>
