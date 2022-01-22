@@ -23,7 +23,7 @@ import { AddReaction, PersonRemove, Send, Close } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
 import { AuthContext } from "../components/Auth";
 import firebaseConfig from "../config/firebase";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, doc, updateDoc } from "firebase/firestore";
 
 const useStyles = makeStyles(() => ({
   formChild: {
@@ -98,7 +98,22 @@ const Formulaire = () => {
 
   const onSubmitForm = async () => {
     try {
-      await getFirestore(firebaseConfig)
+      const guestRef = doc(
+        getFirestore(firebaseConfig),
+        "guests",
+        currentUser.uid
+      );
+      await updateDoc(guestRef, {
+        responsePresence: responsePresence,
+        isAllergy: isAllergy,
+        responseAllergy: responseAllergy,
+        engagementCeremony: engagementCeremony,
+        wineReception: wineReception,
+        meal: meal,
+        responseChildren: responseChildren,
+        childrenList: childrenList,
+      });
+      /*await getFirestore(firebaseConfig)
         .collection("guests")
         .doc(currentUser.uid)
         .update({
@@ -110,7 +125,7 @@ const Formulaire = () => {
           meal: meal,
           responseChildren: responseChildren,
           childrenList: childrenList,
-        });
+        });*/
       setOpenSnackBar(true);
       setMessageSnackBar("Vos informations ont bien été enregistrées !");
       setSeveritySnackBar("success");

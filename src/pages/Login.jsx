@@ -12,8 +12,8 @@ import ErrorMessage from "../components/ErrorMessage";
 import weddingCamBen from "../assets/weddingCamBen.jpeg";
 import WeddingTitle from "../components/WeddingTitle";
 import firebaseConfig from "../config/firebase";
-import { getFirestore } from "firebase/firestore";
-import firebase from "firebase";
+import { getFirestore, doc, updateDoc } from "firebase/firestore";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -40,13 +40,20 @@ const Login = () => {
     }
   };
 
-  const googleProvider = new firebase.auth.GoogleAuthProvider();
+  const googleProvider = new GoogleAuthProvider();
 
   const signInWithGoogle = async () => {
     try {
-      const res = await firebaseConfig.auth().signInWithPopup(googleProvider);
+      const auth = getAuth();
+      const res = await signInWithPopup(auth, googleProvider);
       const user = res.user;
-      await getFirestore(firebaseConfig)
+      await updateDoc(doc(getFirestore(firebaseConfig), "guests", user.uid), {
+        uid: user.uid,
+        name: user.displayName,
+        authProvider: "google",
+        email: user.email,
+      });
+      /*await getFirestore(firebaseConfig)
         .collection("guests")
         .doc(user.uid)
         .set({
@@ -54,7 +61,7 @@ const Login = () => {
           name: user.displayName,
           authProvider: "google",
           email: user.email,
-        });
+        });*/
     } catch (err) {
       console.error(err);
       alert(err.message);

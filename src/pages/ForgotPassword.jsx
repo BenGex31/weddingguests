@@ -7,9 +7,10 @@ import ReplayIcon from "@material-ui/icons/Replay";
 import Container from "@material-ui/core/Container";
 import Stack from "@mui/material/Stack";
 import firebaseConfig from "../config/firebase";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import CustomizedSnackbars from "../components/CustomizedSnackbars";
 
-const auth = firebaseConfig.auth();
+const auth = getAuth();
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -32,8 +33,7 @@ const ForgotPassword = () => {
 
   const sendPasswordReset = () => {
     const emailResetPassword = email;
-    auth
-      .sendPasswordResetEmail(emailResetPassword)
+    sendPasswordResetEmail(auth, emailResetPassword)
       .then(() => {
         console.log("Password reset email sent!");
         setEmail("");
