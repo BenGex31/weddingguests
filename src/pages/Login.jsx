@@ -12,6 +12,7 @@ import ErrorMessage from "../components/ErrorMessage";
 import weddingCamBen from "../assets/weddingCamBen.jpeg";
 import WeddingTitle from "../components/WeddingTitle";
 import firebaseConfig from "../config/firebase";
+import { getFirestore } from "firebase/firestore";
 import firebase from "firebase";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
@@ -45,19 +46,15 @@ const Login = () => {
     try {
       const res = await firebaseConfig.auth().signInWithPopup(googleProvider);
       const user = res.user;
-      const query = await firebaseConfig
-        .firestore()
+      await getFirestore(firebaseConfig)
         .collection("guests")
-        .where("uid", "==", user.uid)
-        .get();
-      if (query.docs.length === 0) {
-        await firebaseConfig.firestore().collection("guests").add({
+        .doc(user.uid)
+        .set({
           uid: user.uid,
           name: user.displayName,
           authProvider: "google",
           email: user.email,
         });
-      }
     } catch (err) {
       console.error(err);
       alert(err.message);
