@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import {
   Divider,
   IconButton,
@@ -25,6 +25,11 @@ const AccountMenu = ({ styleLink }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  if (!currentUser) {
+    return <Redirect to='/' />;
+  }
+
   return (
     <>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
