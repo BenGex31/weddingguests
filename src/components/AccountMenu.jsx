@@ -41,7 +41,7 @@ const AccountMenu = ({ styleLink }) => {
                 height: 32,
               }}
             >
-              {currentUser && currentUser.displayName[0]}
+              {currentUser.displayName !== null && currentUser.displayName[0]}
             </Avatar>
           </IconButton>
         </Tooltip>
