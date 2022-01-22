@@ -30,6 +30,7 @@ const SignUp = () => {
   const [signupError, setSignupError] = useState("");
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const auth = getAuth();
 
   const emailRegex = /\S+@\S+\.\S+/;
 
@@ -67,37 +68,21 @@ const SignUp = () => {
     event.preventDefault();
   };
 
-  const auth = getAuth();
-
   const onHandleSignup = async () => {
     try {
       if (email !== "" && password !== "") {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
-        console.log(user);
         setCurrentUser(true);
+        await updateProfile(auth.currentUser, {
+          displayName: firstname + " " + lastname,
+        });
         await setDoc(doc(getFirestore(firebaseConfig), "guests", user.uid), {
           uid: user.uid,
           name: firstname + " " + lastname,
           authProvider: "password",
           email: email,
         });
-        await updateProfile(auth.currentUser, {
-          displayName: firstname + " " + lastname,
-        });
-        /*const query = await firebaseConfig
-          .firestore()
-          .collection("guests")
-          .where("uid", "==", userProfile.uid)
-          .get();
-        if (query.docs.length === 0) {
-          await firebaseConfig.firestore().collection("guests").add({
-            uid: userProfile.uid,
-            name: userProfile.displayName,
-            authProvider: "password",
-            email: userProfile.email,
-          });
-        }*/
       }
     } catch (error) {
       setSignupError(error.message);
