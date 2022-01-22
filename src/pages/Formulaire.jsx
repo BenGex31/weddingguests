@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Header from "../components/Header";
 import {
   Container,
@@ -9,14 +9,18 @@ import {
   Checkbox,
   FormGroup,
   FormControlLabel,
+  Zoom,
 } from "@mui/material";
 import Button from "../components/Button";
 import MainTitle from "../components/MainTitle";
 import imgForm from "../assets/IMG-20210523-WA0003.jpg";
 import theme from "../core/theme/MuiTheme";
 import { oswaldLight as oswaldFontLight } from "../core/theme/CustomTheme";
-import { AddReaction } from "@mui/icons-material";
+import { AddReaction, PersonRemove, Send } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
+import { AuthContext } from "../components/Auth";
+import firebaseConfig from "../config/firebase";
+import { getFirestore } from "firebase/firestore";
 
 const useStyles = makeStyles(() => ({
   formChild: {
@@ -32,6 +36,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Formulaire = () => {
+  const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
   const classes = useStyles();
   const [responsePresence, setResponsePresence] = useState("");
   const [isAllergy, setIsAllergy] = useState("");
@@ -84,13 +90,29 @@ const Formulaire = () => {
     setChildrenList(array);
   };
 
+  const onSubmitForm = async () => {
+    await getFirestore(firebaseConfig)
+      .collection("guests")
+      .doc(currentUser.uid)
+      .update({
+        responsePresence: responsePresence,
+        isAllergy: isAllergy,
+        responseAllergy: responseAllergy,
+        engagementCeremony: engagementCeremony,
+        wineReception: wineReception,
+        meal: meal,
+        responseChildren: responseChildren,
+        childrenList: childrenList,
+      });
+  };
+
   return (
     <Container component='main' maxWidth='xl'>
       <header>
         <Header />
       </header>
       <MainTitle title='Nous avons besoin de certaines informations' />
-      <Grid container>
+      <Grid mt={5} container>
         <Grid item xs={12} md={6}>
           <img
             style={{
@@ -119,6 +141,7 @@ const Formulaire = () => {
             >
               <Grid item>
                 <TextField
+                  required
                   id='presence'
                   select
                   variant='standard'
@@ -138,196 +161,113 @@ const Formulaire = () => {
               </Grid>
               {responsePresence === "Oui" && (
                 <Grid item>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={engagementCeremony}
-                          onChange={(event) =>
-                            setEngagementCeremony(event.target.checked)
-                          }
-                        />
-                      }
-                      label='A la cérémonie d’engagement'
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={wineReception}
-                          onChange={(event) =>
-                            setWineReception(event.target.checked)
-                          }
-                        />
-                      }
-                      label='Au vin d’honneur et Apéritif'
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={meal}
-                          onChange={(event) => setMeal(event.target.checked)}
-                        />
-                      }
-                      label='Repas et Fiesta'
-                    />
-                  </FormGroup>
+                  <Zoom in>
+                    <FormGroup>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={engagementCeremony}
+                            onChange={(event) =>
+                              setEngagementCeremony(event.target.checked)
+                            }
+                          />
+                        }
+                        label='A la cérémonie d’engagement'
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={wineReception}
+                            onChange={(event) =>
+                              setWineReception(event.target.checked)
+                            }
+                          />
+                        }
+                        label='Au vin d’honneur et Apéritif'
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={meal}
+                            onChange={(event) => setMeal(event.target.checked)}
+                          />
+                        }
+                        label='Repas et Fiesta'
+                      />
+                    </FormGroup>
+                  </Zoom>
                 </Grid>
               )}
             </Grid>
             {responsePresence === "Oui" && (
-              <Grid
-                className={classes.subContainer}
-                container
-                justifyContent={"space-around"}
-              >
-                <Grid item xs={12} md={4}>
-                  <TextField
-                    id='allergy'
-                    select
-                    variant='standard'
-                    label='Des allergies ?'
-                    value={responseAllergy}
-                    onChange={(event) => setResponseAllergy(event.target.value)}
-                  >
-                    <MenuItem value={"Aucune"}>Aucune</MenuItem>
-                    <MenuItem value={"Oui"}>Oui</MenuItem>
-                    <MenuItem value={"Non"}>Non</MenuItem>
-                  </TextField>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  {responseAllergy === "Oui" && (
+              <Zoom in>
+                <Grid
+                  className={classes.subContainer}
+                  container
+                  justifyContent={"space-around"}
+                >
+                  <Grid item xs={12} md={4}>
                     <TextField
-                      id='allergies'
+                      id='allergy'
+                      select
                       variant='standard'
-                      label='Lesquelles ?'
-                      value={isAllergy}
-                      onChange={(event) => setIsAllergy(event.target.value)}
-                    />
-                  )}
-                </Grid>
-              </Grid>
-            )}
-            {responsePresence === "Oui" && (
-              <Grid
-                className={classes.subContainer}
-                container
-                justifyContent={"space-around"}
-                alignItems={"center"}
-              >
-                <Grid item xs={12} md={4}>
-                  <TextField
-                    id='children'
-                    select
-                    variant='standard'
-                    label='Avec des enfants ?'
-                    value={responseChildren}
-                    onChange={(event) =>
-                      setResponseChildren(event.target.value)
-                    }
-                  >
-                    <MenuItem value={"Ne sait pas"}>Ne sais pas</MenuItem>
-                    <MenuItem value={"Oui"}>Oui</MenuItem>
-                    <MenuItem value={"Oon"}>Non</MenuItem>
-                  </TextField>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  {responseChildren === "Oui" && (
-                    <Button
-                      text={"Ajouter un enfant"}
-                      variant={"contained"}
-                      startIcon={<AddReaction />}
-                      size={"small"}
-                      style={{
-                        height: 35,
-                        backgroundColor: theme.palette.primary.main,
-                        color: theme.palette.primary.light,
-                      }}
-                      onClick={() =>
-                        setChildrenList((childrenList) => [
-                          ...childrenList,
-                          {
-                            id: Date.now(),
-                            firstName: "",
-                            lastName: "",
-                            age: "",
-                            isAllergy: "",
-                            allergies: "",
-                          },
-                        ])
+                      label='Des allergies ?'
+                      value={responseAllergy}
+                      onChange={(event) =>
+                        setResponseAllergy(event.target.value)
                       }
-                    />
-                  )}
-                </Grid>
-              </Grid>
-            )}
-            <Grid
-              className={classes.subContainer}
-              container
-              justifyContent={"space-evenly"}
-            >
-              {childrenList &&
-                childrenList.map((child, index) => (
-                  <div className={classes.formChild} key={index}>
-                    <Grid item xs={12}>
-                      <TextField
-                        id={`lastName-${index}`}
-                        variant='standard'
-                        label='Nom'
-                        value={child.lastName}
-                        onChange={(event) => onLastNameChange(event, index)}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        id={`firstName-${index}`}
-                        variant='standard'
-                        label='Prénom'
-                        value={child.firstName}
-                        onChange={(event) => onFirstNameChange(event, index)}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        id={`age-${index}`}
-                        variant='standard'
-                        label='Age'
-                        value={child.age}
-                        type={"number"}
-                        onChange={(event) => onAgeChange(event, index)}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        id={`childIsAllergy-${index}`}
-                        select
-                        variant='standard'
-                        label='Des allergies ?'
-                        value={child.isAllergy}
-                        onChange={(event) =>
-                          onChildIsAllergyChange(event, index)
-                        }
-                      >
-                        <MenuItem value={"Aucune"}>Aucune</MenuItem>
-                        <MenuItem value={"Oui"}>Oui</MenuItem>
-                        <MenuItem value={"Non"}>Non</MenuItem>
-                      </TextField>
-                    </Grid>
-                    <Grid item xs={12}>
-                      {child.isAllergy === "Oui" && (
+                    >
+                      <MenuItem value={"Aucune"}>Aucune</MenuItem>
+                      <MenuItem value={"Oui"}>Oui</MenuItem>
+                      <MenuItem value={"Non"}>Non</MenuItem>
+                    </TextField>
+                  </Grid>
+                  <Zoom in>
+                    <Grid item xs={12} md={4}>
+                      {responseAllergy === "Oui" && (
                         <TextField
-                          id={`childAllergies-${index}`}
+                          id='allergies'
                           variant='standard'
                           label='Lesquelles ?'
-                          value={child.allergies}
-                          onChange={(event) =>
-                            onChildAllergiesChange(event, index)
-                          }
+                          value={isAllergy}
+                          onChange={(event) => setIsAllergy(event.target.value)}
                         />
                       )}
                     </Grid>
-                    <Grid container justifyContent={"flex-end"}>
+                  </Zoom>
+                </Grid>
+              </Zoom>
+            )}
+            {responsePresence === "Oui" && (
+              <Zoom in>
+                <Grid
+                  className={classes.subContainer}
+                  container
+                  justifyContent={"space-around"}
+                  alignItems={"center"}
+                  spacing={2}
+                >
+                  <Grid item xs={12} md={4}>
+                    <TextField
+                      required
+                      id='children'
+                      select
+                      variant='standard'
+                      label='Avec des enfants ?'
+                      value={responseChildren}
+                      onChange={(event) =>
+                        setResponseChildren(event.target.value)
+                      }
+                    >
+                      <MenuItem value={"Ne sait pas"}>Ne sais pas</MenuItem>
+                      <MenuItem value={"Oui"}>Oui</MenuItem>
+                      <MenuItem value={"Oon"}>Non</MenuItem>
+                    </TextField>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    {responseChildren === "Oui" && (
                       <Button
-                        text={"Supprimer enfant"}
+                        text={"Ajouter un enfant"}
                         variant={"contained"}
                         startIcon={<AddReaction />}
                         size={"small"}
@@ -335,13 +275,131 @@ const Formulaire = () => {
                           height: 35,
                           backgroundColor: theme.palette.primary.main,
                           color: theme.palette.primary.light,
-                          marginTop: 10,
+                          textTransform: "none",
                         }}
-                        onClick={() => onDeleteChildClick(child)}
+                        onClick={() =>
+                          setChildrenList((childrenList) => [
+                            ...childrenList,
+                            {
+                              id: Date.now(),
+                              firstName: "",
+                              lastName: "",
+                              age: "",
+                              isAllergy: "",
+                              allergies: "",
+                            },
+                          ])
+                        }
                       />
-                    </Grid>
-                  </div>
+                    )}
+                  </Grid>
+                </Grid>
+              </Zoom>
+            )}
+            <Grid
+              className={classes.subContainer}
+              container
+              justifyContent={"space-evenly"}
+            >
+              {childrenList &&
+                responsePresence === "Oui" &&
+                childrenList.map((child, index) => (
+                  <Zoom key={index} in>
+                    <div className={classes.formChild} key={index}>
+                      <Grid item xs={12}>
+                        <TextField
+                          id={`lastName-${index}`}
+                          variant='standard'
+                          label='Nom'
+                          value={child.lastName}
+                          onChange={(event) => onLastNameChange(event, index)}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          id={`firstName-${index}`}
+                          variant='standard'
+                          label='Prénom'
+                          value={child.firstName}
+                          onChange={(event) => onFirstNameChange(event, index)}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          id={`age-${index}`}
+                          variant='standard'
+                          label='Age'
+                          value={child.age}
+                          type={"number"}
+                          onChange={(event) => onAgeChange(event, index)}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          id={`childIsAllergy-${index}`}
+                          select
+                          variant='standard'
+                          label='Des allergies ?'
+                          value={child.isAllergy}
+                          onChange={(event) =>
+                            onChildIsAllergyChange(event, index)
+                          }
+                        >
+                          <MenuItem value={"Aucune"}>Aucune</MenuItem>
+                          <MenuItem value={"Oui"}>Oui</MenuItem>
+                          <MenuItem value={"Non"}>Non</MenuItem>
+                        </TextField>
+                      </Grid>
+                      <Grid item xs={12}>
+                        {child.isAllergy === "Oui" && (
+                          <TextField
+                            id={`childAllergies-${index}`}
+                            variant='standard'
+                            label='Lesquelles ?'
+                            value={child.allergies}
+                            onChange={(event) =>
+                              onChildAllergiesChange(event, index)
+                            }
+                          />
+                        )}
+                      </Grid>
+                      <Grid container justifyContent={"flex-end"}>
+                        <Button
+                          text={"Supprimer enfant"}
+                          variant={"contained"}
+                          startIcon={<PersonRemove />}
+                          size={"small"}
+                          style={{
+                            height: 35,
+                            backgroundColor: theme.palette.primary.main,
+                            color: theme.palette.primary.light,
+                            marginTop: 10,
+                            textTransform: "none",
+                          }}
+                          onClick={() => onDeleteChildClick(child)}
+                        />
+                      </Grid>
+                    </div>
+                  </Zoom>
                 ))}
+
+              <Grid mt={5} container justifyContent='flex-end'>
+                <Button
+                  disabled={responsePresence === ""}
+                  text={"Envoyer"}
+                  variant={"contained"}
+                  endIcon={<Send />}
+                  size={"small"}
+                  style={{
+                    height: 35,
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.primary.light,
+                    marginTop: 10,
+                    textTransform: "none",
+                  }}
+                  onClick={onSubmitForm}
+                />
+              </Grid>
             </Grid>
           </Box>
         </Grid>
