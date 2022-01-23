@@ -82,7 +82,8 @@ const AccountMenu = ({ styleLink }) => {
       >
         <Link className={styleLink} to='/profil'>
           <MenuItem>
-            <Avatar src={currentUser.photoURL} /> Profil
+            <Avatar src={currentUser.photoURL} alt={currentUser.displayName} />{" "}
+            Profil
           </MenuItem>
         </Link>
         <Divider />
