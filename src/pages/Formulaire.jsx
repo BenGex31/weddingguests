@@ -425,9 +425,7 @@ const Formulaire = () => {
 
               <Grid mt={5} container justifyContent='flex-end'>
                 <Button
-                  disabled={
-                    responsePresence === "" || responsePresence === "Non"
-                  }
+                  disabled={responsePresence === ""}
                   text={"Envoyer"}
                   variant={"contained"}
                   endIcon={<Send />}
