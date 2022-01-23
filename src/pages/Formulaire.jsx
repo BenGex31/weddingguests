@@ -244,9 +244,10 @@ const Formulaire = () => {
                 <Grid
                   className={classes.subContainer}
                   container
-                  justifyContent={"space-around"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
                 >
-                  <Grid item xs={12} md={4}>
+                  <Grid>
                     <TextField
                       id='allergy'
                       select
@@ -259,11 +260,10 @@ const Formulaire = () => {
                     >
                       <MenuItem value={"Aucune"}>Aucune</MenuItem>
                       <MenuItem value={"Oui"}>Oui</MenuItem>
-                      <MenuItem value={"Non"}>Non</MenuItem>
                     </TextField>
                   </Grid>
                   <Zoom in>
-                    <Grid item xs={12} md={4}>
+                    <Grid item>
                       {responseAllergy === "Oui" && (
                         <TextField
                           id='allergies'
@@ -283,11 +283,12 @@ const Formulaire = () => {
                 <Grid
                   className={classes.subContainer}
                   container
-                  justifyContent={"space-around"}
+                  direction={"column"}
                   alignItems={"center"}
+                  justifyContent={"center"}
                   spacing={2}
                 >
-                  <Grid item xs={12} md={4}>
+                  <Grid item>
                     <TextField
                       required
                       id='children'
@@ -304,7 +305,7 @@ const Formulaire = () => {
                       <MenuItem value={"Oon"}>Non</MenuItem>
                     </TextField>
                   </Grid>
-                  <Grid item xs={12} md={4}>
+                  <Grid item>
                     {responseChildren === "Oui" && (
                       <Button
                         text={"Ajouter un enfant"}
@@ -387,7 +388,6 @@ const Formulaire = () => {
                         >
                           <MenuItem value={"Aucune"}>Aucune</MenuItem>
                           <MenuItem value={"Oui"}>Oui</MenuItem>
-                          <MenuItem value={"Non"}>Non</MenuItem>
                         </TextField>
                       </Grid>
                       <Grid item xs={12}>
@@ -425,7 +425,9 @@ const Formulaire = () => {
 
               <Grid mt={5} container justifyContent='flex-end'>
                 <Button
-                  disabled={responsePresence === ""}
+                  disabled={
+                    responsePresence === "" || responsePresence === "Non"
+                  }
                   text={"Envoyer"}
                   variant={"contained"}
                   endIcon={<Send />}
