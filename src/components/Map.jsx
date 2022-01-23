@@ -30,7 +30,7 @@ import Button from "../components/Button";
 import beyssacHotel from "../assets/beyssac-hotel.jpeg";
 
 const containerStyle = {
-  width: "563px",
+  width: "100%",
   height: "442px",
   borderRadius: 10,
   boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
@@ -52,7 +52,12 @@ const Map = () => {
   }, []);
 
   return (
-    <Grid sx={{ marginBottom: 5 }} container justifyContent='space-around'>
+    <Grid
+      sx={{ marginBottom: 5 }}
+      container
+      direction={{ xs: "column-reverse", lg: "row-reverse" }}
+      justifyContent='space-around'
+    >
       <Grid
         sx={{
           height: 640,
@@ -69,6 +74,7 @@ const Map = () => {
               fontSize: 20,
               color: theme.palette.primary.main,
               marginBottom: 3,
+              marginTop: 2,
             }}
             align='center'
           >
