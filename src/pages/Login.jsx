@@ -59,15 +59,6 @@ const Login = () => {
         authProvider: "google",
         email: user.email,
       });
-      /*await getFirestore(firebaseConfig)
-        .collection("guests")
-        .doc(user.uid)
-        .set({
-          uid: user.uid,
-          name: user.displayName,
-          authProvider: "google",
-          email: user.email,
-        });*/
     } catch (err) {
       console.error(err);
       alert(err.message);
