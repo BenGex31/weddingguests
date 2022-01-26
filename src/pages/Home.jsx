@@ -69,7 +69,7 @@ const Home = () => {
         <Cards
           number={
             <Countdown
-              date={Date.now() + (new Date(2022, 4, 26) - new Date())}
+              date={Date.now() + (new Date(2022, 4, 25) - new Date())}
               renderer={({ days }) => {
                 return <span>{days}</span>;
               }}
@@ -80,7 +80,7 @@ const Home = () => {
         <Cards
           number={
             <Countdown
-              date={Date.now() + (new Date(2022, 4, 26) - new Date())}
+              date={Date.now() + (new Date(2022, 4, 25) - new Date())}
               renderer={({ hours }) => {
                 return <span>{hours}</span>;
               }}
@@ -91,7 +91,7 @@ const Home = () => {
         <Cards
           number={
             <Countdown
-              date={Date.now() + (new Date(2022, 4, 26) - new Date())}
+              date={Date.now() + (new Date(2022, 4, 25) - new Date())}
               renderer={({ minutes }) => {
                 return <span>{minutes}</span>;
               }}
@@ -102,7 +102,7 @@ const Home = () => {
         <Cards
           number={
             <Countdown
-              date={Date.now() + (new Date(2022, 5, 25) - new Date())}
+              date={Date.now() + (new Date(2022, 4, 25) - new Date())}
               renderer={({ seconds }) => {
                 return <span>{seconds}</span>;
               }}
