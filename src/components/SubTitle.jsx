@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import theme from "../core/theme/MuiTheme";
 import { alexBrushRegular as alexBrush } from "../core/theme/CustomTheme";
 
-const SubTitle = ({ title }) => {
+const SubTitle = ({ title, guestCount }) => {
   return (
     <Typography
       sx={{
@@ -16,7 +16,7 @@ const SubTitle = ({ title }) => {
       align='center'
       variant='h1'
     >
-      {title}
+      {`${title} (${guestCount})`}
     </Typography>
   );
 };
