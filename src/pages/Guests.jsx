@@ -5,7 +5,10 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Checkbox,
   Container,
+  FormControlLabel,
+  FormGroup,
   Grid,
   Stack,
   Typography,
@@ -17,6 +20,8 @@ import { oswaldRegular as OswaldR } from "../core/theme/CustomTheme";
 import { alexBrushRegular as alexBrush } from "../core/theme/CustomTheme";
 import { Mail } from "@material-ui/icons";
 import { makeStyles } from "@mui/styles";
+import MainTitle from "../components/MainTitle";
+import SubTitle from "../components/SubTitle";
 
 const useStyles = makeStyles({
   mailIcon: {
@@ -51,9 +56,29 @@ const Guests = () => {
       <header>
         <Header />
       </header>
-      <Grid container justifyContent={"space-around"}>
+      <MainTitle title={"Les invités présents"} />
+      <Stack mb={6} spacing={2}>
+        <SubTitle
+          title={"A la cérémonie d’engagement"}
+          guestCount={
+            guests.filter((guest) => guest.engagementCeremony === true).length
+          }
+        />
+        <SubTitle
+          title={"Au vin d’honneur & Apéritif"}
+          guestCount={
+            guests.filter((guest) => guest.wineReception === true).length
+          }
+        />
+        <SubTitle
+          title={"Repas et Fiesta"}
+          guestCount={guests.filter((guest) => guest.meal === true).length}
+        />
+      </Stack>
+      <Grid container mb={5} justifyContent={"space-around"}>
         {guests.map((guest) => (
           <Card
+            key={guest.uid}
             sx={{
               width: 441,
               height: 284,
@@ -89,7 +114,7 @@ const Guests = () => {
               }
             />
             <CardContent>
-              <Stack>
+              <Stack direction={"row"} justifyContent={"space-between"}>
                 <Stack
                   justifyContent={"flex-start"}
                   direction={"row"}
@@ -108,7 +133,37 @@ const Guests = () => {
                     Invité
                   </Typography>
                 </Stack>
-                <Stack></Stack>
+                <Stack>
+                  <FormGroup>
+                    <FormControlLabel
+                      disabled
+                      control={
+                        <Checkbox
+                          color='default'
+                          checked={guest.engagementCeremony}
+                        />
+                      }
+                      label={"Cérémonie d’engagement"}
+                    />
+                    <FormControlLabel
+                      disabled
+                      control={
+                        <Checkbox
+                          color='default'
+                          checked={guest.wineReception}
+                        />
+                      }
+                      label={"Vin d’honneur & Apéritif"}
+                    />
+                    <FormControlLabel
+                      disabled
+                      control={
+                        <Checkbox color='default' checked={guest.meal} />
+                      }
+                      label={"Repas & Fiesta"}
+                    />
+                  </FormGroup>
+                </Stack>
               </Stack>
             </CardContent>
           </Card>
