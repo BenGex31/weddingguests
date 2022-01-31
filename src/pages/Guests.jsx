@@ -56,7 +56,7 @@ const Guests = () => {
       <header>
         <Header />
       </header>
-      <MainTitle title={"Les invités présents"} />
+      <MainTitle title={`Les invités présents (${guests.length})`} />
       <Stack mb={6} spacing={2}>
         <SubTitle
           title={"A la cérémonie d’engagement"}
