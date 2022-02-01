@@ -13,6 +13,7 @@ import {
   IconButton,
   Alert,
   Snackbar,
+  Stack,
 } from "@mui/material";
 import Button from "../components/Button";
 import MainTitle from "../components/MainTitle";
@@ -49,9 +50,20 @@ const Formulaire = () => {
   const [meal, setMeal] = useState(false);
   const [responseChildren, setResponseChildren] = useState("");
   const [childrenList, setChildrenList] = useState([]);
+  const [socialSecurity, setSocialSecurity] = useState("");
+  const [isValidSocialSecurity, setIsValidIsSocialSecurty] = useState(true);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [messageSnackBar, setMessageSnackBar] = useState("");
   const [severitySnackBar, setSeveritySnackBar] = useState("success");
+
+  const handleSocialSecurityChange = (event) => {
+    setSocialSecurity(event.target.value);
+    if (socialSecurity.length >= 20) {
+      setIsValidIsSocialSecurty(true);
+    } else {
+      setIsValidIsSocialSecurty(false);
+    }
+  };
 
   const onLastNameChange = (event, index) => {
     let array = [...childrenList];
@@ -111,6 +123,7 @@ const Formulaire = () => {
         meal: meal,
         responseChildren: responseChildren,
         childrenList: childrenList,
+        socialSecurity: socialSecurity,
       });
       setOpenSnackBar(true);
       setMessageSnackBar("Vos informations ont bien été enregistrées !");
@@ -422,10 +435,29 @@ const Formulaire = () => {
                     </div>
                   </Zoom>
                 ))}
-
+              {responsePresence === "Oui" && (
+                <Stack>
+                  <TextField
+                    error={socialSecurity !== "" && !isValidSocialSecurity}
+                    helperText={
+                      socialSecurity !== "" &&
+                      !isValidSocialSecurity &&
+                      "Format invalide"
+                    }
+                    id='Social security'
+                    variant='standard'
+                    label='N° Sécurité Sociale'
+                    value={socialSecurity}
+                    onChange={(event) => handleSocialSecurityChange(event)}
+                    placeholder='1 85 05 78 006 084 36'
+                  />
+                </Stack>
+              )}
               <Grid mt={5} container justifyContent='flex-end'>
                 <Button
-                  disabled={responsePresence === ""}
+                  disabled={
+                    responsePresence === "" || isValidSocialSecurity === false
+                  }
                   text={"Envoyer"}
                   variant={"contained"}
                   endIcon={<Send />}
