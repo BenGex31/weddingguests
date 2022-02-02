@@ -58,7 +58,7 @@ const Gallery = () => {
       </Stack>
       <Stack alignItems={"center"} mb={4}>
         <ImageList
-          sx={{ width: 500, height: 450 }}
+          sx={{ width: 600, height: 550 }}
           variant='quilted'
           cols={4}
           rowHeight={121}
