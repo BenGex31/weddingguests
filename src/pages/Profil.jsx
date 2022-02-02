@@ -1,7 +1,8 @@
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import React from "react";
 import Header from "../components/Header";
 import theme from "../core/theme/MuiTheme";
+import { alexBrushRegular } from "../core/theme/CustomTheme";
 
 const Profil = () => {
   return (
@@ -26,7 +27,20 @@ const Profil = () => {
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
           }}
-        />
+        >
+          <Typography
+            sx={{
+              fontSize: 50,
+              fontFamily: alexBrushRegular.fontFamily,
+              fontStyle: alexBrushRegular.fontStyle,
+              fontWeight: alexBrushRegular.fontWeight,
+            }}
+            mt={5}
+            align='center'
+          >
+            Votre profil
+          </Typography>
+        </Box>
       </Grid>
     </Container>
   );
