@@ -12,7 +12,13 @@ import ErrorMessage from "../components/ErrorMessage";
 import weddingCamBen from "../assets/weddingCamBen.jpeg";
 import WeddingTitle from "../components/WeddingTitle";
 import firebaseConfig from "../config/firebase";
-import firebase from "firebase";
+import { getFirestore, doc, updateDoc } from "firebase/firestore";
+import {
+  GoogleAuthProvider,
+  getAuth,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -28,10 +34,12 @@ const Login = () => {
   const [errorMessagePassword, setErrorMessagePassword] = useState("");
   const [loginError, setLoginError] = useState("");
 
+  const auth = getAuth();
+
   const onLogin = async () => {
     try {
       if (email !== "" && password !== "") {
-        await firebaseConfig.auth().signInWithEmailAndPassword(email, password);
+        await signInWithEmailAndPassword(auth, email, password);
       }
     } catch (error) {
       setLoginError(error.message);
@@ -39,25 +47,18 @@ const Login = () => {
     }
   };
 
-  const googleProvider = new firebase.auth.GoogleAuthProvider();
+  const googleProvider = new GoogleAuthProvider();
 
   const signInWithGoogle = async () => {
     try {
-      const res = await firebaseConfig.auth().signInWithPopup(googleProvider);
+      const res = await signInWithPopup(auth, googleProvider);
       const user = res.user;
-      const query = await firebaseConfig
-        .firestore()
-        .collection("guests")
-        .where("uid", "==", user.uid)
-        .get();
-      if (query.docs.length === 0) {
-        await firebaseConfig.firestore().collection("guests").add({
-          uid: user.uid,
-          name: user.displayName,
-          authProvider: "google",
-          email: user.email,
-        });
-      }
+      await updateDoc(doc(getFirestore(firebaseConfig), "guests", user.uid), {
+        uid: user.uid,
+        name: user.displayName,
+        authProvider: "google",
+        email: user.email,
+      });
     } catch (err) {
       console.error(err);
       alert(err.message);

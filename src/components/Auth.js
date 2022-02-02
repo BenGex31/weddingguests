@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import firebaseConfig from "../config/firebase";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,13 +21,14 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
   const classes = useStyles();
+  const auth = getAuth();
 
   useEffect(() => {
-    firebaseConfig.auth().onAuthStateChanged((user) => {
+    onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setLoading(false);
     });
-  }, []);
+  }, [auth]);
 
   if (loading) {
     return (

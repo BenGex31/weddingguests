@@ -1,52 +1,95 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import IconLogout from "./IconLogout";
-import IconUser from "./IconUser";
-import Avatar from "@mui/material/Avatar";
-import weddingLogo from "../assets/weddingLogo.png";
-import "./Header.css";
-import { AuthContext } from "./Auth";
+import React, { useState, useEffect } from "react";
+import theme from "../core/theme/MuiTheme";
+import weddingOfficial from "../assets/weddingOfficial.jpeg";
+import { Box, Container, Divider, Typography } from "@mui/material";
+import { oswaldExtraLight as oswaldExtra } from "../core/theme/CustomTheme";
+import { alexBrushRegular as alexBrush } from "../core/theme/CustomTheme";
+import NavBar from "./NavBar";
 
 const Header = () => {
-  const { currentUser } = useContext(AuthContext);
-  console.log(currentUser);
+  const [mobileView, setMobileView] = useState(false);
+
+  useEffect(() => {
+    const setResponsiveness = () => {
+      return window.innerWidth < 900
+        ? setMobileView(true)
+        : setMobileView(false);
+    };
+
+    setResponsiveness();
+    window.addEventListener("resize", () => setResponsiveness());
+
+    return () => {
+      window.removeEventListener("resize", () => setResponsiveness());
+    };
+  }, []);
+
   return (
-    <div className='headerContainer'>
-      <img
-        style={{ width: 100, height: 100 }}
-        src={weddingLogo}
-        alt='logo mariage'
-      />
-      <nav className='headerNav'>
-        <Link to='/home'>Acceuil</Link>
-        <Link to='/galerie'>Galerie Photos</Link>
-        <Link to='/informations'>Informations</Link>
-        <Link to='/formulaire'>Formulaire</Link>
-      </nav>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column-reverse",
-          justifyContent: "space-between",
-          alignItems: "center",
-          height: 60,
-        }}
-      >
-        <div className='headerIcons'>
-          {currentUser.photoURL !== null ? (
-            <Avatar alt={currentUser.displayName} src={currentUser.photoURL} />
-          ) : (
-            <IconUser />
-          )}
-          <IconLogout />
-        </div>
-        <div>
-          <span style={{ fontSize: 12, fontWeight: "bold" }}>
-            {currentUser.displayName}
-          </span>
-        </div>
-      </div>
-    </div>
+    <>
+      {!mobileView ? (
+        <>
+          <Container
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            maxWidth='xl'
+          >
+            <Box
+              height={801}
+              width='100%'
+              sx={{
+                backgroundImage: `url(${weddingOfficial})`,
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
+                borderRadius: 5,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
+            >
+              <Divider
+                sx={{ width: 656, backgroundColor: "#FFFFFF" }}
+                orientation='horizontal'
+              />
+              <Typography
+                sx={{
+                  fontSize: 30,
+                  fontFamily: oswaldExtra.fontFamily,
+                  fontWeight: oswaldExtra.fontWeight,
+                  fontStyle: oswaldExtra.fontStyle,
+                  color: "#FFFFFF",
+                }}
+              >
+                Le mariage de
+              </Typography>
+              <Typography
+                variant='h1'
+                sx={{
+                  fontFamily: alexBrush.fontFamily,
+                  fontWeight: alexBrush.fontWeight,
+                  fontStyle: alexBrush.fontStyle,
+                  color: "#FFFFFF",
+                }}
+              >
+                Camille & Benjamin
+              </Typography>
+              <Divider
+                sx={{ width: 656, backgroundColor: "#FFFFFF" }}
+                orientation='horizontal'
+              />
+            </Box>
+          </Container>
+          <NavBar />
+        </>
+      ) : (
+        <NavBar />
+      )}
+    </>
   );
 };
 

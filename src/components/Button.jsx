@@ -7,9 +7,11 @@ export default function ContainedButtons({
   color,
   onClick,
   startIcon,
+  endIcon,
   disabled,
   style,
   type,
+  size,
 }) {
   return (
     <Button
@@ -18,8 +20,10 @@ export default function ContainedButtons({
       color={color}
       disabled={disabled}
       startIcon={startIcon}
+      endIcon={endIcon}
       style={style}
       type={type}
+      size={size}
     >
       {text}
     </Button>

@@ -8,6 +8,8 @@ import { AuthProvider } from "../components/Auth";
 import Gallery from "../pages/Gallery";
 import Informations from "../pages/Informations";
 import Formulaire from "../pages/Formulaire";
+import Guests from "../pages/Guests";
+import Profil from "../pages/Profil";
 
 const AuthNavigation = () => {
   return (
@@ -29,11 +31,17 @@ const AuthNavigation = () => {
           <Route exact path='/galerie'>
             <Gallery />
           </Route>
+          <Route exact path='/guests'>
+            <Guests />
+          </Route>
           <Route exact path='/informations'>
             <Informations />
           </Route>
           <Route exact path='/formulaire'>
             <Formulaire />
+          </Route>
+          <Route exact path='/profil'>
+            <Profil />
           </Route>
         </Switch>
       </Router>
