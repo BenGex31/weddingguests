@@ -38,6 +38,34 @@ function srcset(image, size, rows = 1, cols = 1) {
 }
 
 const Gallery = () => {
+  const [mobileView, setMobileView] = React.useState(false);
+  const [tabletView, setTabletView] = React.useState(false);
+
+  React.useEffect(() => {
+    const setResponsiveMobile = () => {
+      return window.innerWidth < 425
+        ? setMobileView(true)
+        : setMobileView(false);
+    };
+
+    const setResponsiveTablet = () => {
+      return window.innerWidth < 768
+        ? setTabletView(true)
+        : setTabletView(false);
+    };
+
+    setResponsiveMobile();
+    setResponsiveTablet();
+
+    window.addEventListener("resize", () => setResponsiveMobile());
+    window.addEventListener("resize", () => setResponsiveTablet());
+
+    return () => {
+      window.removeEventListener("resize", () => setResponsiveMobile());
+      window.removeEventListener("resize", () => setResponsiveTablet());
+    };
+  }, []);
+
   return (
     <Container component='main' maxWidth='xl'>
       <header>
@@ -61,7 +89,7 @@ const Gallery = () => {
       </Stack>
       <Stack alignItems={"center"} mb={8}>
         <ImageList
-          sx={{ width: 600, height: 550 }}
+          sx={{ width: mobileView ? 300 : tabletView ? 400 : 600, height: 550 }}
           variant='quilted'
           cols={4}
           rowHeight={121}
