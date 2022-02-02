@@ -25,9 +25,9 @@ import {
 } from "@mui/material";
 import { oswaldRegular as oswaldR } from "../core/theme/CustomTheme";
 import theme from "../core/theme/MuiTheme";
-import { Hotel, Link as IconLink } from "@material-ui/icons";
 import Button from "../components/Button";
 import beyssacHotel from "../assets/beyssac-hotel.jpeg";
+import { OpenInNew, Hotel } from "@mui/icons-material";
 
 const containerStyle = {
   width: "100%",
@@ -126,7 +126,7 @@ const Map = () => {
                         target={"_blank"}
                         href={`http://www.google.com/search?q=${InputSearch}+${hotel.name}`}
                       >
-                        <IconLink />
+                        <OpenInNew />
                       </Link>
                     </Stack>
                     {!hotel.rating || hotel.rating === 0 || (
