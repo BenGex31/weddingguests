@@ -8,8 +8,10 @@ import {
   ImageListItem,
 } from "@mui/material";
 import MainTitle from "../components/MainTitle";
-import { oswaldRegular as OswaldR } from "../core/theme/CustomTheme";
-import { alexBrushRegular as alexBrush } from "../core/theme/CustomTheme";
+import {
+  alexBrushRegular as alexBrush,
+  oswaldRegular as OswaldR,
+} from "../core/theme/CustomTheme";
 import theme from "../core/theme/MuiTheme";
 import img1 from "../assets/IMG-20210523-WA0000.jpg";
 import img2 from "../assets/IMG-20210523-WA0003.jpg";
@@ -24,6 +26,7 @@ import img10 from "../assets/IMG-20210523-WA0024.jpg";
 import img11 from "../assets/IMG_20210512_134824.jpg";
 import img12 from "../assets/IMG-20210523-WA0021.jpg";
 import img13 from "../assets/IMG-20210523-WA0026.jpg";
+import { HourglassTop } from "@mui/icons-material";
 
 function srcset(image, size, rows = 1, cols = 1) {
   return {
@@ -56,7 +59,7 @@ const Gallery = () => {
           12 mai 2021
         </Typography>
       </Stack>
-      <Stack alignItems={"center"} mb={4}>
+      <Stack alignItems={"center"} mb={8}>
         <ImageList
           sx={{ width: 600, height: 550 }}
           variant='quilted'
@@ -78,7 +81,7 @@ const Gallery = () => {
           ))}
         </ImageList>
       </Stack>
-      <Stack spacing={3}>
+      <Stack spacing={3} mb={8}>
         <MainTitle title={"Photos mariage 2ème partie"} />
         <Typography
           sx={{
@@ -93,6 +96,39 @@ const Gallery = () => {
         >
           25 mai 2022
         </Typography>
+      </Stack>
+      <Typography
+        mb={8}
+        align='center'
+        sx={{
+          fontSize: 90,
+          fontFamily: OswaldR.fontFamily,
+          fontStyle: OswaldR.fontStyle,
+          fontWeight: OswaldR.fontWeight,
+          color: theme.palette.secondary.main,
+        }}
+      >
+        Soyez patients !
+      </Typography>
+      <Typography
+        align='center'
+        sx={{
+          fontSize: 30,
+          fontFamily: OswaldR.fontFamily,
+          fontStyle: OswaldR.fontStyle,
+          fontWeight: OswaldR.fontWeight,
+          color: theme.palette.secondary.main,
+        }}
+      >
+        Elles arriveront en temps et en heure…
+      </Typography>
+      <Stack mt={4} alignItems={"center"}>
+        <HourglassTop
+          sx={{
+            color: theme.palette.primary.main,
+            fontSize: 100,
+          }}
+        />
       </Stack>
     </Container>
   );
