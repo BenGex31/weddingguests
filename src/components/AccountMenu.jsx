@@ -33,7 +33,7 @@ const AccountMenu = ({ styleLink }) => {
   return (
     <>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
-        <Tooltip title='Account settings'>
+        <Tooltip title='Paramètres du compte'>
           <IconButton onClick={handleClick} size='small' sx={{ ml: 2 }}>
             <Avatar
               sx={{
