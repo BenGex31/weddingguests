@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import {
   Divider,
   IconButton,
@@ -25,10 +25,15 @@ const AccountMenu = ({ styleLink }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  if (!currentUser) {
+    return <Redirect to='/' />;
+  }
+
   return (
     <>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
-        <Tooltip title='Account settings'>
+        <Tooltip title='Paramètres du compte'>
           <IconButton onClick={handleClick} size='small' sx={{ ml: 2 }}>
             <Avatar
               sx={{
@@ -36,7 +41,7 @@ const AccountMenu = ({ styleLink }) => {
                 height: 32,
               }}
             >
-              {currentUser.displayName[0]}
+              {currentUser.displayName !== null && currentUser.displayName[0]}
             </Avatar>
           </IconButton>
         </Tooltip>
@@ -77,7 +82,8 @@ const AccountMenu = ({ styleLink }) => {
       >
         <Link className={styleLink} to='/profil'>
           <MenuItem>
-            <Avatar src={currentUser.photoURL} /> Profil
+            <Avatar src={currentUser.photoURL} alt={currentUser.displayName} />{" "}
+            Profil
           </MenuItem>
         </Link>
         <Divider />

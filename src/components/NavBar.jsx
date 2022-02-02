@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Stack, Divider, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import theme from "../core/theme/MuiTheme";
@@ -24,8 +24,9 @@ const useStyles = makeStyles({
 
 const NavBar = () => {
   const classes = useStyles();
+  let location = useLocation();
   const [mobileView, setMobileView] = useState(false);
-  const [links, setLinks] = useState([
+  const [links] = useState([
     {
       id: 1,
       label: "Accueil",
@@ -42,54 +43,26 @@ const NavBar = () => {
     },
     {
       id: 3,
+      label: "Formulaire",
+      clicked: false,
+      link: "/formulaire",
+      divider: true,
+    },
+    {
+      id: 4,
       label: "Liste invités",
       clicked: false,
       link: "/guests",
       divider: true,
     },
     {
-      id: 4,
+      id: 5,
       label: "Galerie photos",
       clicked: false,
       link: "/galerie",
       divider: true,
     },
   ]);
-
-  const displayLinkClicked = (link) => {
-    if (link === "/home") {
-      let homeLink = [...links];
-      homeLink[0].clicked = true;
-      homeLink[1].clicked = false;
-      homeLink[2].clicked = false;
-      homeLink[3].clicked = false;
-      setLinks(homeLink);
-    }
-    if (link === "/informations") {
-      let infoLink = [...links];
-      infoLink[0].clicked = false;
-      infoLink[1].clicked = true;
-      infoLink[2].clicked = false;
-      infoLink[3].clicked = false;
-      setLinks(infoLink);
-    }
-    if (link === "/guests") {
-      let guestsLink = [...links];
-      guestsLink[0].clicked = false;
-      guestsLink[1].clicked = false;
-      guestsLink[2].clicked = true;
-      guestsLink[3].clicked = false;
-      setLinks(guestsLink);
-    }
-    if (link === "/galerie") {
-      let galerieLink = [...links];
-      galerieLink[0].clicked = false;
-      galerieLink[1].clicked = false;
-      galerieLink[2].clicked = false;
-      galerieLink[3].clicked = true;
-      setLinks(galerieLink);
-    }
-  };
 
   useEffect(() => {
     const setResponsiveness = () => {
@@ -120,9 +93,12 @@ const NavBar = () => {
           links.map((item) => (
             <Link
               key={item.id}
-              className={item.clicked ? classes.linkClicked : classes.link}
+              className={
+                location.pathname === item.link
+                  ? classes.linkClicked
+                  : classes.link
+              }
               to={item.link}
-              onClick={() => displayLinkClicked(item.link)}
             >
               {item.label}
             </Link>

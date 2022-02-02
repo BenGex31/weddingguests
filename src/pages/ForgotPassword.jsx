@@ -7,9 +7,10 @@ import ReplayIcon from "@material-ui/icons/Replay";
 import Container from "@material-ui/core/Container";
 import Stack from "@mui/material/Stack";
 import firebaseConfig from "../config/firebase";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import CustomizedSnackbars from "../components/CustomizedSnackbars";
 
-const auth = firebaseConfig.auth();
+const auth = getAuth();
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -30,10 +31,22 @@ const ForgotPassword = () => {
     setEmail(event.target.value);
   };
 
-  const sendPasswordReset = () => {
+  const sendPasswordReset = async () => {
     const emailResetPassword = email;
-    auth
-      .sendPasswordResetEmail(emailResetPassword)
+    try {
+      await sendPasswordResetEmail(auth, emailResetPassword);
+      console.log("Password reset email sent!");
+      setEmail("");
+      setOpenSnackBar(true);
+      setIsvalidEmail(false);
+      setMessageEmailError("");
+    } catch (error) {
+      const errorCode = error.code;
+      const messageError = error.message;
+      console.log("error reset password" + errorCode, messageError);
+    }
+
+    /*sendPasswordResetEmail(auth, emailResetPassword)
       .then(() => {
         console.log("Password reset email sent!");
         setEmail("");
@@ -51,7 +64,7 @@ const ForgotPassword = () => {
         var errorCode = error.code;
         var messageError = error.message;
         console.log("error reset password" + errorCode, messageError);
-      });
+      });*/
   };
 
   const handleCloseSnackBar = (event, reason) => {

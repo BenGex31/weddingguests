@@ -3,11 +3,11 @@ import { Typography } from "@mui/material";
 import theme from "../core/theme/MuiTheme";
 import { alexBrushRegular as alexBrush } from "../core/theme/CustomTheme";
 
-const MainTitle = ({ title }) => {
+const SubTitle = ({ title, guestCount }) => {
   return (
     <Typography
       sx={{
-        fontSize: { md: 66, xs: 40 },
+        fontSize: { md: 30, xs: 20 },
         fontFamily: alexBrush.fontFamily,
         fontWeight: alexBrush.fontWeight,
         fontStyle: alexBrush.fontStyle,
@@ -16,9 +16,9 @@ const MainTitle = ({ title }) => {
       align='center'
       variant='h1'
     >
-      {title}
+      {`${title} (${guestCount})`}
     </Typography>
   );
 };
 
-export default MainTitle;
+export default SubTitle;

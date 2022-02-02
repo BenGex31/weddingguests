@@ -12,7 +12,12 @@ import firebaseConfig from "../config/firebase";
 import CssBaseline from "@mui/material/CssBaseline";
 import Stack from "@mui/material/Stack";
 import Container from "@material-ui/core/Container";
-
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { setDoc, doc, getFirestore } from "firebase/firestore";
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsvalidEmail] = useState(false);
@@ -25,6 +30,7 @@ const SignUp = () => {
   const [signupError, setSignupError] = useState("");
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const auth = getAuth();
 
   const emailRegex = /\S+@\S+\.\S+/;
 
@@ -62,30 +68,21 @@ const SignUp = () => {
     event.preventDefault();
   };
 
-  const auth = firebaseConfig.auth();
-
   const onHandleSignup = async () => {
     try {
       if (email !== "" && password !== "") {
-        await auth.createUserWithEmailAndPassword(email, password);
+        const res = await createUserWithEmailAndPassword(auth, email, password);
+        const user = res.user;
         setCurrentUser(true);
-        const userProfile = auth.currentUser;
-        await userProfile.updateProfile({
+        await updateProfile(auth.currentUser, {
           displayName: firstname + " " + lastname,
         });
-        const query = await firebaseConfig
-          .firestore()
-          .collection("guests")
-          .where("uid", "==", userProfile.uid)
-          .get();
-        if (query.docs.length === 0) {
-          await firebaseConfig.firestore().collection("guests").add({
-            uid: userProfile.uid,
-            name: userProfile.displayName,
-            authProvider: "password",
-            email: userProfile.email,
-          });
-        }
+        await setDoc(doc(getFirestore(firebaseConfig), "guests", user.uid), {
+          uid: user.uid,
+          name: firstname + " " + lastname,
+          authProvider: "password",
+          email: email,
+        });
       }
     } catch (error) {
       setSignupError(error.message);
