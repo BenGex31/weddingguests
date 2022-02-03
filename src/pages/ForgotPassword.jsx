@@ -6,6 +6,7 @@ import Link from "@material-ui/core/Link";
 import ReplayIcon from "@material-ui/icons/Replay";
 import Container from "@material-ui/core/Container";
 import Stack from "@mui/material/Stack";
+// eslint-disable-next-line
 import firebaseConfig from "../config/firebase";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import CustomizedSnackbars from "../components/CustomizedSnackbars";
