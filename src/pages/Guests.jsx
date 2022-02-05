@@ -56,118 +56,135 @@ const Guests = () => {
       <header>
         <Header />
       </header>
-      <MainTitle title={`Les invités présents (${guests.length})`} />
+      <MainTitle
+        title={`Les invités présents (${
+          guests.filter((guest) => guest.responsePresence === "Oui").length
+        })`}
+      />
       <Stack mb={6} spacing={2}>
         <SubTitle
           title={"A la cérémonie d’engagement"}
           guestCount={
-            guests.filter((guest) => guest.engagementCeremony === true).length
+            guests.filter(
+              (guest) =>
+                guest.responsePresence === "Oui" &&
+                guest.engagementCeremony === true
+            ).length
           }
         />
         <SubTitle
           title={"Au vin d’honneur & Apéritif"}
           guestCount={
-            guests.filter((guest) => guest.wineReception === true).length
+            guests.filter(
+              (guest) =>
+                guest.responsePresence === "Oui" && guest.wineReception === true
+            ).length
           }
         />
         <SubTitle
           title={"Repas et Fiesta"}
-          guestCount={guests.filter((guest) => guest.meal === true).length}
+          guestCount={
+            guests.filter(
+              (guest) => guest.responsePresence === "Oui" && guest.meal === true
+            ).length
+          }
         />
       </Stack>
       <Grid container mb={5} justifyContent={"space-around"}>
-        {guests.map((guest) => (
-          <Card
-            key={guest.uid}
-            sx={{
-              width: 441,
-              height: 284,
-              backgroundColor: theme.palette.primary.main,
-              boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
-            }}
-          >
-            <CardHeader
-              avatar={
-                <Avatar
-                  sx={{
-                    width: 80,
-                    height: 80,
-                    backgroundColor: theme.palette.primary.light,
-                    color: "#000",
-                  }}
-                  alt={guest.name}
-                  src={guest.photo}
-                />
-              }
-              title={
-                <Typography
-                  sx={{
-                    fontSize: 18,
-                    color: theme.palette.primary.light,
-                    fontFamily: OswaldR.fontFamily,
-                    fontWeight: OswaldR.fontWeight,
-                    fontStyle: OswaldR.fontStyle,
-                  }}
-                >
-                  {guest.name}
-                </Typography>
-              }
-            />
-            <CardContent>
-              <Stack direction={"row"} justifyContent={"space-between"}>
-                <Stack
-                  justifyContent={"flex-start"}
-                  direction={"row"}
-                  spacing={1}
-                >
-                  <Mail className={classes.mailIcon} fontSize='large' />
+        {guests
+          .filter((guest) => guest.responsePresence === "Oui")
+          .map((guest) => (
+            <Card
+              key={guest.uid}
+              sx={{
+                width: 441,
+                height: 284,
+                backgroundColor: theme.palette.primary.main,
+                boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
+              }}
+            >
+              <CardHeader
+                avatar={
+                  <Avatar
+                    sx={{
+                      width: 80,
+                      height: 80,
+                      backgroundColor: theme.palette.primary.light,
+                      color: "#000",
+                    }}
+                    alt={guest.name}
+                    src={guest.photo}
+                  />
+                }
+                title={
                   <Typography
                     sx={{
-                      fontSize: 30,
-                      fontFamily: alexBrush.fontFamily,
-                      fontWeight: alexBrush.fontWeight,
-                      fontStyle: alexBrush.fontStyle,
+                      fontSize: 18,
                       color: theme.palette.primary.light,
+                      fontFamily: OswaldR.fontFamily,
+                      fontWeight: OswaldR.fontWeight,
+                      fontStyle: OswaldR.fontStyle,
                     }}
                   >
-                    Invité
+                    {guest.name}
                   </Typography>
+                }
+              />
+              <CardContent>
+                <Stack direction={"row"} justifyContent={"space-between"}>
+                  <Stack
+                    justifyContent={"flex-start"}
+                    direction={"row"}
+                    spacing={1}
+                  >
+                    <Mail className={classes.mailIcon} fontSize='large' />
+                    <Typography
+                      sx={{
+                        fontSize: 30,
+                        fontFamily: alexBrush.fontFamily,
+                        fontWeight: alexBrush.fontWeight,
+                        fontStyle: alexBrush.fontStyle,
+                        color: theme.palette.primary.light,
+                      }}
+                    >
+                      Invité
+                    </Typography>
+                  </Stack>
+                  <Stack>
+                    <FormGroup>
+                      <FormControlLabel
+                        disabled
+                        control={
+                          <Checkbox
+                            color='default'
+                            checked={guest.engagementCeremony}
+                          />
+                        }
+                        label={"Cérémonie d’engagement"}
+                      />
+                      <FormControlLabel
+                        disabled
+                        control={
+                          <Checkbox
+                            color='default'
+                            checked={guest.wineReception}
+                          />
+                        }
+                        label={"Vin d’honneur & Apéritif"}
+                      />
+                      <FormControlLabel
+                        disabled
+                        control={
+                          <Checkbox color='default' checked={guest.meal} />
+                        }
+                        label={"Repas & Fiesta"}
+                      />
+                    </FormGroup>
+                  </Stack>
                 </Stack>
-                <Stack>
-                  <FormGroup>
-                    <FormControlLabel
-                      disabled
-                      control={
-                        <Checkbox
-                          color='default'
-                          checked={guest.engagementCeremony}
-                        />
-                      }
-                      label={"Cérémonie d’engagement"}
-                    />
-                    <FormControlLabel
-                      disabled
-                      control={
-                        <Checkbox
-                          color='default'
-                          checked={guest.wineReception}
-                        />
-                      }
-                      label={"Vin d’honneur & Apéritif"}
-                    />
-                    <FormControlLabel
-                      disabled
-                      control={
-                        <Checkbox color='default' checked={guest.meal} />
-                      }
-                      label={"Repas & Fiesta"}
-                    />
-                  </FormGroup>
-                </Stack>
-              </Stack>
-            </CardContent>
-          </Card>
-        ))}
+              </CardContent>
+            </Card>
+          ))}
       </Grid>
     </Container>
   );
