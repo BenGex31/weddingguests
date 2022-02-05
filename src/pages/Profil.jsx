@@ -1,13 +1,22 @@
 import { Box, Container, Grid, Typography, Stack, Avatar } from "@mui/material";
 import React from "react";
 import Header from "../components/Header";
+import NavTab from "../components/NavTab";
 import theme from "../core/theme/MuiTheme";
 import { alexBrushRegular } from "../core/theme/CustomTheme";
+import { oswaldRegular } from "../core/theme/CustomTheme";
+import { oswaldLight } from "../core/theme/CustomTheme";
 import { AuthContext } from "../components/Auth";
 import weddingLogo from "../assets/weddingLogo.png";
+import userImg from "../assets/user.png";
+import { Redirect } from "react-router-dom";
 
 const Profil = () => {
   const { currentUser } = React.useContext(AuthContext);
+
+  if (!currentUser) {
+    return <Redirect to='/' />;
+  }
 
   return (
     <Container component='main' maxWidth='xl'>
@@ -17,6 +26,8 @@ const Profil = () => {
       <Grid
         mb={2}
         container
+        justifyContent={"space-around"}
+        alignItems={"flex-start"}
         sx={{
           boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
           borderRadius: 5,
@@ -45,11 +56,31 @@ const Profil = () => {
             Votre profil
           </Typography>
         </Box>
-        <Grid item>
-          <Stack direction={"column"}>
+        <Grid
+          sx={{
+            boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
+            borderRadius: 5,
+          }}
+          item
+          xs={12}
+          md={3}
+          lg={4}
+        >
+          <Stack
+            sx={{ padding: 5 }}
+            alignItems={"center"}
+            direction={"column"}
+            spacing={2}
+          >
             <Avatar
-              alt={currentUser.displayName && currentUser.displayName}
-              src={currentUser.photoURL && currentUser.photoURL}
+              src={
+                currentUser.photoURL !== null ? currentUser.photoURL : userImg
+              }
+              alt={
+                currentUser.displayName !== null
+                  ? currentUser.displayName
+                  : "User image"
+              }
               sx={{
                 width: 120,
                 height: 120,
@@ -57,11 +88,43 @@ const Profil = () => {
               }}
             />
             {currentUser.displayName && (
-              <Typography>{currentUser.displayName}</Typography>
+              <Typography
+                sx={{
+                  fontFamily: oswaldRegular.fontFamily,
+                  fontStyle: oswaldRegular.fontStyle,
+                  fontWeight: oswaldRegular.fontWeight,
+                  fontSize: 25,
+                  color: theme.palette.secondary.main,
+                }}
+              >
+                {currentUser.displayName}
+              </Typography>
             )}
-            {currentUser.age && <Typography>{currentUser.age}</Typography>}
+            {currentUser.age && (
+              <Typography
+                sx={{
+                  fontFamily: oswaldLight.fontFamily,
+                  fontStyle: oswaldLight.fontStyle,
+                  fontWeight: oswaldLight.fontWeight,
+                  fontSize: 18,
+                  color: theme.palette.secondary.main,
+                }}
+              >
+                {currentUser.age}
+              </Typography>
+            )}
             {currentUser.weddingLink && (
-              <Typography>{currentUser.weddingLink}</Typography>
+              <Typography
+                sx={{
+                  fontFamily: oswaldLight.fontFamily,
+                  fontStyle: oswaldLight.fontStyle,
+                  fontWeight: oswaldLight.fontWeight,
+                  fontSize: 18,
+                  color: theme.palette.secondary.main,
+                }}
+              >
+                {currentUser.weddingLink}
+              </Typography>
             )}
             <img
               alt='wedding logo'
@@ -70,6 +133,19 @@ const Profil = () => {
               height={120}
             />
           </Stack>
+        </Grid>
+        <Grid
+          sx={{
+            boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
+            borderRadius: 5,
+          }}
+          item
+          xs={12}
+          md={7}
+        >
+          <Grid container justifyContent={"space-around"}>
+            <NavTab />
+          </Grid>
         </Grid>
       </Grid>
     </Container>
