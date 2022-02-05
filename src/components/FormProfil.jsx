@@ -1,6 +1,6 @@
 import React from "react";
 import { AuthContext } from "./Auth";
-import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import firebaseConfig from "../config/firebase";
 import { Button, Grid, TextField } from "@mui/material";
 import theme from "../core/theme/MuiTheme";
@@ -8,11 +8,14 @@ import theme from "../core/theme/MuiTheme";
 const FormProfil = () => {
   const { currentUser } = React.useContext(AuthContext);
   const [guest, setGuest] = React.useState(null);
+  const [user, setUser] = React.useState({
+    phoneNumber: guest !== null && guest.phoneNumber,
+  });
 
   React.useEffect(() => {
     getDocUser();
     // eslint-disable-next-line
-  }, []);
+  }, [user.phoneNumber]);
 
   const getDocUser = async () => {
     const docRef = doc(getFirestore(firebaseConfig), "guests", currentUser.uid);
@@ -28,11 +31,24 @@ const FormProfil = () => {
     }
   };
 
+  const setUserDatas = async () => {
+    try {
+      const guestRef = doc(
+        getFirestore(firebaseConfig),
+        "guests",
+        currentUser.uid
+      );
+      await updateDoc(guestRef, {
+        phoneNumber: user.phoneNumber,
+      });
+    } catch (error) {}
+  };
+
   return (
     <Grid container>
       <Grid
         container
-        sx={{ height: 150 }}
+        sx={{ height: 140 }}
         direction='column'
         justifyContent='space-around'
       >
@@ -42,6 +58,7 @@ const FormProfil = () => {
           label='Prénom'
           variant='standard'
           fullWidth
+          disabled
         />
         <TextField
           type='text'
@@ -49,25 +66,29 @@ const FormProfil = () => {
           label='Nom'
           variant='standard'
           fullWidth
+          disabled
         />
       </Grid>
       <Grid
         container
-        sx={{ height: 150 }}
+        sx={{ height: 140 }}
         direction='column'
         justifyContent='space-around'
       >
         <TextField
           type='tel'
+          value={guest !== null && guest.phoneNumber}
           label='Téléphone mobile'
           variant='standard'
           fullWidth
+          disabled
         />
         <TextField
           value={guest !== null && guest.email}
           label='Email'
           variant='standard'
           fullWidth
+          disabled
         />
       </Grid>
       <Grid container justifyContent='flex-end'>
