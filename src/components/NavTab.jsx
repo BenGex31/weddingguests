@@ -5,7 +5,6 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { oswaldRegular } from "../core/theme/CustomTheme";
-import theme from "../core/theme/MuiTheme";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
