@@ -96,6 +96,9 @@ const FormProfil = () => {
           validFullName: true,
           validPhoneNumber: false,
         });
+        setOpenSnackBar(true);
+        setMessageSnackBar("Informations mises à jours");
+        setSeveritySnackBar("success");
       }
       if (user.phoneNumber !== "" && user.fullName === "") {
         setErrorMessage({
@@ -105,6 +108,9 @@ const FormProfil = () => {
           validFullName: false,
           validPhoneNumber: true,
         });
+        setOpenSnackBar(true);
+        setMessageSnackBar("Informations mises à jours");
+        setSeveritySnackBar("success");
       }
     } catch (error) {
       console.log(error);
@@ -244,7 +250,17 @@ const FormProfil = () => {
               textTransform: "none",
               marginTop: 5,
             }}
-            onClick={() => setopenDialog(false)}
+            onClick={() => {
+              setopenDialog(false);
+              setUser({ ...user, phoneNumber: "", fullName: "" });
+              setErrorMessage({
+                ...errorMessage,
+                phoneNumber: "",
+                fullName: "",
+                validFullName: true,
+                validPhoneNumber: true,
+              });
+            }}
           >
             Fermer
           </Button>
