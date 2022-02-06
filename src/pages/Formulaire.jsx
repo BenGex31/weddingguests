@@ -10,20 +10,18 @@ import {
   FormGroup,
   FormControlLabel,
   Zoom,
-  IconButton,
-  Alert,
-  Snackbar,
 } from "@mui/material";
 import Button from "../components/Button";
 import MainTitle from "../components/MainTitle";
 import imgForm from "../assets/IMG-20210523-WA0003.jpg";
 import theme from "../core/theme/MuiTheme";
 import { oswaldLight as oswaldFontLight } from "../core/theme/CustomTheme";
-import { AddReaction, PersonRemove, Send, Close } from "@mui/icons-material";
+import { AddReaction, PersonRemove, Send } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
 import { AuthContext } from "../components/Auth";
 import firebaseConfig from "../config/firebase";
-import { getFirestore, doc, updateDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
+import CustomizedSnackbars from "../components/CustomizedSnackbars";
 
 const useStyles = makeStyles(() => ({
   formChild: {
@@ -42,6 +40,10 @@ const Formulaire = () => {
   const { currentUser } = useContext(AuthContext);
   const classes = useStyles();
   const [responsePresence, setResponsePresence] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [userAge, setUserAge] = useState("");
+  const [userLink, setUserLink] = useState("");
   const [isAllergy, setIsAllergy] = useState("");
   const [responseAllergy, setResponseAllergy] = useState("");
   const [engagementCeremony, setEngagementCeremony] = useState(false);
@@ -102,8 +104,10 @@ const Formulaire = () => {
         "guests",
         currentUser.uid
       );
-      await updateDoc(guestRef, {
+      await setDoc(guestRef, {
         responsePresence: responsePresence && responsePresence,
+        firstName: firstName && firstName,
+        lastName: lastName && lastName,
         isAllergy: isAllergy && isAllergy,
         responseAllergy: responseAllergy && responseAllergy,
         engagementCeremony: engagementCeremony && engagementCeremony,
@@ -111,6 +115,9 @@ const Formulaire = () => {
         meal: meal && meal,
         responseChildren: responseChildren && responseChildren,
         childrenList: childrenList && childrenList,
+        age: userAge && userAge,
+        userLink: userLink && userLink,
+        photo: currentUser.photoURL && currentUser.photoURL,
       });
       setOpenSnackBar(true);
       setMessageSnackBar("Vos informations ont bien été enregistrées !");
@@ -129,22 +136,6 @@ const Formulaire = () => {
 
     setOpenSnackBar(false);
   };
-
-  const actionSnackBar = (
-    <React.Fragment>
-      <Button color='secondary' size='small' onClick={handleSnackBarClose}>
-        UNDO
-      </Button>
-      <IconButton
-        size='small'
-        aria-label='close'
-        color='inherit'
-        onClick={handleSnackBarClose}
-      >
-        <Close fontSize='small' />
-      </IconButton>
-    </React.Fragment>
-  );
 
   return (
     <Container component='main' maxWidth='xl'>
@@ -198,7 +189,69 @@ const Formulaire = () => {
                   <MenuItem value={"Oui"}>Oui</MenuItem>
                   <MenuItem value={"Non"}>Non</MenuItem>
                 </TextField>
+                {responsePresence === "Oui" && (
+                  <Zoom in>
+                    <TextField
+                      required
+                      id='firstName'
+                      variant='standard'
+                      label='Prénom'
+                      value={firstName}
+                      onChange={(event) => setFirstName(event.target.value)}
+                    />
+                  </Zoom>
+                )}
+                {responsePresence === "Oui" && (
+                  <Zoom in>
+                    <TextField
+                      required
+                      id='lastName'
+                      variant='standard'
+                      label='Nom'
+                      value={lastName}
+                      onChange={(event) => setLastName(event.target.value)}
+                    />
+                  </Zoom>
+                )}
+                {responsePresence === "Oui" && (
+                  <Zoom in>
+                    <TextField
+                      id={`age-adult`}
+                      variant='standard'
+                      label='Age'
+                      value={userAge}
+                      type={"number"}
+                      onChange={(event) =>
+                        setUserAge(
+                          parseInt(event.target.value) < 0
+                            ? 0
+                            : isNaN(parseInt(event.target.value))
+                            ? ""
+                            : parseInt(event.target.value)
+                        )
+                      }
+                    />
+                  </Zoom>
+                )}
               </Grid>
+              {responsePresence === "Oui" && (
+                <Grid item>
+                  <Zoom in>
+                    <TextField
+                      id='user-link'
+                      required
+                      select
+                      variant='standard'
+                      label='Votre lien avec les mariés'
+                      value={userLink}
+                      onChange={(event) => setUserLink(event.target.value)}
+                    >
+                      <MenuItem value={"Ami"}>Ami</MenuItem>
+                      <MenuItem value={"Famille"}>Famille</MenuItem>
+                    </TextField>
+                  </Zoom>
+                </Grid>
+              )}
               {responsePresence === "Oui" && (
                 <Grid item>
                   <Zoom in>
@@ -438,20 +491,13 @@ const Formulaire = () => {
                   }}
                   onClick={onSubmitForm}
                 />
-                <Snackbar
+                <CustomizedSnackbars
                   open={openSnackBar}
+                  handleClose={handleSnackBarClose}
+                  text={messageSnackBar}
+                  severity={severitySnackBar}
                   autoHideDuration={4000}
-                  onClose={handleSnackBarClose}
-                  action={actionSnackBar}
-                >
-                  <Alert
-                    onClose={handleSnackBarClose}
-                    severity={severitySnackBar}
-                    sx={{ width: "100%" }}
-                  >
-                    {messageSnackBar}
-                  </Alert>
-                </Snackbar>
+                />
               </Grid>
             </Grid>
           </Box>
