@@ -22,15 +22,17 @@ const FormProfil = () => {
   const { currentUser } = React.useContext(AuthContext);
   const [guest, setGuest] = React.useState(null);
   const [user, setUser] = React.useState({
+    firstName: "",
+    lastName: "",
     fullName: "",
-    phoneNumber: "",
   });
   const [openDialog, setopenDialog] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState({
-    phoneNumber: "",
-    validPhoneNumber: true,
+    firstName: "",
+    lastName: "",
     fullName: "",
-    validFullName: true,
+    validFirstName: true,
+    validLastName: true,
   });
   const [openSnackBar, setOpenSnackBar] = React.useState(false);
   const [messageSnackBar, setMessageSnackBar] = React.useState("");
@@ -63,18 +65,16 @@ const FormProfil = () => {
         currentUser.uid
       );
       await updateDoc(guestRef, {
-        phoneNumber:
-          user.phoneNumber !== "" ? user.phoneNumber : guest.phoneNumber,
-        name: user.fullName !== "" ? user.fullName : guest.name,
+        firstName: user.firstName !== "" ? user.firstName : guest.firstName,
+        lastName: user.lastName !== "" ? user.lastName : guest.lastName,
       });
       getDocUser();
-      if (user.phoneNumber !== "" && user.fullName !== "") {
+      if (user.firstName !== "" && user.lastName !== "") {
         setErrorMessage({
           ...errorMessage,
-          phoneNumber: "",
           fullName: "",
-          validFullName: true,
-          validPhoneNumber: true,
+          validFirstName: true,
+          validLastName: true,
         });
         setOpenSnackBar(true);
         setMessageSnackBar("Informations mises à jours");
@@ -82,31 +82,28 @@ const FormProfil = () => {
       } else {
         setErrorMessage({
           ...errorMessage,
-          phoneNumber: "Renseigner un numéro de téléphone",
-          fullName: "Renseignez un prénom et un nom",
-          validFullName: false,
-          validPhoneNumber: false,
+          firstName: "Renseignez un prénom",
+          lastName: "Renseignez un nom",
+          validFirstName: false,
+          validLastName: false,
         });
       }
-      if (user.phoneNumber === "" && user.fullName !== "") {
+      if (user.firstName !== "" && user.lastName !== "") {
         setErrorMessage({
           ...errorMessage,
-          phoneNumber: "Renseigner un numéro de téléphone",
-          fullName: "",
-          validFullName: true,
-          validPhoneNumber: false,
+          validFirstName: true,
+          validLastName: true,
         });
         setOpenSnackBar(true);
         setMessageSnackBar("Informations mises à jours");
         setSeveritySnackBar("success");
       }
-      if (user.phoneNumber !== "" && user.fullName === "") {
+      if (user.firstName === "" && user.lastName === "") {
         setErrorMessage({
           ...errorMessage,
-          phoneNumber: "",
           fullName: "Renseignez un prénom et un nom",
-          validFullName: false,
-          validPhoneNumber: true,
+          validFirstName: false,
+          validLastName: false,
         });
         setOpenSnackBar(true);
         setMessageSnackBar("Informations mises à jours");
@@ -147,13 +144,13 @@ const FormProfil = () => {
     <Grid container>
       <Grid
         container
-        sx={{ height: 140 }}
+        sx={{ height: 280 }}
         direction='column'
         justifyContent='space-around'
       >
         <TextField
           type='text'
-          value={guest !== null && guest.name.split(" ")[0]}
+          value={guest !== null && guest.firstName}
           label='Prénom'
           variant='standard'
           fullWidth
@@ -161,23 +158,8 @@ const FormProfil = () => {
         />
         <TextField
           type='text'
-          value={guest !== null && guest.name.split(" ")[1]}
+          value={guest !== null && guest.lastName}
           label='Nom'
-          variant='standard'
-          fullWidth
-          disabled
-        />
-      </Grid>
-      <Grid
-        container
-        sx={{ height: 140 }}
-        direction='column'
-        justifyContent='space-around'
-      >
-        <TextField
-          type='tel'
-          value={guest !== null && guest.phoneNumber ? guest.phoneNumber : ""}
-          label='Téléphone mobile'
           variant='standard'
           fullWidth
           disabled
@@ -213,32 +195,32 @@ const FormProfil = () => {
         <DialogContent>
           <Stack direction='row' justifyContent='space-around'>
             <TextField
-              label='Prénom Nom'
-              value={user.fullName}
+              label='Prénom'
+              value={user.firstName}
               variant='standard'
               onChange={(event) =>
-                setUser({ ...user, fullName: event.target.value })
+                setUser({ ...user, firstName: event.target.value })
               }
               helperText={
-                errorMessage.validFullName === false
-                  ? errorMessage.fullName
+                errorMessage.validFirstName === false
+                  ? errorMessage.firstName
                   : ""
               }
-              error={!errorMessage.validFullName}
+              error={!errorMessage.validFirstName}
             />
             <TextField
-              label='Téléphone mobile'
-              value={user.phoneNumber}
+              label='Nom'
+              value={user.lastName}
               variant='standard'
               onChange={(event) =>
-                setUser({ ...user, phoneNumber: event.target.value })
+                setUser({ ...user, lastName: event.target.value })
               }
               helperText={
-                errorMessage.validPhoneNumber === false
-                  ? errorMessage.phoneNumber
+                errorMessage.validLastName === false
+                  ? errorMessage.lastName
                   : ""
               }
-              error={!errorMessage.validPhoneNumber}
+              error={!errorMessage.validLastName}
             />
           </Stack>
         </DialogContent>
@@ -252,13 +234,17 @@ const FormProfil = () => {
             }}
             onClick={() => {
               setopenDialog(false);
-              setUser({ ...user, phoneNumber: "", fullName: "" });
+              setUser({
+                ...user,
+                firstName: "",
+                lastName: "",
+              });
               setErrorMessage({
                 ...errorMessage,
-                phoneNumber: "",
-                fullName: "",
-                validFullName: true,
-                validPhoneNumber: true,
+                firstName: "",
+                lastName: "",
+                validFirstName: true,
+                validLastName: true,
               });
             }}
           >
