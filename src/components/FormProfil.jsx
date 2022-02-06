@@ -88,21 +88,21 @@ const FormProfil = () => {
           validLastName: false,
         });
       }
-      if (user.firstName !== "" && user.lastName !== "") {
+      if (user.firstName === "" && user.lastName !== "") {
         setErrorMessage({
           ...errorMessage,
-          validFirstName: true,
+          validFirstName: false,
           validLastName: true,
         });
         setOpenSnackBar(true);
         setMessageSnackBar("Informations mises à jours");
         setSeveritySnackBar("success");
       }
-      if (user.firstName === "" && user.lastName === "") {
+      if (user.firstName !== "" && user.lastName === "") {
         setErrorMessage({
           ...errorMessage,
           fullName: "Renseignez un prénom et un nom",
-          validFirstName: false,
+          validFirstName: true,
           validLastName: false,
         });
         setOpenSnackBar(true);
