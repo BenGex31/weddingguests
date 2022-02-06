@@ -1,4 +1,13 @@
-import { Box, Container, Grid, Typography, Stack, Avatar } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  Typography,
+  Stack,
+  Avatar,
+  IconButton,
+} from "@mui/material";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import React from "react";
 import Header from "../components/Header";
 import NavTab from "../components/NavTab";
@@ -10,6 +19,10 @@ import { AuthContext } from "../components/Auth";
 import weddingLogo from "../assets/weddingLogo.png";
 import userImg from "../assets/user.png";
 import { Redirect } from "react-router-dom";
+import { doc, getFirestore, updateDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+import firebaseConfig from "../config/firebase";
+import { Person } from "@mui/icons-material";
 
 const Profil = () => {
   const { currentUser } = React.useContext(AuthContext);
@@ -72,21 +85,31 @@ const Profil = () => {
             direction={"column"}
             spacing={2}
           >
-            <Avatar
-              src={
-                currentUser.photoURL !== null ? currentUser.photoURL : userImg
-              }
-              alt={
-                currentUser.displayName !== null
-                  ? currentUser.displayName
-                  : "User image"
-              }
-              sx={{
-                width: 120,
-                height: 120,
-                boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
-              }}
-            />
+            {currentUser.photoURL !== null ? (
+              <Avatar
+                src={currentUser.photoURL}
+                alt={
+                  currentUser.displayName !== null
+                    ? currentUser.displayName
+                    : "User image"
+                }
+                sx={{
+                  width: 120,
+                  height: 120,
+                  boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
+                }}
+              />
+            ) : (
+              <Avatar
+                sx={{
+                  width: 120,
+                  height: 120,
+                  boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
+                }}
+              >
+                <Person sx={{ fontSize: 80 }} />
+              </Avatar>
+            )}
             {currentUser.displayName && (
               <Typography
                 sx={{
