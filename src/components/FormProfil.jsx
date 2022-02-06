@@ -11,12 +11,9 @@ import {
   Grid,
   Stack,
   TextField,
-  Snackbar,
-  Alert,
 } from "@mui/material";
-import { IconButton } from "@mui/material";
 import theme from "../core/theme/MuiTheme";
-import { Close } from "@mui/icons-material";
+import CustomizedSnackbars from "./CustomizedSnackbars";
 
 const FormProfil = () => {
   const { currentUser } = React.useContext(AuthContext);
@@ -123,22 +120,6 @@ const FormProfil = () => {
 
     setOpenSnackBar(false);
   };
-
-  const actionSnackBar = (
-    <React.Fragment>
-      <Button color='secondary' size='small' onClick={handleSnackBarClose}>
-        UNDO
-      </Button>
-      <IconButton
-        size='small'
-        aria-label='close'
-        color='inherit'
-        onClick={handleSnackBarClose}
-      >
-        <Close fontSize='small' />
-      </IconButton>
-    </React.Fragment>
-  );
 
   return (
     <Grid container>
@@ -263,20 +244,13 @@ const FormProfil = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      <Snackbar
+      <CustomizedSnackbars
         open={openSnackBar}
+        handleClose={handleSnackBarClose}
         autoHideDuration={4000}
-        onClose={handleSnackBarClose}
-        action={actionSnackBar}
-      >
-        <Alert
-          onClose={handleSnackBarClose}
-          severity={severitySnackBar}
-          sx={{ width: "100%" }}
-        >
-          {messageSnackBar}
-        </Alert>
-      </Snackbar>
+        text={messageSnackBar}
+        severity={severitySnackBar}
+      />
     </Grid>
   );
 };
