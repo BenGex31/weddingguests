@@ -1,13 +1,4 @@
-import {
-  Box,
-  Container,
-  Grid,
-  Typography,
-  Stack,
-  Avatar,
-  IconButton,
-} from "@mui/material";
-import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import { Box, Container, Grid, Typography, Stack, Avatar } from "@mui/material";
 import React from "react";
 import Header from "../components/Header";
 import NavTab from "../components/NavTab";
@@ -17,11 +8,7 @@ import { oswaldRegular } from "../core/theme/CustomTheme";
 import { oswaldLight } from "../core/theme/CustomTheme";
 import { AuthContext } from "../components/Auth";
 import weddingLogo from "../assets/weddingLogo.png";
-import userImg from "../assets/user.png";
 import { Redirect } from "react-router-dom";
-import { doc, getFirestore, updateDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
-import firebaseConfig from "../config/firebase";
 import { Person } from "@mui/icons-material";
 
 const Profil = () => {
