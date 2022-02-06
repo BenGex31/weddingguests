@@ -176,7 +176,7 @@ const FormProfil = () => {
       >
         <TextField
           type='tel'
-          value={guest !== null && guest.phoneNumber}
+          value={guest !== null && guest.phoneNumber ? guest.phoneNumber : ""}
           label='Téléphone mobile'
           variant='standard'
           fullWidth
