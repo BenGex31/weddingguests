@@ -21,13 +21,13 @@ const FormProfil = () => {
   const [user, setUser] = React.useState({
     firstName: "",
     lastName: "",
-    fullName: "",
+    age: "",
   });
   const [openDialog, setopenDialog] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState({
     firstName: "",
     lastName: "",
-    fullName: "",
+    age: "",
     validFirstName: true,
     validLastName: true,
   });
@@ -45,7 +45,7 @@ const FormProfil = () => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
+      //console.log("Document data:", docSnap.data());
       setGuest(docSnap.data());
     } else {
       // doc.data() will be undefined in this case
@@ -64,9 +64,10 @@ const FormProfil = () => {
       await updateDoc(guestRef, {
         firstName: user.firstName !== "" ? user.firstName : guest.firstName,
         lastName: user.lastName !== "" ? user.lastName : guest.lastName,
+        age: user.age !== "" ? user.age : guest.age,
       });
-      getDocUser();
-      if (user.firstName !== "" && user.lastName !== "") {
+
+      if (user.firstName !== "" && user.lastName !== "" && user.age !== "") {
         setErrorMessage({
           ...errorMessage,
           fullName: "",
@@ -98,7 +99,6 @@ const FormProfil = () => {
       if (user.firstName !== "" && user.lastName === "") {
         setErrorMessage({
           ...errorMessage,
-          fullName: "Renseignez un prénom et un nom",
           validFirstName: true,
           validLastName: false,
         });
@@ -106,6 +106,17 @@ const FormProfil = () => {
         setMessageSnackBar("Informations mises à jours");
         setSeveritySnackBar("success");
       }
+      if (user.firstName === "" && user.lastName === "" && user.age !== "") {
+        setErrorMessage({
+          ...errorMessage,
+          validFirstName: false,
+          validLastName: false,
+        });
+        setOpenSnackBar(true);
+        setMessageSnackBar("Informations mises à jours");
+        setSeveritySnackBar("success");
+      }
+      getDocUser();
     } catch (error) {
       console.log(error);
       setMessageSnackBar("Erreur mise à jour");
@@ -131,7 +142,7 @@ const FormProfil = () => {
       >
         <TextField
           type='text'
-          value={guest !== null && guest.firstName}
+          value={guest !== null ? guest.firstName : ""}
           label='Prénom'
           variant='standard'
           fullWidth
@@ -139,14 +150,14 @@ const FormProfil = () => {
         />
         <TextField
           type='text'
-          value={guest !== null && guest.lastName}
+          value={guest !== null ? guest.lastName : ""}
           label='Nom'
           variant='standard'
           fullWidth
           disabled
         />
         <TextField
-          value={guest !== null && guest.email}
+          value={currentUser.email}
           label='Email'
           variant='standard'
           fullWidth
@@ -203,6 +214,23 @@ const FormProfil = () => {
               }
               error={!errorMessage.validLastName}
             />
+            <TextField
+              label='Age'
+              value={user.age}
+              variant='standard'
+              type='number'
+              onChange={(event) =>
+                setUser({
+                  ...user,
+                  age:
+                    parseInt(event.target.value) < 0
+                      ? 0
+                      : isNaN(parseInt(event.target.value))
+                      ? ""
+                      : parseInt(event.target.value),
+                })
+              }
+            />
           </Stack>
         </DialogContent>
         <DialogActions>
@@ -219,6 +247,7 @@ const FormProfil = () => {
                 ...user,
                 firstName: "",
                 lastName: "",
+                age: "",
               });
               setErrorMessage({
                 ...errorMessage,
