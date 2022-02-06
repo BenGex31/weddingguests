@@ -12,7 +12,7 @@ import ErrorMessage from "../components/ErrorMessage";
 import weddingCamBen from "../assets/weddingCamBen.jpeg";
 import WeddingTitle from "../components/WeddingTitle";
 import firebaseConfig from "../config/firebase";
-import { getFirestore, doc, updateDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 import {
   GoogleAuthProvider,
   getAuth,
@@ -53,11 +53,13 @@ const Login = () => {
     try {
       const res = await signInWithPopup(auth, googleProvider);
       const user = res.user;
-      await updateDoc(doc(getFirestore(firebaseConfig), "guests", user.uid), {
+      await setDoc(doc(getFirestore(firebaseConfig), "guests", user.uid), {
         uid: user.uid,
-        name: user.displayName,
+        firstName: user.displayName.split(" ")[0],
+        lastName: user.displayName.split(" ")[1],
         authProvider: "google",
         email: user.email,
+        photo: user.photoURL,
       });
     } catch (err) {
       console.error(err);
