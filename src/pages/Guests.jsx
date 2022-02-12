@@ -126,7 +126,7 @@ const Guests = () => {
                       fontStyle: OswaldR.fontStyle,
                     }}
                   >
-                    {guest.name}
+                    {`${guest.firstName} ${guest.lastName}`}
                   </Typography>
                 }
               />
