@@ -136,7 +136,7 @@ const Formulaire = () => {
 
   const onChildAllergiesChange = (event, index) => {
     let array = [...childrenList];
-    array[index].allergies = event.target.value.trimEnd();
+    array[index].allergies = event.target.value;
     setChildrenList(array);
   };
 
