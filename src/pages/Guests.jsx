@@ -93,9 +93,9 @@ const Guests = () => {
       <Grid container mb={5} justifyContent={"space-around"}>
         {guests
           .filter((guest) => guest.responsePresence === "Oui")
-          .map((guest) => (
+          .map((guest, index) => (
             <Card
-              key={guest.uid}
+              key={index}
               sx={{
                 width: 441,
                 height: 284,
