@@ -18,6 +18,7 @@ import firebaseConfig from "../config/firebase";
 import theme from "../core/theme/MuiTheme";
 import { oswaldRegular as OswaldR } from "../core/theme/CustomTheme";
 import { alexBrushRegular as alexBrush } from "../core/theme/CustomTheme";
+import { oswaldLight } from "../core/theme/CustomTheme";
 import { Mail } from "@material-ui/icons";
 import { makeStyles } from "@mui/styles";
 import MainTitle from "../components/MainTitle";
@@ -132,22 +133,48 @@ const Guests = () => {
               />
               <CardContent>
                 <Stack direction={"row"} justifyContent={"space-between"}>
-                  <Stack
-                    justifyContent={"flex-start"}
-                    direction={"row"}
-                    spacing={1}
-                  >
-                    <Mail className={classes.mailIcon} fontSize='large' />
+                  <Stack>
+                    <Stack
+                      justifyContent={"flex-start"}
+                      direction={"row"}
+                      spacing={1}
+                    >
+                      <Mail className={classes.mailIcon} fontSize='large' />
+                      <Typography
+                        sx={{
+                          fontSize: 30,
+                          fontFamily: alexBrush.fontFamily,
+                          fontWeight: alexBrush.fontWeight,
+                          fontStyle: alexBrush.fontStyle,
+                          color: theme.palette.primary.light,
+                        }}
+                      >
+                        Invité
+                      </Typography>
+                    </Stack>
                     <Typography
                       sx={{
-                        fontSize: 30,
-                        fontFamily: alexBrush.fontFamily,
-                        fontWeight: alexBrush.fontWeight,
-                        fontStyle: alexBrush.fontStyle,
+                        fontSize: 18,
+                        fontFamily: oswaldLight.fontFamily,
+                        fontWeight: oswaldLight.fontWeight,
+                        fontStyle: oswaldLight.fontStyle,
                         color: theme.palette.primary.light,
                       }}
                     >
-                      Invité
+                      {guest.userLink}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: 18,
+                        fontFamily: oswaldLight.fontFamily,
+                        fontWeight: oswaldLight.fontWeight,
+                        fontStyle: oswaldLight.fontStyle,
+                        color: theme.palette.primary.light,
+                      }}
+                    >
+                      {`${guest.age >= 18 ? "Adulte" : "Enfant"} ${
+                        guest.age
+                      } ans`}
                     </Typography>
                   </Stack>
                   <Stack>
