@@ -58,6 +58,7 @@ const Formulaire = () => {
     responseChildren: "",
     age: "",
     userLink: "",
+    photo: currentUser.photoURL,
   });
   const [childrenList, setChildrenList] = useState([]);
   const [isGuestDb, setIsGuestDb] = useState(false);
