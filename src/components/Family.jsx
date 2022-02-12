@@ -1,10 +1,11 @@
 import React from "react";
-import Chip from "@mui/material/Chip";
 import FaceIcon from "@mui/icons-material/Face";
 import { AuthContext } from "../components/Auth";
 import firebaseConfig from "../config/firebase";
-import { Stack } from "@mui/material";
+import { Stack, Tooltip, Typography, Chip } from "@mui/material";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { oswaldLight } from "../core/theme/CustomTheme";
+import theme from "../core/theme/MuiTheme";
 
 const Family = () => {
   const { currentUser } = React.useContext(AuthContext);
@@ -35,12 +36,34 @@ const Family = () => {
   return (
     <Stack direction='row' justifyContent='space-evenly'>
       {childrenList.map((child, index) => (
-        <Chip
+        <Tooltip
+          arrow
           key={index}
-          icon={<FaceIcon />}
-          label={`${child.firstName} ${child.lastName}`}
-          variant='outlined'
-        />
+          title={
+            <Stack>
+              <Typography
+                sx={{
+                  fontSize: 12,
+                  fontFamily: oswaldLight.fontFamily,
+                  fontWeight: oswaldLight.fontWeight,
+                  fontStyle: oswaldLight.fontStyle,
+                  color: theme.palette.primary.light,
+                }}
+                component='p'
+              >
+                {child.isAllergy === "Oui"
+                  ? `Allergies: ${child.allergies}`
+                  : "Aucune allergie"}
+              </Typography>
+            </Stack>
+          }
+        >
+          <Chip
+            icon={<FaceIcon />}
+            label={`${child.firstName} ${child.lastName}`}
+            variant='outlined'
+          />
+        </Tooltip>
       ))}
     </Stack>
   );
