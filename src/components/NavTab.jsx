@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { oswaldRegular } from "../core/theme/CustomTheme";
 import FormProfil from "./FormProfil";
+import Family from "./Family";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -83,7 +84,7 @@ export default function BasicTabs() {
         <FormProfil />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <Family />
       </TabPanel>
     </Box>
   );
