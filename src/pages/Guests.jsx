@@ -50,7 +50,6 @@ const Guests = () => {
 
     queryGuestSnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
       array.push(doc.data());
     });
     setGuests(array);
@@ -65,13 +64,10 @@ const Guests = () => {
 
     queryChildrenSnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      console.log(queryChildrenSnapshot);
-      console.log(doc.id, " => ", doc.data());
       array.push(doc.data().childrenList);
     });
     setChildren(array);
   };
-  console.log(children.concat().flat());
 
   return (
     <Container component='main' maxWidth='xl'>
@@ -135,7 +131,7 @@ const Guests = () => {
                       backgroundColor: theme.palette.primary.light,
                       color: theme.palette.secondary.main,
                     }}
-                    alt={guest.name}
+                    alt={`${guest.firstName} ${guest.lastName}`}
                     src={guest.photo}
                   />
                 }
