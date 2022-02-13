@@ -16,16 +16,10 @@ import {
   CardMedia,
   Chip,
   Zoom,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
   Link,
 } from "@mui/material";
 import { oswaldRegular as oswaldR } from "../core/theme/CustomTheme";
 import theme from "../core/theme/MuiTheme";
-import Button from "../components/Button";
 import beyssacHotel from "../assets/beyssac-hotel.jpeg";
 import { OpenInNew, Hotel } from "@mui/icons-material";
 
@@ -43,7 +37,6 @@ const center = {
 
 const Map = () => {
   const [hotels, setHotels] = useState(null);
-  const [openDialog, setOpenDialog] = useState(false);
   const [InputSearch, setInputSearch] = useState("");
   const libraries = useState(["places"]);
   const mapRef = useRef(null);
@@ -227,8 +220,7 @@ const Map = () => {
                     color: theme.palette.primary.main,
                   }}
                 >
-                  Trouvez votre hôtel, camping ou gîte autour du domaine de
-                  notre mariage
+                  Trouvez votre hôtel, camping ou gîte
                 </Typography>
               }
             />
@@ -323,36 +315,6 @@ const Map = () => {
               43°17’10.5 N 1°34’10.7 E
             </span>
           </Typography>
-          <Dialog
-            maxWidth='lg'
-            fullWidth
-            open={openDialog}
-            onClose={() => setOpenDialog(false)}
-          >
-            <DialogTitle>Recherche hôtels</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Vous cherchez un hôtel, un gîte ou un camping ?
-              </DialogContentText>
-              <DialogContentText>
-                tapez dans la barre de recherche de la carte Google :{" "}
-                <em>"hôtels Cintegabelle"</em> ou <em>"gîtes Cintegabelle"</em>{" "}
-                ou <em>"camping Cintegabelle"</em>
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button
-                variant={"contained"}
-                text={"Fermer"}
-                onClick={() => setOpenDialog(false)}
-                style={{
-                  color: theme.palette.primary.light,
-                  backgroundColor: theme.palette.primary.main,
-                  textTransform: "none",
-                }}
-              />
-            </DialogActions>
-          </Dialog>
         </Grid>
         <Grid>
           <LoadScript
@@ -376,7 +338,7 @@ const Map = () => {
                     style={{
                       boxSizing: `border-box`,
                       border: `1px solid transparent`,
-                      width: `240px`,
+                      width: `210px`,
                       height: `32px`,
                       padding: `0 12px`,
                       borderRadius: `3px`,
@@ -385,8 +347,8 @@ const Map = () => {
                       outline: `none`,
                       textOverflow: `ellipses`,
                       position: "absolute",
-                      left: "50%",
-                      top: "3%",
+                      left: "30%",
+                      bottom: "3%",
                       marginLeft: "-60px",
                     }}
                   />

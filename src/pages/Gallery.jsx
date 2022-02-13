@@ -43,7 +43,7 @@ const Gallery = () => {
 
   React.useEffect(() => {
     const setResponsiveMobile = () => {
-      return window.innerWidth < 425
+      return window.innerWidth < 424
         ? setMobileView(true)
         : setMobileView(false);
     };

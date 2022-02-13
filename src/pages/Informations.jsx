@@ -30,7 +30,7 @@ const Informations = () => {
       </header>
       <MainTitle title='Informations utiles' />
       <Grid mt={3} mb={5} container justifyContent='center'>
-        <Divider textAlign='center' sx={{ width: 400 }} />
+        <Divider textAlign='center' sx={{ width: 200 }} />
       </Grid>
       <Grid container>
         <Map />
@@ -57,7 +57,7 @@ const Informations = () => {
       >
         <Grid container justifyContent='space-around'>
           <Box
-            width={498}
+            width={"100%"}
             height={467}
             sx={{
               backgroundColor: theme.palette.primary.main,

@@ -11,8 +11,8 @@ import Grid from "@mui/material/Grid";
 import ErrorMessage from "../components/ErrorMessage";
 import weddingCamBen from "../assets/weddingCamBen.jpeg";
 import WeddingTitle from "../components/WeddingTitle";
+// eslint-disable-next-line
 import firebaseConfig from "../config/firebase";
-import { getFirestore, doc, updateDoc } from "firebase/firestore";
 import {
   GoogleAuthProvider,
   getAuth,
@@ -52,13 +52,16 @@ const Login = () => {
   const signInWithGoogle = async () => {
     try {
       const res = await signInWithPopup(auth, googleProvider);
+      // eslint-disable-next-line
       const user = res.user;
-      await updateDoc(doc(getFirestore(firebaseConfig), "guests", user.uid), {
+      /*await setDoc(doc(getFirestore(firebaseConfig), "guests", user.uid), {
         uid: user.uid,
-        name: user.displayName,
+        firstName: user.displayName.split(" ")[0],
+        lastName: user.displayName.split(" ")[1],
         authProvider: "google",
         email: user.email,
-      });
+        photo: user.photoURL,
+      });*/
     } catch (err) {
       console.error(err);
       alert(err.message);
