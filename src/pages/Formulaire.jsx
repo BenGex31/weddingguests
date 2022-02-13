@@ -152,6 +152,21 @@ const Formulaire = () => {
     setChildrenList(array);
   };
 
+  const isValidForm = () => {
+    if (
+      (user.age !== "" &&
+        user.firstName !== "" &&
+        user.lastName !== "" &&
+        user.engagementCeremony === true) ||
+      user.meal === true ||
+      user.wineReception === true
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const onSubmitForm = async () => {
     try {
       const guestRef = doc(
@@ -164,25 +179,33 @@ const Formulaire = () => {
         "childrenGuests",
         currentUser.uid
       );
-      if (isGuestDb) {
-        await updateDoc(guestRef, user);
-        setOpenSnackBar(true);
-        setMessageSnackBar("Vos informations ont bien été mises à jour !");
-        setSeveritySnackBar("success");
+      if (isValidForm()) {
+        if (isGuestDb) {
+          await updateDoc(guestRef, user);
+          setOpenSnackBar(true);
+          setMessageSnackBar("Vos informations ont bien été mises à jour !");
+          setSeveritySnackBar("success");
+        } else {
+          await setDoc(guestRef, user);
+          setOpenSnackBar(true);
+          setMessageSnackBar("Vos informations ont bien été enregistrées !");
+          setSeveritySnackBar("success");
+        }
+        if (isChildrenDb) {
+          await updateDoc(childrenRef, { childrenList: childrenList });
+          setOpenSnackBar(true);
+          setMessageSnackBar("Vos informations ont bien été mises à jour !");
+          setSeveritySnackBar("success");
+        } else {
+          await setDoc(childrenRef, { childrenList: childrenList });
+          setOpenSnackBar(true);
+          setMessageSnackBar("Vos informations ont bien été enregistrées !");
+          setSeveritySnackBar("success");
+        }
       } else {
-        await setDoc(guestRef, user);
         setOpenSnackBar(true);
-        setMessageSnackBar("Vos informations ont bien été enregistrées !");
-        setSeveritySnackBar("success");
-      }
-      if (isChildrenDb) {
-        await updateDoc(childrenRef, { childrenList: childrenList });
-        setMessageSnackBar("Vos informations ont bien été mises à jour !");
-        setSeveritySnackBar("success");
-      } else {
-        await setDoc(childrenRef, { childrenList: childrenList });
-        setMessageSnackBar("Vos informations ont bien été enregistrées !");
-        setSeveritySnackBar("success");
+        setMessageSnackBar("Vos informations sont incomplètes !");
+        setSeveritySnackBar("error");
       }
     } catch (error) {
       console.log(error);
@@ -259,6 +282,7 @@ const Formulaire = () => {
                   label='Âge'
                   value={user.age}
                   type={"number"}
+                  error={user.age === "" && isValidForm()}
                   onChange={(event) =>
                     setUser({
                       ...user,
