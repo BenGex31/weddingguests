@@ -60,6 +60,7 @@ const Formulaire = () => {
     age: "",
     userLink: "",
     photo: currentUser && currentUser.photoURL,
+    email: currentUser && currentUser.email,
   });
   const [childrenList, setChildrenList] = useState([]);
   const [isGuestDb, setIsGuestDb] = useState(false);
@@ -92,7 +93,6 @@ const Formulaire = () => {
     const childrenSnap = await getDoc(childrenRef);
 
     if (guestsSnap.exists()) {
-      //console.log("Document data:", docSnap.data());
       setUser(guestsSnap.data());
       setIsGuestDb(true);
     } else {
@@ -100,7 +100,6 @@ const Formulaire = () => {
       console.log("No such document!");
     }
     if (childrenSnap.exists()) {
-      console.log("Document data:", childrenSnap.data());
       setChildrenList(childrenSnap.data().childrenList);
       setisChildrenDb(true);
     } else {
@@ -208,7 +207,6 @@ const Formulaire = () => {
         setSeveritySnackBar("error");
       }
     } catch (error) {
-      console.log(error);
       setMessageSnackBar("Un problème est survenu avec la base de données");
       setSeveritySnackBar("error");
     }
