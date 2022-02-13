@@ -2,7 +2,7 @@ import React from "react";
 import { AuthContext } from "./Auth";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import firebaseConfig from "../config/firebase";
-import { Grid, TextField } from "@mui/material";
+import { Stack, TextField } from "@mui/material";
 
 const FormProfil = () => {
   const { currentUser } = React.useContext(AuthContext);
@@ -32,38 +32,31 @@ const FormProfil = () => {
   };
 
   return (
-    <Grid container>
-      <Grid
-        container
-        sx={{ height: 280 }}
-        direction='column'
-        justifyContent='space-around'
-      >
-        <TextField
-          type='text'
-          value={guest !== null ? guest.firstName : ""}
-          label='Prénom'
-          variant='standard'
-          fullWidth
-          disabled
-        />
-        <TextField
-          type='text'
-          value={guest !== null ? guest.lastName : ""}
-          label='Nom'
-          variant='standard'
-          fullWidth
-          disabled
-        />
-        <TextField
-          value={currentUser.email}
-          label='Email'
-          variant='standard'
-          fullWidth
-          disabled
-        />
-      </Grid>
-    </Grid>
+    <Stack spacing={5}>
+      <TextField
+        type='text'
+        value={guest !== null ? guest.firstName : ""}
+        label='Prénom'
+        variant='standard'
+        fullWidth
+        disabled
+      />
+      <TextField
+        type='text'
+        value={guest !== null ? guest.lastName : ""}
+        label='Nom'
+        variant='standard'
+        fullWidth
+        disabled
+      />
+      <TextField
+        value={currentUser.email}
+        label='Email'
+        variant='standard'
+        fullWidth
+        disabled
+      />
+    </Stack>
   );
 };
 
