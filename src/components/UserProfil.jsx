@@ -36,6 +36,8 @@ const UserProfil = () => {
       sx={{
         boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
         borderRadius: 5,
+        marginTop: 1,
+        marginBottom: 5,
       }}
       item
       xs={12}
