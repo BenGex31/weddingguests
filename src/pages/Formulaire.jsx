@@ -29,6 +29,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import CustomizedSnackbars from "../components/CustomizedSnackbars";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   formChild: {
@@ -58,7 +59,7 @@ const Formulaire = () => {
     responseChildren: "",
     age: "",
     userLink: "",
-    photo: currentUser.photoURL,
+    photo: currentUser && currentUser.photoURL,
   });
   const [childrenList, setChildrenList] = useState([]);
   const [isGuestDb, setIsGuestDb] = useState(false);
@@ -71,6 +72,10 @@ const Formulaire = () => {
     getDocUser();
     // eslint-disable-next-line
   }, []);
+
+  if (!currentUser) {
+    return <Redirect to='/' />;
+  }
 
   const getDocUser = async () => {
     const guestsRef = doc(
