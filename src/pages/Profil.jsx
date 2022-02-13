@@ -21,20 +21,20 @@ const Profil = () => {
         <Header />
       </header>
       <Grid
-        mb={2}
         container
         justifyContent={"space-around"}
-        alignItems={"flex-start"}
+        alignItems={"center"}
         sx={{
           boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
           borderRadius: 5,
-          height: 731,
+          height: 630,
+          marginBottom: 5,
         }}
       >
         <Box
           sx={{
             width: "100%",
-            height: 222,
+            height: 140,
             backgroundColor: theme.palette.primary.main,
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
