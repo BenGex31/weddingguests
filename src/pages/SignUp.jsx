@@ -79,13 +79,13 @@ const SignUp = () => {
           displayName: firstname + " " + lastname,
         });
         await sendEmailVerification(user);
-        await setDoc(doc(getFirestore(firebaseConfig), "guests", user.uid), {
+        /*await setDoc(doc(getFirestore(firebaseConfig), "guests", user.uid), {
           uid: user.uid,
           firstname: firstname,
           lastname: lastname,
           authProvider: "password",
           email: email,
-        });
+        });*/
       }
     } catch (error) {
       setSignupError(error.message);
