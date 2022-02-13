@@ -24,7 +24,6 @@ const Family = () => {
     );
     const childrenSnap = await getDoc(childrenRef);
     if (childrenSnap.exists()) {
-      console.log("Document data:", childrenSnap.data());
       setChildrenList(childrenSnap.data().childrenList);
     } else {
       setChildrenList([]);
