@@ -8,7 +8,6 @@ import InputAdornments from "../components/InputAdornmets";
 import WeddingTitle from "../components/WeddingTitle";
 import PersonIcon from "@material-ui/icons/Person";
 import weddingHall1 from "../assets/beyssac1.jpeg";
-//import firebaseConfig from "../config/firebase";
 import CssBaseline from "@mui/material/CssBaseline";
 import Stack from "@mui/material/Stack";
 import Container from "@material-ui/core/Container";
