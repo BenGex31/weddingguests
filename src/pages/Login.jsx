@@ -51,9 +51,7 @@ const Login = () => {
 
   const signInWithGoogle = async () => {
     try {
-      const res = await signInWithPopup(auth, googleProvider);
-      // eslint-disable-next-line
-      const user = res.user;
+      await signInWithPopup(auth, googleProvider);
       /*await setDoc(doc(getFirestore(firebaseConfig), "guests", user.uid), {
         uid: user.uid,
         firstName: user.displayName.split(" ")[0],
