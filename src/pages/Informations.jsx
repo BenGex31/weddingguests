@@ -57,7 +57,7 @@ const Informations = () => {
       >
         <Grid container justifyContent='space-around'>
           <Box
-            width={{ xs: "100%", sm: "70%", md: "60%" }}
+            width={{ xs: "95%", sm: "70%", md: "60%" }}
             height={467}
             sx={{
               backgroundColor: theme.palette.primary.main,
