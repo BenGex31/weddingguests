@@ -11,12 +11,12 @@ const WeddingAvatar = () => {
     {
       image: camille,
       firstName: "Camille",
-      text: "Lorem ipsum dolor sit amet. Ea sint dolores qui architecto harum qui dolor reiciendis a dolorum nihil qui eaque maxime. Et officia tenetur et quis vitae eos similique mollitia ut delectus atque et nobis praesentium est dolores labore et vero quisquam. At fugit voluptatem eum vitae beatae aut explicabo recusandae et aspernatur iusto eos autem molestias ut omnis sint rem rerum minima!",
+      text: "Tombée sous le charme renversant d'un beau Marseillais, la belle au bar dansant a su faire les yeux de biches à celui-ci et a réussi à faire chavirer son coeur pour qu'il puisse la rejoindre dans la ville Rose pour mener une vie à deux... enfin à quatre !",
     },
     {
       image: benjamin,
       firstName: "Benjamin",
-      text: "Lorem ipsum dolor sit amet. Ea sint dolores qui architecto harum qui dolor reiciendis a dolorum nihil qui eaque maxime. Et officia tenetur et quis vitae eos similique mollitia ut delectus atque et nobis praesentium est dolores labore et vero quisquam. At fugit voluptatem eum vitae beatae aut explicabo recusandae et aspernatur iusto eos autem molestias ut omnis sint rem rerum minima!",
+      text: "Charmant Comptable-footeux Marseillais, venu se perdre il y a huit ans dans un bar toulousain pour rencontrer la femme de sa vie. Depuis, il est devenu toulousain, papa-sitter et développeur.",
     },
   ];
   return (

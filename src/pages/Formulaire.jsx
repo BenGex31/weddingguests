@@ -10,9 +10,6 @@ import {
   FormGroup,
   FormControlLabel,
   Zoom,
-  IconButton,
-  Alert,
-  Snackbar,
   Stack,
 } from "@mui/material";
 import Button from "../components/Button";
@@ -20,11 +17,19 @@ import MainTitle from "../components/MainTitle";
 import imgForm from "../assets/IMG-20210523-WA0003.jpg";
 import theme from "../core/theme/MuiTheme";
 import { oswaldLight as oswaldFontLight } from "../core/theme/CustomTheme";
-import { AddReaction, PersonRemove, Send, Close } from "@mui/icons-material";
+import { AddReaction, PersonRemove, Send } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
 import { AuthContext } from "../components/Auth";
 import firebaseConfig from "../config/firebase";
-import { getFirestore, doc, updateDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  updateDoc,
+  setDoc,
+  getDoc,
+} from "firebase/firestore";
+import CustomizedSnackbars from "../components/CustomizedSnackbars";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   formChild: {
@@ -42,26 +47,65 @@ const useStyles = makeStyles(() => ({
 const Formulaire = () => {
   const { currentUser } = useContext(AuthContext);
   const classes = useStyles();
-  const [responsePresence, setResponsePresence] = useState("");
-  const [isAllergy, setIsAllergy] = useState("");
-  const [responseAllergy, setResponseAllergy] = useState("");
-  const [engagementCeremony, setEngagementCeremony] = useState(false);
-  const [wineReception, setWineReception] = useState(false);
-  const [meal, setMeal] = useState(false);
-  const [responseChildren, setResponseChildren] = useState("");
+  const [user, setUser] = useState({
+    responsePresence: "",
+    firstName: "",
+    lastName: "",
+    isAllergy: "",
+    responseAllergy: "",
+    engagementCeremony: false,
+    wineReception: false,
+    meal: false,
+    responseChildren: "",
+    age: "",
+    userLink: "",
+    photo: currentUser && currentUser.photoURL,
+    email: currentUser && currentUser.email,
+  });
   const [childrenList, setChildrenList] = useState([]);
-  const [socialSecurity, setSocialSecurity] = useState("");
-  const [isValidSocialSecurity, setIsValidIsSocialSecurty] = useState(true);
+  const [isGuestDb, setIsGuestDb] = useState(false);
+  const [isChildrenDb, setisChildrenDb] = useState(false);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [messageSnackBar, setMessageSnackBar] = useState("");
   const [severitySnackBar, setSeveritySnackBar] = useState("success");
 
-  const handleSocialSecurityChange = (event) => {
-    setSocialSecurity(event.target.value);
-    if (socialSecurity.length >= 20) {
-      setIsValidIsSocialSecurty(true);
+  React.useEffect(() => {
+    getDocUser();
+    // eslint-disable-next-line
+  }, []);
+
+  if (!currentUser) {
+    return <Redirect to='/' />;
+  }
+
+  const getDocUser = async () => {
+    const guestsRef = doc(
+      getFirestore(firebaseConfig),
+      "guests",
+      currentUser.uid
+    );
+    const childrenRef = doc(
+      getFirestore(firebaseConfig),
+      "childrenGuests",
+      currentUser.uid
+    );
+    const guestsSnap = await getDoc(guestsRef);
+    const childrenSnap = await getDoc(childrenRef);
+
+    if (guestsSnap.exists()) {
+      setUser(guestsSnap.data());
+      setIsGuestDb(true);
     } else {
-      setIsValidIsSocialSecurty(false);
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+    if (childrenSnap.exists()) {
+      setChildrenList(childrenSnap.data().childrenList);
+      setisChildrenDb(true);
+    } else {
+      setChildrenList([]);
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
     }
   };
 
@@ -96,7 +140,7 @@ const Formulaire = () => {
 
   const onChildAllergiesChange = (event, index) => {
     let array = [...childrenList];
-    array[index].allergies = event.target.value.trimEnd();
+    array[index].allergies = event.target.value;
     setChildrenList(array);
   };
 
@@ -107,6 +151,21 @@ const Formulaire = () => {
     setChildrenList(array);
   };
 
+  const isValidForm = () => {
+    if (
+      (user.age !== "" &&
+        user.firstName !== "" &&
+        user.lastName !== "" &&
+        user.engagementCeremony === true) ||
+      user.meal === true ||
+      user.wineReception === true
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const onSubmitForm = async () => {
     try {
       const guestRef = doc(
@@ -114,22 +173,40 @@ const Formulaire = () => {
         "guests",
         currentUser.uid
       );
-      await updateDoc(guestRef, {
-        responsePresence: responsePresence,
-        isAllergy: isAllergy,
-        responseAllergy: responseAllergy,
-        engagementCeremony: engagementCeremony,
-        wineReception: wineReception,
-        meal: meal,
-        responseChildren: responseChildren,
-        childrenList: childrenList,
-        socialSecurity: socialSecurity,
-      });
-      setOpenSnackBar(true);
-      setMessageSnackBar("Vos informations ont bien été enregistrées !");
-      setSeveritySnackBar("success");
+      const childrenRef = doc(
+        getFirestore(firebaseConfig),
+        "childrenGuests",
+        currentUser.uid
+      );
+      if (isValidForm()) {
+        if (isGuestDb) {
+          await updateDoc(guestRef, user);
+          setOpenSnackBar(true);
+          setMessageSnackBar("Vos informations ont bien été mises à jour !");
+          setSeveritySnackBar("success");
+        } else {
+          await setDoc(guestRef, user);
+          setOpenSnackBar(true);
+          setMessageSnackBar("Vos informations ont bien été enregistrées !");
+          setSeveritySnackBar("success");
+        }
+        if (isChildrenDb) {
+          await updateDoc(childrenRef, { childrenList: childrenList });
+          setOpenSnackBar(true);
+          setMessageSnackBar("Vos informations ont bien été mises à jour !");
+          setSeveritySnackBar("success");
+        } else {
+          await setDoc(childrenRef, { childrenList: childrenList });
+          setOpenSnackBar(true);
+          setMessageSnackBar("Vos informations ont bien été enregistrées !");
+          setSeveritySnackBar("success");
+        }
+      } else {
+        setOpenSnackBar(true);
+        setMessageSnackBar("Vos informations sont incomplètes !");
+        setSeveritySnackBar("error");
+      }
     } catch (error) {
-      console.log(error);
       setMessageSnackBar("Un problème est survenu avec la base de données");
       setSeveritySnackBar("error");
     }
@@ -142,22 +219,6 @@ const Formulaire = () => {
 
     setOpenSnackBar(false);
   };
-
-  const actionSnackBar = (
-    <React.Fragment>
-      <Button color='secondary' size='small' onClick={handleSnackBarClose}>
-        UNDO
-      </Button>
-      <IconButton
-        size='small'
-        aria-label='close'
-        color='inherit'
-        onClick={handleSnackBarClose}
-      >
-        <Close fontSize='small' />
-      </IconButton>
-    </React.Fragment>
-  );
 
   return (
     <Container component='main' maxWidth='xl'>
@@ -181,22 +242,22 @@ const Formulaire = () => {
           <Box
             component='form'
             sx={{
-              "& .MuiTextField-root": { m: 1, width: "25ch" },
+              "& .MuiTextField-root": { m: 1, width: "30ch" },
             }}
             noValidate
             autoComplete='off'
           >
-            <Grid
-              className={classes.subContainer}
-              container
-              alignItems={"center"}
-              justifyContent={"space-around"}
-            >
-              <Grid item>
+            <Stack direction='column' spacing={3}>
+              <Stack
+                justifyContent='space-around'
+                direction='row'
+                alignItems='center'
+              >
                 <TextField
                   required
                   id='presence'
                   select
+                  fullWidth
                   variant='standard'
                   label='Votre présence ?'
                   sx={{
@@ -204,159 +265,198 @@ const Formulaire = () => {
                     fontWeight: oswaldFontLight.fontWeight,
                     fontStyle: oswaldFontLight.fontStyle,
                   }}
-                  value={responsePresence}
-                  onChange={(event) => setResponsePresence(event.target.value)}
+                  value={user.responsePresence}
+                  onChange={(event) =>
+                    setUser({ ...user, responsePresence: event.target.value })
+                  }
                 >
                   <MenuItem value={"Ne sais pas"}>Ne sais pas</MenuItem>
                   <MenuItem value={"Oui"}>Oui</MenuItem>
                   <MenuItem value={"Non"}>Non</MenuItem>
                 </TextField>
-              </Grid>
-              {responsePresence === "Oui" && (
-                <Grid item>
-                  <Zoom in>
-                    <FormGroup>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={engagementCeremony}
-                            onChange={(event) =>
-                              setEngagementCeremony(event.target.checked)
-                            }
-                          />
-                        }
-                        label='A la cérémonie d’engagement'
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={wineReception}
-                            onChange={(event) =>
-                              setWineReception(event.target.checked)
-                            }
-                          />
-                        }
-                        label='Au vin d’honneur et Apéritif'
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={meal}
-                            onChange={(event) => setMeal(event.target.checked)}
-                          />
-                        }
-                        label='Repas et Fiesta'
-                      />
-                    </FormGroup>
-                  </Zoom>
-                </Grid>
-              )}
-            </Grid>
-            {responsePresence === "Oui" && (
-              <Zoom in>
-                <Grid
-                  className={classes.subContainer}
-                  container
-                  justifyContent={"center"}
-                  alignItems={"center"}
+                <TextField
+                  id={`age-adult`}
+                  variant='standard'
+                  label='Âge'
+                  value={user.age}
+                  type={"number"}
+                  error={user.age === "" && isValidForm()}
+                  onChange={(event) =>
+                    setUser({
+                      ...user,
+                      age:
+                        parseInt(event.target.value) < 0
+                          ? 0
+                          : isNaN(parseInt(event.target.value))
+                          ? ""
+                          : parseInt(event.target.value),
+                    })
+                  }
+                />
+              </Stack>
+              <Stack justifyContent='space-around' direction='row'>
+                <TextField
+                  required
+                  id='firstName'
+                  variant='standard'
+                  label='Prénom'
+                  value={user.firstName}
+                  onChange={(event) =>
+                    setUser({ ...user, firstName: event.target.value })
+                  }
+                />
+                <TextField
+                  required
+                  id='lastName'
+                  variant='standard'
+                  label='Nom'
+                  value={user.lastName}
+                  onChange={(event) =>
+                    setUser({ ...user, lastName: event.target.value })
+                  }
+                />
+              </Stack>
+              <Stack alignItems='center'>
+                <TextField
+                  id='user-link'
+                  required
+                  select
+                  variant='standard'
+                  label='Votre lien avec les mariés'
+                  value={user.userLink}
+                  onChange={(event) =>
+                    setUser({ ...user, userLink: event.target.value })
+                  }
                 >
-                  <Grid>
-                    <TextField
-                      id='allergy'
-                      select
-                      variant='standard'
-                      label='Des allergies ?'
-                      value={responseAllergy}
-                      onChange={(event) =>
-                        setResponseAllergy(event.target.value)
-                      }
-                    >
-                      <MenuItem value={"Aucune"}>Aucune</MenuItem>
-                      <MenuItem value={"Oui"}>Oui</MenuItem>
-                    </TextField>
-                  </Grid>
-                  <Zoom in>
-                    <Grid item>
-                      {responseAllergy === "Oui" && (
-                        <TextField
-                          id='allergies'
-                          variant='standard'
-                          label='Lesquelles ?'
-                          value={isAllergy}
-                          onChange={(event) => setIsAllergy(event.target.value)}
-                        />
-                      )}
-                    </Grid>
-                  </Zoom>
-                </Grid>
-              </Zoom>
-            )}
-            {responsePresence === "Oui" && (
-              <Zoom in>
-                <Grid
-                  className={classes.subContainer}
-                  container
-                  direction={"column"}
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                  spacing={2}
-                >
-                  <Grid item>
-                    <TextField
-                      required
-                      id='children'
-                      select
-                      variant='standard'
-                      label='Avec des enfants ?'
-                      value={responseChildren}
-                      onChange={(event) =>
-                        setResponseChildren(event.target.value)
-                      }
-                    >
-                      <MenuItem value={"Ne sait pas"}>Ne sais pas</MenuItem>
-                      <MenuItem value={"Oui"}>Oui</MenuItem>
-                      <MenuItem value={"Oon"}>Non</MenuItem>
-                    </TextField>
-                  </Grid>
-                  <Grid item>
-                    {responseChildren === "Oui" && (
-                      <Button
-                        text={"Ajouter un enfant"}
-                        variant={"contained"}
-                        startIcon={<AddReaction />}
-                        size={"small"}
-                        style={{
-                          height: 35,
-                          backgroundColor: theme.palette.primary.main,
-                          color: theme.palette.primary.light,
-                          textTransform: "none",
-                        }}
-                        onClick={() =>
-                          setChildrenList((childrenList) => [
-                            ...childrenList,
-                            {
-                              id: Date.now(),
-                              firstName: "",
-                              lastName: "",
-                              age: "",
-                              isAllergy: "",
-                              allergies: "",
-                            },
-                          ])
+                  <MenuItem value={"Ami"}>Ami</MenuItem>
+                  <MenuItem value={"Famille"}>Famille</MenuItem>
+                </TextField>
+              </Stack>
+              <Stack alignItems='center'>
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={user.engagementCeremony}
+                        onChange={(event) =>
+                          setUser({
+                            ...user,
+                            engagementCeremony: event.target.checked,
+                          })
                         }
                       />
-                    )}
-                  </Grid>
-                </Grid>
-              </Zoom>
-            )}
+                    }
+                    label='A la cérémonie d’engagement'
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={user.wineReception}
+                        onChange={(event) =>
+                          setUser({
+                            ...user,
+                            wineReception: event.target.checked,
+                          })
+                        }
+                      />
+                    }
+                    label='Au vin d’honneur et Apéritif'
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={user.meal}
+                        onChange={(event) =>
+                          setUser({ ...user, meal: event.target.checked })
+                        }
+                      />
+                    }
+                    label='Repas et Fiesta'
+                  />
+                </FormGroup>
+              </Stack>
+              <Stack justifyContent='space-around' direction='row'>
+                <TextField
+                  id='allergy'
+                  select
+                  variant='standard'
+                  label='Des allergies ?'
+                  value={user.responseAllergy}
+                  onChange={(event) =>
+                    setUser({ ...user, responseAllergy: event.target.value })
+                  }
+                >
+                  <MenuItem value={"Aucune"}>Aucune</MenuItem>
+                  <MenuItem value={"Oui"}>Oui</MenuItem>
+                </TextField>
+                {user.responseAllergy === "Oui" && (
+                  <TextField
+                    id='allergies'
+                    variant='standard'
+                    label='Lesquelles ?'
+                    value={user.isAllergy}
+                    onChange={(event) =>
+                      setUser({ ...user, isAllergy: event.target.value })
+                    }
+                  />
+                )}
+              </Stack>
+              <Stack
+                justifyContent='space-around'
+                direction='row'
+                alignItems='center'
+              >
+                <TextField
+                  required
+                  id='children'
+                  select
+                  variant='standard'
+                  label='Avec des enfants ?'
+                  value={user.responseChildren}
+                  onChange={(event) =>
+                    setUser({ ...user, responseChildren: event.target.value })
+                  }
+                >
+                  <MenuItem value={"Ne sait pas"}>Ne sais pas</MenuItem>
+                  <MenuItem value={"Oui"}>Oui</MenuItem>
+                  <MenuItem value={"Non"}>Non</MenuItem>
+                </TextField>
+                {user.responseChildren === "Oui" && (
+                  <Button
+                    text={"Ajouter un enfant"}
+                    variant={"contained"}
+                    startIcon={<AddReaction />}
+                    size={"small"}
+                    style={{
+                      height: 35,
+                      backgroundColor: theme.palette.primary.main,
+                      color: theme.palette.primary.light,
+                      textTransform: "none",
+                    }}
+                    onClick={() =>
+                      setChildrenList((childrenList) => [
+                        ...childrenList,
+                        {
+                          id: Date.now(),
+                          firstName: "",
+                          lastName: "",
+                          age: "",
+                          isAllergy: "",
+                          allergies: "",
+                        },
+                      ])
+                    }
+                  />
+                )}
+              </Stack>
+            </Stack>
             <Grid
               className={classes.subContainer}
               container
               justifyContent={"space-evenly"}
             >
-              {childrenList &&
-                responsePresence === "Oui" &&
+              {user.responsePresence === "Oui" &&
+                childrenList !== undefined &&
                 childrenList.map((child, index) => (
                   <Zoom key={index} in>
                     <div className={classes.formChild} key={index}>
@@ -435,29 +535,9 @@ const Formulaire = () => {
                     </div>
                   </Zoom>
                 ))}
-              {responsePresence === "Oui" && (
-                <Stack>
-                  <TextField
-                    error={socialSecurity !== "" && !isValidSocialSecurity}
-                    helperText={
-                      socialSecurity !== "" &&
-                      !isValidSocialSecurity &&
-                      "Format invalide"
-                    }
-                    id='Social security'
-                    variant='standard'
-                    label='N° Sécurité Sociale'
-                    value={socialSecurity}
-                    onChange={(event) => handleSocialSecurityChange(event)}
-                    placeholder='1 85 05 78 006 084 36'
-                  />
-                </Stack>
-              )}
               <Grid mt={5} container justifyContent='flex-end'>
                 <Button
-                  disabled={
-                    responsePresence === "" || isValidSocialSecurity === false
-                  }
+                  disabled={user.responsePresence === ""}
                   text={"Envoyer"}
                   variant={"contained"}
                   endIcon={<Send />}
@@ -471,20 +551,13 @@ const Formulaire = () => {
                   }}
                   onClick={onSubmitForm}
                 />
-                <Snackbar
+                <CustomizedSnackbars
                   open={openSnackBar}
+                  handleClose={handleSnackBarClose}
+                  text={messageSnackBar}
+                  severity={severitySnackBar}
                   autoHideDuration={4000}
-                  onClose={handleSnackBarClose}
-                  action={actionSnackBar}
-                >
-                  <Alert
-                    onClose={handleSnackBarClose}
-                    severity={severitySnackBar}
-                    sx={{ width: "100%" }}
-                  >
-                    {messageSnackBar}
-                  </Alert>
-                </Snackbar>
+                />
               </Grid>
             </Grid>
           </Box>

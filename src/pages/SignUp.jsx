@@ -8,7 +8,6 @@ import InputAdornments from "../components/InputAdornmets";
 import WeddingTitle from "../components/WeddingTitle";
 import PersonIcon from "@material-ui/icons/Person";
 import weddingHall1 from "../assets/beyssac1.jpeg";
-import firebaseConfig from "../config/firebase";
 import CssBaseline from "@mui/material/CssBaseline";
 import Stack from "@mui/material/Stack";
 import Container from "@material-ui/core/Container";
@@ -16,8 +15,8 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
+  sendEmailVerification,
 } from "firebase/auth";
-import { setDoc, doc, getFirestore } from "firebase/firestore";
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsvalidEmail] = useState(false);
@@ -77,12 +76,7 @@ const SignUp = () => {
         await updateProfile(auth.currentUser, {
           displayName: firstname + " " + lastname,
         });
-        await setDoc(doc(getFirestore(firebaseConfig), "guests", user.uid), {
-          uid: user.uid,
-          name: firstname + " " + lastname,
-          authProvider: "password",
-          email: email,
-        });
+        await sendEmailVerification(user);
       }
     } catch (error) {
       setSignupError(error.message);

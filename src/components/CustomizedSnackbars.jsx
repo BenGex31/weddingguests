@@ -13,10 +13,15 @@ export default function CustomizedSnackbars({
   handleClose,
   text,
   severity,
+  autoHideDuration,
 }) {
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
-      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+      <Snackbar
+        open={open}
+        autoHideDuration={autoHideDuration}
+        onClose={handleClose}
+      >
         <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
           {text}
         </Alert>
