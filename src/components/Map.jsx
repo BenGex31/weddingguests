@@ -1,5 +1,4 @@
 import React, { useCallback, useState, useRef } from "react";
-import reactMapConfig from "../secretMap";
 import {
   GoogleMap,
   LoadScript,
@@ -319,7 +318,7 @@ const Map = () => {
         <Grid>
           <LoadScript
             libraries={libraries}
-            googleMapsApiKey={reactMapConfig.REACT_APP_MAP_API_KEY}
+            googleMapsApiKey={process.env.REACT_APP_MAP_API_KEY}
           >
             <GoogleMap
               mapContainerStyle={containerStyle}
