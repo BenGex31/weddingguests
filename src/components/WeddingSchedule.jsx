@@ -31,6 +31,7 @@ const WeddingSchedule = ({ hour, text }) => {
           fontWeight: oswaldExtra.fontWeight,
           color: theme.palette.primary.light,
         }}
+        align='center'
       >
         {hour}
       </Typography>
@@ -42,6 +43,7 @@ const WeddingSchedule = ({ hour, text }) => {
           fontWeight: alexBrush.fontWeight,
           color: theme.palette.primary.light,
         }}
+        align='center'
       >
         {text}
       </Typography>
