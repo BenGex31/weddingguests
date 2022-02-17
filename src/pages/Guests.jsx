@@ -191,9 +191,10 @@ const Guests = () => {
                         color: theme.palette.primary.light,
                       }}
                     >
-                      {`${guest.age >= 18 ? "Adulte" : "Enfant"} ${
-                        guest.age
-                      } ans`}
+                      {guest.age !== "" &&
+                        `${guest.age >= 18 ? "Adulte" : "Enfant"} ${
+                          guest.age
+                        } ans`}
                     </Typography>
                   </Stack>
                   <Stack alignItems='flex-end'>
