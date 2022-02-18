@@ -127,9 +127,10 @@ const Guests = () => {
           }
         />
       </Stack>
-      <Stack mb={5} width={300}>
+      <Stack direction='row' justifyContent='center' mb={5}>
         <TextField
           select
+          sx={{ width: 300 }}
           variant='standard'
           label='Lien'
           id='guest-link'
