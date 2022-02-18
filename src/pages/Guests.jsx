@@ -39,6 +39,7 @@ const Guests = () => {
   const [guests, setGuests] = React.useState([]);
   const [children, setChildren] = React.useState([]);
   const [guestLink, setGuestLink] = React.useState("Tous");
+  const [childrenAge, setChildrenAge] = React.useState();
 
   React.useEffect(() => {
     getGuestsCollection();
@@ -279,8 +280,37 @@ const Guests = () => {
           ))}
       </Grid>
       <MainTitle
-        title={`Les enfants présents (${children.concat().flat().length})`}
+        title={`Les enfants présents (${
+          children
+            .concat()
+            .flat()
+            .filter((child) =>
+              childrenAge === "Tous"
+                ? child.age > 0
+                : childrenAge <= 3
+                ? child.age < 3
+                : childrenAge >= 3 && childrenAge <= 11
+                ? child.age >= 3 && child.age <= 11
+                : child.age >= 12 && child.age < 18
+            ).length
+        })`}
       />
+      <Stack direction='row' justifyContent='center' mb={5}>
+        <TextField
+          select
+          sx={{ width: 300 }}
+          variant='standard'
+          label='Âge'
+          id='guest-link'
+          value={childrenAge}
+          onChange={(event) => setChildrenAge(event.target.value)}
+        >
+          <MenuItem value='Tous'>Tous</MenuItem>
+          <MenuItem value={3}>Inférieur à 3 ans</MenuItem>
+          <MenuItem value={11}>entre 3 et 11 ans</MenuItem>
+          <MenuItem value={17}>Entre 12 et 17 ans</MenuItem>
+        </TextField>
+      </Stack>
       <Grid
         sx={{ overflowY: "scroll", height: 630, paddingTop: 2 }}
         container
@@ -291,6 +321,15 @@ const Guests = () => {
         {children
           .concat()
           .flat()
+          .filter((child) =>
+            childrenAge === "Tous"
+              ? child.age > 0
+              : childrenAge <= 3
+              ? child.age < 3
+              : childrenAge >= 3 && childrenAge <= 11
+              ? child.age >= 3 && child.age <= 11
+              : child.age >= 12 && child.age < 18
+          )
           .map((child, index) => (
             <Card
               key={index}
