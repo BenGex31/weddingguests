@@ -146,7 +146,7 @@ const Guests = () => {
       <Grid
         sx={{ overflowY: "scroll", height: 630, paddingTop: 2 }}
         container
-        mb={5}
+        mb={10}
         justifyContent={"space-around"}
       >
         {guests
@@ -286,7 +286,7 @@ const Guests = () => {
             .flat()
             .filter((child) =>
               childrenAge === "Tous"
-                ? child.age > 0
+                ? child.age >= 0
                 : childrenAge <= 3
                 ? child.age < 3
                 : childrenAge >= 3 && childrenAge <= 11
@@ -295,7 +295,7 @@ const Guests = () => {
             ).length
         })`}
       />
-      <Stack direction='row' justifyContent='center' mb={5}>
+      <Stack direction='row' justifyContent='center' mt={3} mb={5}>
         <TextField
           select
           sx={{ width: 300 }}
@@ -323,7 +323,7 @@ const Guests = () => {
           .flat()
           .filter((child) =>
             childrenAge === "Tous"
-              ? child.age > 0
+              ? child.age >= 0
               : childrenAge <= 3
               ? child.age < 3
               : childrenAge >= 3 && childrenAge <= 11
