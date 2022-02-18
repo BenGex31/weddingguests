@@ -10,7 +10,9 @@ import {
   FormControlLabel,
   FormGroup,
   Grid,
+  MenuItem,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
@@ -35,6 +37,7 @@ const Guests = () => {
   const classes = useStyles();
   const [guests, setGuests] = React.useState([]);
   const [children, setChildren] = React.useState([]);
+  const [guestLink, setGuestLink] = React.useState("Tous");
 
   React.useEffect(() => {
     getGuestsCollection();
@@ -108,9 +111,27 @@ const Guests = () => {
           }
         />
       </Stack>
+      <Stack mb={5} width={300}>
+        <TextField
+          select
+          variant='standard'
+          label='Lien'
+          id='guest-link'
+          value={guestLink}
+          onChange={(event) => setGuestLink(event.target.value)}
+        >
+          <MenuItem value='Tous'>Tous</MenuItem>
+          <MenuItem value='Famille'>Famille</MenuItem>
+          <MenuItem value='Ami'>Ami</MenuItem>
+        </TextField>
+      </Stack>
       <Grid container mb={5} justifyContent={"space-around"}>
         {guests
-          .filter((guest) => guest.responsePresence === "Oui")
+          .filter((guest) =>
+            guestLink === "Tous"
+              ? guest.responsePresence === "Oui"
+              : guest.responsePresence === "Oui" && guest.userLink === guestLink
+          )
           .map((guest, index) => (
             <Card
               key={index}
