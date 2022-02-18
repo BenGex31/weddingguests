@@ -39,7 +39,7 @@ const Guests = () => {
   const [guests, setGuests] = React.useState([]);
   const [children, setChildren] = React.useState([]);
   const [guestLink, setGuestLink] = React.useState("Tous");
-  const [childrenAge, setChildrenAge] = React.useState();
+  const [childrenAge, setChildrenAge] = React.useState("Tous");
 
   React.useEffect(() => {
     getGuestsCollection();
