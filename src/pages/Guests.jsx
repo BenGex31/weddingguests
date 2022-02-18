@@ -142,7 +142,12 @@ const Guests = () => {
           <MenuItem value='Ami'>Ami</MenuItem>
         </TextField>
       </Stack>
-      <Grid container mb={5} justifyContent={"space-around"}>
+      <Grid
+        sx={{ overflowY: "scroll", height: 630, paddingTop: 2 }}
+        container
+        mb={5}
+        justifyContent={"space-around"}
+      >
         {guests
           .filter((guest) =>
             guestLink === "Tous"
@@ -276,7 +281,13 @@ const Guests = () => {
       <MainTitle
         title={`Les enfants présents (${children.concat().flat().length})`}
       />
-      <Grid container mb={5} mt={2} justifyContent={"space-around"}>
+      <Grid
+        sx={{ overflowY: "scroll", height: 630, paddingTop: 2 }}
+        container
+        mb={5}
+        mt={2}
+        justifyContent={"space-around"}
+      >
         {children
           .concat()
           .flat()
