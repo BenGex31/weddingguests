@@ -10,6 +10,7 @@ import {
   FormControlLabel,
   FormGroup,
   Grid,
+  Grow,
   MenuItem,
   Stack,
   TextField,
@@ -79,34 +80,49 @@ const Guests = () => {
       </header>
       <MainTitle
         title={`Les invités présents (${
-          guests.filter((guest) => guest.responsePresence === "Oui").length
+          guests.filter((guest) =>
+            guestLink === "Tous"
+              ? guest.responsePresence === "Oui"
+              : guest.responsePresence === "Oui" && guest.userLink === guestLink
+          ).length
         })`}
       />
       <Stack mb={6} spacing={2}>
         <SubTitle
           title={"A la cérémonie d’engagement"}
           guestCount={
-            guests.filter(
-              (guest) =>
-                guest.responsePresence === "Oui" &&
-                guest.engagementCeremony === true
+            guests.filter((guest) =>
+              guestLink === "Tous"
+                ? guest.responsePresence === "Oui" &&
+                  guest.engagementCeremony === true
+                : guest.responsePresence === "Oui" &&
+                  guest.engagementCeremony === true &&
+                  guest.userLink === guestLink
             ).length
           }
         />
         <SubTitle
           title={"Au vin d’honneur & Apéritif"}
           guestCount={
-            guests.filter(
-              (guest) =>
-                guest.responsePresence === "Oui" && guest.wineReception === true
+            guests.filter((guest) =>
+              guestLink === "Tous"
+                ? guest.responsePresence === "Oui" &&
+                  guest.wineReception === true
+                : guest.responsePresence === "Oui" &&
+                  guest.wineReception === true &&
+                  guest.userLink === guestLink
             ).length
           }
         />
         <SubTitle
           title={"Repas et Fiesta"}
           guestCount={
-            guests.filter(
-              (guest) => guest.responsePresence === "Oui" && guest.meal === true
+            guests.filter((guest) =>
+              guestLink === "Tous"
+                ? guest.responsePresence === "Oui" && guest.meal === true
+                : guest.responsePresence === "Oui" &&
+                  guest.meal === true &&
+                  guest.userLink === guestLink
             ).length
           }
         />
@@ -133,125 +149,127 @@ const Guests = () => {
               : guest.responsePresence === "Oui" && guest.userLink === guestLink
           )
           .map((guest, index) => (
-            <Card
-              key={index}
-              sx={{
-                width: 441,
-                height: 284,
-                backgroundColor: theme.palette.primary.main,
-                boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
-                marginBottom: 5,
-              }}
-            >
-              <CardHeader
-                avatar={
-                  <Avatar
-                    sx={{
-                      width: 80,
-                      height: 80,
-                      backgroundColor: theme.palette.primary.light,
-                      color: theme.palette.secondary.main,
-                    }}
-                    alt={`${guest.firstName} ${guest.lastName}`}
-                    src={guest.photo}
-                  />
-                }
-                title={
-                  <Typography
-                    sx={{
-                      fontSize: 18,
-                      color: theme.palette.primary.light,
-                      fontFamily: OswaldR.fontFamily,
-                      fontWeight: OswaldR.fontWeight,
-                      fontStyle: OswaldR.fontStyle,
-                    }}
-                  >
-                    {`${guest.firstName} ${guest.lastName}`}
-                  </Typography>
-                }
-              />
-              <CardContent>
-                <Stack direction={"row"} justifyContent={"space-between"}>
-                  <Stack>
-                    <Stack
-                      justifyContent={"flex-start"}
-                      direction={"row"}
-                      spacing={1}
-                      sx={{ paddingRight: 3 }}
+            <Grow in timeout={index * 500}>
+              <Card
+                key={index}
+                sx={{
+                  width: 441,
+                  height: 284,
+                  backgroundColor: theme.palette.primary.main,
+                  boxShadow: "0px 0px 20px" + theme.palette.secondary.main,
+                  marginBottom: 5,
+                }}
+              >
+                <CardHeader
+                  avatar={
+                    <Avatar
+                      sx={{
+                        width: 80,
+                        height: 80,
+                        backgroundColor: theme.palette.primary.light,
+                        color: theme.palette.secondary.main,
+                      }}
+                      alt={`${guest.firstName} ${guest.lastName}`}
+                      src={guest.photo}
+                    />
+                  }
+                  title={
+                    <Typography
+                      sx={{
+                        fontSize: 18,
+                        color: theme.palette.primary.light,
+                        fontFamily: OswaldR.fontFamily,
+                        fontWeight: OswaldR.fontWeight,
+                        fontStyle: OswaldR.fontStyle,
+                      }}
                     >
-                      <Mail className={classes.mailIcon} fontSize='large' />
+                      {`${guest.firstName} ${guest.lastName}`}
+                    </Typography>
+                  }
+                />
+                <CardContent>
+                  <Stack direction={"row"} justifyContent={"space-between"}>
+                    <Stack>
+                      <Stack
+                        justifyContent={"flex-start"}
+                        direction={"row"}
+                        spacing={1}
+                        sx={{ paddingRight: 3 }}
+                      >
+                        <Mail className={classes.mailIcon} fontSize='large' />
+                        <Typography
+                          sx={{
+                            fontSize: 30,
+                            fontFamily: alexBrush.fontFamily,
+                            fontWeight: alexBrush.fontWeight,
+                            fontStyle: alexBrush.fontStyle,
+                            color: theme.palette.primary.light,
+                          }}
+                        >
+                          Invité
+                        </Typography>
+                      </Stack>
                       <Typography
                         sx={{
-                          fontSize: 30,
-                          fontFamily: alexBrush.fontFamily,
-                          fontWeight: alexBrush.fontWeight,
-                          fontStyle: alexBrush.fontStyle,
+                          fontSize: 18,
+                          fontFamily: oswaldLight.fontFamily,
+                          fontWeight: oswaldLight.fontWeight,
+                          fontStyle: oswaldLight.fontStyle,
                           color: theme.palette.primary.light,
                         }}
                       >
-                        Invité
+                        {guest.userLink}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontSize: 18,
+                          fontFamily: oswaldLight.fontFamily,
+                          fontWeight: oswaldLight.fontWeight,
+                          fontStyle: oswaldLight.fontStyle,
+                          color: theme.palette.primary.light,
+                        }}
+                      >
+                        {guest.age !== "" &&
+                          `${guest.age >= 18 ? "Adulte" : "Enfant"} ${
+                            guest.age
+                          } ans`}
                       </Typography>
                     </Stack>
-                    <Typography
-                      sx={{
-                        fontSize: 18,
-                        fontFamily: oswaldLight.fontFamily,
-                        fontWeight: oswaldLight.fontWeight,
-                        fontStyle: oswaldLight.fontStyle,
-                        color: theme.palette.primary.light,
-                      }}
-                    >
-                      {guest.userLink}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: 18,
-                        fontFamily: oswaldLight.fontFamily,
-                        fontWeight: oswaldLight.fontWeight,
-                        fontStyle: oswaldLight.fontStyle,
-                        color: theme.palette.primary.light,
-                      }}
-                    >
-                      {guest.age !== "" &&
-                        `${guest.age >= 18 ? "Adulte" : "Enfant"} ${
-                          guest.age
-                        } ans`}
-                    </Typography>
+                    <Stack alignItems='flex-end'>
+                      <FormGroup>
+                        <FormControlLabel
+                          disabled
+                          control={
+                            <Checkbox
+                              color='default'
+                              checked={guest.engagementCeremony}
+                            />
+                          }
+                          label={"Cérémonie d’engagement"}
+                        />
+                        <FormControlLabel
+                          disabled
+                          control={
+                            <Checkbox
+                              color='default'
+                              checked={guest.wineReception}
+                            />
+                          }
+                          label={"Vin d’honneur & Apéritif"}
+                        />
+                        <FormControlLabel
+                          disabled
+                          control={
+                            <Checkbox color='default' checked={guest.meal} />
+                          }
+                          label={"Repas & Fiesta"}
+                        />
+                      </FormGroup>
+                    </Stack>
                   </Stack>
-                  <Stack alignItems='flex-end'>
-                    <FormGroup>
-                      <FormControlLabel
-                        disabled
-                        control={
-                          <Checkbox
-                            color='default'
-                            checked={guest.engagementCeremony}
-                          />
-                        }
-                        label={"Cérémonie d’engagement"}
-                      />
-                      <FormControlLabel
-                        disabled
-                        control={
-                          <Checkbox
-                            color='default'
-                            checked={guest.wineReception}
-                          />
-                        }
-                        label={"Vin d’honneur & Apéritif"}
-                      />
-                      <FormControlLabel
-                        disabled
-                        control={
-                          <Checkbox color='default' checked={guest.meal} />
-                        }
-                        label={"Repas & Fiesta"}
-                      />
-                    </FormGroup>
-                  </Stack>
-                </Stack>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </Grow>
           ))}
       </Grid>
       <MainTitle
